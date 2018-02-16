@@ -12,6 +12,8 @@ import Css exposing (..)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Msg exposing (Msg)
+import Projector
+import Window
 
 
 type alias Hero a =
@@ -20,6 +22,7 @@ type alias Hero a =
         , heroWidth : Float
         , heroHeight : Float
         , heroSpeedPPms : Float
+        , windowSize : Window.Size
     }
 
 
@@ -40,17 +43,7 @@ heroView : Hero a -> Html Msg
 heroView hero =
     let
         draw { x, y } =
-            div
-                [ css
-                    [ position absolute
-                    , top (px y)
-                    , left (px x)
-                    , Css.width (px hero.heroWidth)
-                    , Css.height (px hero.heroHeight)
-                    , backgroundColor (hex "#000")
-                    ]
-                ]
-                []
+            div [ css [ heroStyle x y hero ] ] []
     in
     case hero.heroPosition of
         Stationary coordinates ->
@@ -60,6 +53,18 @@ heroView hero =
             draw from
 
 
+heroStyle : Float -> Float -> Hero a -> Style
+heroStyle x y hero =
+    Css.batch
+        [ position absolute
+        , Projector.bottom y hero
+        , Projector.left x hero
+        , Projector.width hero.heroWidth hero
+        , Projector.height hero.heroHeight hero
+        , backgroundColor (hex "#000")
+        ]
+
+
 targetView : Hero a -> Html Msg
 targetView hero =
     case hero.heroPosition of
@@ -67,17 +72,19 @@ targetView hero =
             text ""
 
         Moving { to } ->
-            div
-                [ css
-                    [ position absolute
-                    , top (px to.y)
-                    , left (px to.x)
-                    , Css.width (px 10)
-                    , Css.height (px 10)
-                    , backgroundColor (rgba 0 0 0 0.2)
-                    ]
-                ]
-                []
+            div [ css [ targetStyle to hero ] ] []
+
+
+targetStyle : Coordinates -> Hero a -> Style
+targetStyle { x, y } hero =
+    Css.batch
+        [ position absolute
+        , top (px y)
+        , left (px x)
+        , Projector.width 10 hero
+        , Projector.height 10 hero
+        , backgroundColor (rgba 0 0 0 0.2)
+        ]
 
 
 moveTo : Coordinates -> Hero a -> Hero a

@@ -1,4 +1,4 @@
-module Model exposing (Model, initialModel)
+module Model exposing (Model, Window, initialModel)
 
 import Hero exposing (Hero)
 import Window
@@ -17,7 +17,7 @@ type alias Window a =
 initialModel : Window.Size -> Model
 initialModel windowSize =
     { windowSize = windowSize
-    , heroPosition = Hero.Stationary { x = 100, y = 500 }
+    , heroPosition = Hero.Stationary { x = 100, y = 200 }
     , heroWidth = 50
     , heroHeight = 100
     , heroSpeedPPms = 0.75
