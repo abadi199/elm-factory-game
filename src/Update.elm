@@ -1,5 +1,7 @@
 module Update exposing (update)
 
+import Coordinates
+import Hero
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 
@@ -11,7 +13,16 @@ update msg model =
             ( model, Cmd.none )
 
         Tick delta ->
-            ( model, Cmd.none )
+            ( animate delta model, Cmd.none )
 
         WindowResized windowSize ->
             ( { model | windowSize = windowSize }, Cmd.none )
+
+        MouseDown mousePosition ->
+            ( model |> Hero.moveTo (Coordinates.fromPosition mousePosition), Cmd.none )
+
+
+animate : Float -> Model -> Model
+animate delta model =
+    model
+        |> Hero.move delta

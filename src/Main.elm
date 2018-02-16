@@ -4,6 +4,7 @@ import AnimationFrame
 import Html exposing (..)
 import Html.Styled
 import Model exposing (Model)
+import Mouse
 import Msg exposing (Msg(..))
 import Task
 import Update exposing (update)
@@ -28,10 +29,16 @@ type AppState
 
 subscriptions : AppState -> Sub Msg
 subscriptions appState =
-    Sub.batch
-        [ AnimationFrame.diffs Tick
-        , Window.resizes WindowResized
-        ]
+    case appState of
+        Initializing ->
+            Sub.none
+
+        Ready _ ->
+            Sub.batch
+                [ AnimationFrame.diffs Tick
+                , Window.resizes WindowResized
+                , Mouse.downs MouseDown
+                ]
 
 
 initUpdate : Msg -> AppState -> ( AppState, Cmd Msg )
