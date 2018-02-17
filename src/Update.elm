@@ -4,6 +4,7 @@ import Coordinates
 import Hero
 import Model exposing (Model)
 import Msg exposing (Msg(..))
+import Projector
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -16,7 +17,13 @@ update msg model =
             ( animate delta model, Cmd.none )
 
         WindowResized windowSize ->
-            ( { model | windowSize = windowSize }, Cmd.none )
+            ( { model
+                | widthRatio = Projector.widthRatio windowSize
+                , heightRatio = Projector.widthRatio windowSize
+                , windowSize = windowSize
+              }
+            , Cmd.none
+            )
 
         MouseDown mousePosition ->
             ( model

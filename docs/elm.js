@@ -10919,48 +10919,48 @@ var _abadi199$elm_fire_game$Projector$heightRatio = function (windowSize) {
 	return height / _abadi199$elm_fire_game$Projector$viewport.height;
 };
 var _abadi199$elm_fire_game$Projector$toViewportY = F2(
-	function (windowSize, y) {
-		return _elm_lang$core$Native_Utils.eq(y, 0) ? 0 : (y / _abadi199$elm_fire_game$Projector$heightRatio(windowSize));
+	function (_p0, y) {
+		var _p1 = _p0;
+		return _elm_lang$core$Native_Utils.eq(y, 0) ? 0 : (y / _p1.heightRatio);
 	});
 var _abadi199$elm_fire_game$Projector$toViewportX = F2(
-	function (windowSize, x) {
-		return _elm_lang$core$Native_Utils.eq(x, 0) ? 0 : (x / _abadi199$elm_fire_game$Projector$widthRatio(windowSize));
+	function (_p2, x) {
+		var _p3 = _p2;
+		return _elm_lang$core$Native_Utils.eq(x, 0) ? 0 : (x / _p3.widthRatio);
 	});
 var _abadi199$elm_fire_game$Projector$toWorldY = F2(
-	function (windowSize, y) {
-		return _elm_lang$core$Native_Utils.eq(y, 0) ? 0 : (_abadi199$elm_fire_game$Projector$heightRatio(windowSize) * y);
+	function (_p4, y) {
+		var _p5 = _p4;
+		return _elm_lang$core$Native_Utils.eq(y, 0) ? 0 : (_p5.heightRatio * y);
 	});
 var _abadi199$elm_fire_game$Projector$bottom = F2(
-	function (_p0, value) {
-		var _p1 = _p0;
+	function (model, value) {
 		return _rtfeldman$elm_css$Css$bottom(
 			_rtfeldman$elm_css$Css$px(
-				A2(_abadi199$elm_fire_game$Projector$toWorldY, _p1.windowSize, value)));
+				A2(_abadi199$elm_fire_game$Projector$toWorldY, model, value)));
 	});
 var _abadi199$elm_fire_game$Projector$height = F2(
-	function (_p2, value) {
-		var _p3 = _p2;
+	function (model, value) {
 		return _rtfeldman$elm_css$Css$height(
 			_rtfeldman$elm_css$Css$px(
-				A2(_abadi199$elm_fire_game$Projector$toWorldY, _p3.windowSize, value)));
+				A2(_abadi199$elm_fire_game$Projector$toWorldY, model, value)));
 	});
 var _abadi199$elm_fire_game$Projector$toWorldX = F2(
-	function (windowSize, x) {
-		return _elm_lang$core$Native_Utils.eq(x, 0) ? 0 : (_abadi199$elm_fire_game$Projector$widthRatio(windowSize) * x);
+	function (_p6, x) {
+		var _p7 = _p6;
+		return _elm_lang$core$Native_Utils.eq(x, 0) ? 0 : (_p7.widthRatio * x);
 	});
 var _abadi199$elm_fire_game$Projector$left = F2(
-	function (_p4, value) {
-		var _p5 = _p4;
+	function (model, value) {
 		return _rtfeldman$elm_css$Css$left(
 			_rtfeldman$elm_css$Css$px(
-				A2(_abadi199$elm_fire_game$Projector$toWorldX, _p5.windowSize, value)));
+				A2(_abadi199$elm_fire_game$Projector$toWorldX, model, value)));
 	});
 var _abadi199$elm_fire_game$Projector$width = F2(
-	function (_p6, value) {
-		var _p7 = _p6;
+	function (model, value) {
 		return _rtfeldman$elm_css$Css$width(
 			_rtfeldman$elm_css$Css$px(
-				A2(_abadi199$elm_fire_game$Projector$toWorldX, _p7.windowSize, value)));
+				A2(_abadi199$elm_fire_game$Projector$toWorldX, model, value)));
 	});
 
 var _abadi199$elm_fire_game$Coordinates$addY = F2(
@@ -10976,19 +10976,17 @@ var _abadi199$elm_fire_game$Coordinates$addX = F2(
 			{x: coordinates.x + x});
 	});
 var _abadi199$elm_fire_game$Coordinates$fromPosition = F2(
-	function (_p1, _p0) {
-		var _p2 = _p1;
-		var _p4 = _p2.windowSize;
-		var _p3 = _p0;
+	function (model, _p0) {
+		var _p1 = _p0;
 		return {
 			x: A2(
 				_abadi199$elm_fire_game$Projector$toViewportX,
-				_p4,
-				_elm_lang$core$Basics$toFloat(_p3.x)),
+				model,
+				_elm_lang$core$Basics$toFloat(_p1.x)),
 			y: A2(
 				_abadi199$elm_fire_game$Projector$toViewportY,
-				_p4,
-				_elm_lang$core$Basics$toFloat(_p3.y))
+				model,
+				_elm_lang$core$Basics$toFloat(model.windowSize.height - _p1.y))
 		};
 	});
 var _abadi199$elm_fire_game$Coordinates$Coordinates = F2(
@@ -15006,12 +15004,10 @@ var _abadi199$elm_fire_game$Hero$targetStyle = F2(
 				_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
 				_1: {
 					ctor: '::',
-					_0: _rtfeldman$elm_css$Css$top(
-						_rtfeldman$elm_css$Css$px(_p1.y)),
+					_0: A2(_abadi199$elm_fire_game$Projector$bottom, hero, _p1.y),
 					_1: {
 						ctor: '::',
-						_0: _rtfeldman$elm_css$Css$left(
-							_rtfeldman$elm_css$Css$px(_p1.x)),
+						_0: A2(_abadi199$elm_fire_game$Projector$left, hero, _p1.x),
 						_1: {
 							ctor: '::',
 							_0: A2(_abadi199$elm_fire_game$Projector$width, hero, 10),
@@ -15466,6 +15462,8 @@ var _elm_lang$html$Html$menu = _elm_lang$html$Html$node('menu');
 
 var _abadi199$elm_fire_game$Model$initialModel = function (windowSize) {
 	return {
+		widthRatio: _abadi199$elm_fire_game$Projector$widthRatio(windowSize),
+		heightRatio: _abadi199$elm_fire_game$Projector$widthRatio(windowSize),
 		windowSize: windowSize,
 		heroPosition: _abadi199$elm_fire_game$Hero$Stationary(
 			{x: 100, y: 200}),
@@ -15492,11 +15490,16 @@ var _abadi199$elm_fire_game$Update$update = F2(
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'WindowResized':
+				var _p1 = _p0._0;
 				return {
 					ctor: '_Tuple2',
 					_0: _elm_lang$core$Native_Utils.update(
 						model,
-						{windowSize: _p0._0}),
+						{
+							widthRatio: _abadi199$elm_fire_game$Projector$widthRatio(_p1),
+							heightRatio: _abadi199$elm_fire_game$Projector$widthRatio(_p1),
+							windowSize: _p1
+						}),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:

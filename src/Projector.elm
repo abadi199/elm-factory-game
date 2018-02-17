@@ -2,70 +2,70 @@ module Projector
     exposing
         ( bottom
         , height
+        , heightRatio
         , left
         , toViewportX
         , toViewportY
         , toWorldX
         , toWorldY
         , width
+        , widthRatio
         )
 
 import Css
 import Window
 
 
-toWorldX : Window.Size -> Float -> Float
-toWorldX windowSize x =
+toWorldX : { a | widthRatio : Float } -> Float -> Float
+toWorldX { widthRatio } x =
     if x == 0 then
         0
     else
-        widthRatio windowSize
-            * x
+        widthRatio * x
 
 
-toWorldY : Window.Size -> Float -> Float
-toWorldY windowSize y =
+toWorldY : { a | heightRatio : Float } -> Float -> Float
+toWorldY { heightRatio } y =
     if y == 0 then
         0
     else
-        heightRatio windowSize
-            * y
+        heightRatio * y
 
 
-toViewportX : Window.Size -> Float -> Float
-toViewportX windowSize x =
+toViewportX : { a | widthRatio : Float } -> Float -> Float
+toViewportX { widthRatio } x =
     if x == 0 then
         0
     else
-        x / widthRatio windowSize
+        x / widthRatio
 
 
-toViewportY : Window.Size -> Float -> Float
-toViewportY windowSize y =
+toViewportY : { a | heightRatio : Float } -> Float -> Float
+toViewportY { heightRatio } y =
     if y == 0 then
         0
     else
-        y / heightRatio windowSize
+        y / heightRatio
 
 
-left : { a | windowSize : Window.Size } -> Float -> Css.Style
-left { windowSize } value =
-    Css.left (Css.px (toWorldX windowSize value))
+left : { a | widthRatio : Float } -> Float -> Css.Style
+left model value =
+    Css.left (Css.px (toWorldX model value))
 
 
-bottom : { a | windowSize : Window.Size } -> Float -> Css.Style
-bottom { windowSize } value =
-    Css.bottom (Css.px (toWorldY windowSize value))
+bottom : { a | heightRatio : Float } -> Float -> Css.Style
+bottom model value =
+    Css.bottom (Css.px (toWorldY model value))
 
 
-width : { a | windowSize : Window.Size } -> Float -> Css.Style
-width { windowSize } value =
-    Css.width (Css.px (toWorldX windowSize value))
+width : { a | widthRatio : Float } -> Float -> Css.Style
+width model value =
+    Css.width (Css.px (toWorldX model value))
 
 
-height : { a | windowSize : Window.Size } -> Float -> Css.Style
-height { windowSize } value =
-    Css.height (Css.px (toWorldY windowSize value))
+height : { a | heightRatio : Float } -> Float -> Css.Style
+height model value =
+    Css.height (Css.px (toWorldY model value))
 
 
 viewport : { height : Float, width : Float }

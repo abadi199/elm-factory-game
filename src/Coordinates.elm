@@ -15,16 +15,17 @@ type alias Coordinates =
     { x : Float, y : Float }
 
 
-fromPosition : { a | windowSize : Window.Size } -> Mouse.Position -> Coordinates
-fromPosition { windowSize } { x, y } =
+fromPosition : { a | widthRatio : Float, heightRatio : Float, windowSize : Window.Size } -> Mouse.Position -> Coordinates
+fromPosition model { x, y } =
     { x =
         x
             |> toFloat
-            |> Projector.toViewportX windowSize
+            |> Projector.toViewportX model
     , y =
-        y
+        model.windowSize.height
+            - y
             |> toFloat
-            |> Projector.toViewportY windowSize
+            |> Projector.toViewportY model
     }
 
 

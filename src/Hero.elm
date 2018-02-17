@@ -13,7 +13,6 @@ import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Msg exposing (Msg)
 import Projector
-import Window
 
 
 type alias Hero a =
@@ -22,7 +21,8 @@ type alias Hero a =
         , heroWidth : Float
         , heroHeight : Float
         , heroSpeedPPms : Float
-        , windowSize : Window.Size
+        , widthRatio : Float
+        , heightRatio : Float
     }
 
 
@@ -79,8 +79,8 @@ targetStyle : Coordinates -> Hero a -> Style
 targetStyle { x, y } hero =
     Css.batch
         [ position absolute
-        , top (px y)
-        , left (px x)
+        , Projector.bottom hero y
+        , Projector.left hero x
         , Projector.width hero 10
         , Projector.height hero 10
         , backgroundColor (rgba 0 0 0 0.2)
