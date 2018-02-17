@@ -79,10 +79,10 @@ targetStyle : Coordinates -> Hero a -> Style
 targetStyle { x, y } hero =
     Css.batch
         [ position absolute
-        , Projector.bottom hero y
-        , Projector.left hero x
-        , Projector.width hero 10
-        , Projector.height hero 10
+        , Projector.bottom hero (y - 10)
+        , Projector.left hero (x - 10)
+        , Projector.width hero 20
+        , Projector.height hero 20
         , backgroundColor (rgba 0 0 0 0.2)
         ]
 

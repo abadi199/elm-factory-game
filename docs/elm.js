@@ -15004,16 +15004,16 @@ var _abadi199$elm_fire_game$Hero$targetStyle = F2(
 				_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
 				_1: {
 					ctor: '::',
-					_0: A2(_abadi199$elm_fire_game$Projector$bottom, hero, _p1.y),
+					_0: A2(_abadi199$elm_fire_game$Projector$bottom, hero, _p1.y - 10),
 					_1: {
 						ctor: '::',
-						_0: A2(_abadi199$elm_fire_game$Projector$left, hero, _p1.x),
+						_0: A2(_abadi199$elm_fire_game$Projector$left, hero, _p1.x - 10),
 						_1: {
 							ctor: '::',
-							_0: A2(_abadi199$elm_fire_game$Projector$width, hero, 10),
+							_0: A2(_abadi199$elm_fire_game$Projector$width, hero, 20),
 							_1: {
 								ctor: '::',
-								_0: A2(_abadi199$elm_fire_game$Projector$height, hero, 10),
+								_0: A2(_abadi199$elm_fire_game$Projector$height, hero, 20),
 								_1: {
 									ctor: '::',
 									_0: _rtfeldman$elm_css$Css$backgroundColor(
