@@ -11,8 +11,10 @@ import Coordinates exposing (Coordinates)
 import Css exposing (..)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
+import Machine exposing (Machines)
 import Msg exposing (Msg)
 import Projector
+import Task
 
 
 type alias Hero a =
@@ -20,7 +22,7 @@ type alias Hero a =
         | heroPosition : Position
         , heroWidth : Float
         , heroHeight : Float
-        , heroSpeedPPms : Float
+        , heroSpeedInPixelPerMillisecond : Float
         , widthRatio : Float
         , heightRatio : Float
     }
@@ -87,29 +89,50 @@ targetStyle { x, y } hero =
         ]
 
 
-moveTo : Coordinates -> Hero a -> Hero a
+moveTo : Coordinates -> Hero (Machines a) -> Hero (Machines a)
 moveTo coordinates hero =
-    case hero.heroPosition of
-        Stationary from ->
-            { hero | heroPosition = Moving { from = from, to = coordinates } }
+    let
+        machines =
+            hero
 
-        Moving { from } ->
-            { hero | heroPosition = Moving { from = from, to = coordinates } }
+        moveToCoordinates =
+            case hero.heroPosition of
+                Stationary from ->
+                    { hero | heroPosition = Moving { from = from, to = coordinates } }
+
+                Moving { from } ->
+                    { hero | heroPosition = Moving { from = from, to = coordinates } }
+
+        moveToMachine machine =
+            case hero.heroPosition of
+                Stationary from ->
+                    { hero | heroPosition = Moving { from = from, to = machine.position } }
+
+                Moving { from } ->
+                    { hero | heroPosition = Moving { from = from, to = machine.position } }
+    in
+    machines
+        |> Machine.selected
+        |> Maybe.map moveToMachine
+        |> Maybe.withDefault moveToCoordinates
 
 
-move : Float -> Hero a -> Hero a
+move : Float -> Hero (Machines a) -> ( Hero (Machines a), Cmd Msg )
 move delta hero =
     case hero.heroPosition of
         Stationary _ ->
-            hero
+            ( hero, Cmd.none )
 
         Moving { from, to } ->
-            hero |> moving from to delta hero.heroSpeedPPms
+            hero |> moving from to delta hero.heroSpeedInPixelPerMillisecond
 
 
-moving : Coordinates -> Coordinates -> Float -> Float -> Hero a -> Hero a
+moving : Coordinates -> Coordinates -> Float -> Float -> Hero (Machines a) -> ( Hero (Machines a), Cmd Msg )
 moving from to delta speedPPms hero =
     let
+        machines =
+            hero
+
         toX =
             to.x - (hero.heroWidth / 2)
 
@@ -118,8 +141,16 @@ moving from to delta speedPPms hero =
                 -1 * speedPPms * delta
             else
                 speedPPms * delta
+
+        hasArrived =
+            abs (from.x - toX) <= abs travelDistance
     in
-    if abs (from.x - toX) <= abs travelDistance then
-        { hero | heroPosition = Stationary { x = toX, y = from.y } }
+    if hasArrived then
+        ( { hero | heroPosition = Stationary { x = toX, y = from.y } }
+        , machines
+            |> Machine.selectedMachineId
+            |> Maybe.map (Task.succeed >> Task.perform Msg.ResetMachineTimer)
+            |> Maybe.withDefault Cmd.none
+        )
     else
-        { hero | heroPosition = Moving { from = from |> Coordinates.addX travelDistance, to = to } }
+        ( { hero | heroPosition = Moving { from = from |> Coordinates.addX travelDistance, to = to } }, Cmd.none )

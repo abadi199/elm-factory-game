@@ -1,12 +1,14 @@
 module Model exposing (Model, Window, initialModel)
 
+import Dict
 import Hero exposing (Hero)
+import Machine exposing (Machines)
 import Projector
 import Window
 
 
 type alias Model =
-    Window (Hero {})
+    Window (Hero (Machines {}))
 
 
 type alias Window a =
@@ -25,5 +27,11 @@ initialModel windowSize =
     , heroPosition = Hero.Stationary { x = 100, y = 200 }
     , heroWidth = 50
     , heroHeight = 100
-    , heroSpeedPPms = 0.75
+    , heroSpeedInPixelPerMillisecond = 0.75
+    , machines =
+        Dict.fromList
+            [ ( "A", Machine.create { x = 500, y = 200 } )
+            , ( "B", Machine.create { x = 1000, y = 200 } )
+            , ( "C", Machine.create { x = 1500, y = 200 } )
+            ]
     }

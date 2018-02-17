@@ -4,7 +4,7 @@ import Css exposing (..)
 import Hero
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
-import Html.Styled.Events
+import Machine
 import Model exposing (Model)
 import Msg exposing (Msg(..))
 
@@ -12,7 +12,9 @@ import Msg exposing (Msg(..))
 view : Model -> Html Msg
 view model =
     world model
-        [ Hero.view model ]
+        [ Machine.view model
+        , Hero.view model
+        ]
 
 
 world : Model -> List (Html Msg) -> Html Msg

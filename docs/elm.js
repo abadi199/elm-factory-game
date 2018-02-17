@@ -10963,6 +10963,10 @@ var _abadi199$elm_fire_game$Projector$width = F2(
 				A2(_abadi199$elm_fire_game$Projector$toWorldX, model, value)));
 	});
 
+var _abadi199$elm_fire_game$Coordinates$collidesWithRect = F2(
+	function (rect, point) {
+		return (_elm_lang$core$Native_Utils.cmp(rect.position.x, point.x) < 1) && ((_elm_lang$core$Native_Utils.cmp(rect.position.x + rect.width, point.x) > -1) && ((_elm_lang$core$Native_Utils.cmp(rect.position.y, point.y) < 1) && (_elm_lang$core$Native_Utils.cmp(rect.position.y + rect.height, point.y) > -1)));
+	});
 var _abadi199$elm_fire_game$Coordinates$addY = F2(
 	function (y, coordinates) {
 		return _elm_lang$core$Native_Utils.update(
@@ -14984,6 +14988,9 @@ var _rtfeldman$elm_css$Html_Styled_Attributes$style = function (_p0) {
 		_elm_lang$virtual_dom$VirtualDom$style(_p0));
 };
 
+var _abadi199$elm_fire_game$Msg$ResetMachineTimer = function (a) {
+	return {ctor: 'ResetMachineTimer', _0: a};
+};
 var _abadi199$elm_fire_game$Msg$MouseDown = function (a) {
 	return {ctor: 'MouseDown', _0: a};
 };
@@ -14994,6 +15001,165 @@ var _abadi199$elm_fire_game$Msg$Tick = function (a) {
 	return {ctor: 'Tick', _0: a};
 };
 var _abadi199$elm_fire_game$Msg$NoOp = {ctor: 'NoOp'};
+
+var _abadi199$elm_fire_game$Machine$resetTimer = F2(
+	function (machineId, machines) {
+		var reset = function (machine) {
+			return _elm_lang$core$Native_Utils.update(
+				machine,
+				{timerInMillisecond: 0});
+		};
+		return _elm_lang$core$Native_Utils.update(
+			machines,
+			{
+				machines: A3(
+					_elm_lang$core$Dict$update,
+					machineId,
+					_elm_lang$core$Maybe$map(reset),
+					machines.machines)
+			});
+	});
+var _abadi199$elm_fire_game$Machine$collidesWith = F2(
+	function (coordinates, machine) {
+		return A2(_abadi199$elm_fire_game$Coordinates$collidesWithRect, machine, coordinates);
+	});
+var _abadi199$elm_fire_game$Machine$isSelected = function (machine) {
+	var _p0 = machine.selected;
+	if (_p0.ctor === 'Selected') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var _abadi199$elm_fire_game$Machine$selectedMachineId = function (machines) {
+	return _elm_lang$core$List$head(
+		_elm_lang$core$Dict$keys(
+			A2(
+				_elm_lang$core$Dict$filter,
+				F2(
+					function (_p1, machine) {
+						return _abadi199$elm_fire_game$Machine$isSelected(machine);
+					}),
+				machines.machines)));
+};
+var _abadi199$elm_fire_game$Machine$selected = function (machines) {
+	return _elm_lang$core$List$head(
+		A2(
+			_elm_lang$core$List$filter,
+			_abadi199$elm_fire_game$Machine$isSelected,
+			_elm_lang$core$Dict$values(machines.machines)));
+};
+var _abadi199$elm_fire_game$Machine$machineStyle = F2(
+	function (model, machine) {
+		var backgroundColor = function () {
+			var _p2 = machine.selected;
+			if (_p2.ctor === 'Selected') {
+				return _rtfeldman$elm_css$Css$hex('#F88');
+			} else {
+				return _rtfeldman$elm_css$Css$hex('#F00');
+			}
+		}();
+		return _rtfeldman$elm_css$Css$batch(
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$backgroundColor(backgroundColor),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
+					_1: {
+						ctor: '::',
+						_0: A2(_abadi199$elm_fire_game$Projector$width, model, machine.width),
+						_1: {
+							ctor: '::',
+							_0: A2(_abadi199$elm_fire_game$Projector$height, model, machine.height),
+							_1: {
+								ctor: '::',
+								_0: A2(_abadi199$elm_fire_game$Projector$left, model, machine.position.x),
+								_1: {
+									ctor: '::',
+									_0: A2(_abadi199$elm_fire_game$Projector$bottom, model, machine.position.y),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				}
+			});
+	});
+var _abadi199$elm_fire_game$Machine$machineView = F2(
+	function (model, machine) {
+		return A2(
+			_rtfeldman$elm_css$Html_Styled$div,
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
+					{
+						ctor: '::',
+						_0: A2(_abadi199$elm_fire_game$Machine$machineStyle, model, machine),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Html_Styled$text(
+					_elm_lang$core$Basics$toString(
+						_elm_lang$core$Basics$round(machine.timerInMillisecond / 1000))),
+				_1: {ctor: '[]'}
+			});
+	});
+var _abadi199$elm_fire_game$Machine$view = function (model) {
+	return A2(
+		_rtfeldman$elm_css$Html_Styled$div,
+		{ctor: '[]'},
+		A2(
+			_elm_lang$core$List$map,
+			_abadi199$elm_fire_game$Machine$machineView(model),
+			_elm_lang$core$Dict$values(model.machines)));
+};
+var _abadi199$elm_fire_game$Machine$updateTimer = F2(
+	function (delta, machines) {
+		var updateMachineTimer = F2(
+			function (_p3, machine) {
+				return _elm_lang$core$Native_Utils.update(
+					machine,
+					{timerInMillisecond: machine.timerInMillisecond + delta});
+			});
+		return _elm_lang$core$Native_Utils.update(
+			machines,
+			{
+				machines: A2(_elm_lang$core$Dict$map, updateMachineTimer, machines.machines)
+			});
+	});
+var _abadi199$elm_fire_game$Machine$Machine = F6(
+	function (a, b, c, d, e, f) {
+		return {position: a, width: b, height: c, timerInMillisecond: d, maxTimeInMillisecond: e, selected: f};
+	});
+var _abadi199$elm_fire_game$Machine$NotSelected = {ctor: 'NotSelected'};
+var _abadi199$elm_fire_game$Machine$create = function (coordinates) {
+	return {position: coordinates, width: 100, height: 300, timerInMillisecond: 0, maxTimeInMillisecond: 10000, selected: _abadi199$elm_fire_game$Machine$NotSelected};
+};
+var _abadi199$elm_fire_game$Machine$Selected = {ctor: 'Selected'};
+var _abadi199$elm_fire_game$Machine$updateSelected = F2(
+	function (coordinates, machine) {
+		return A2(_abadi199$elm_fire_game$Machine$collidesWith, coordinates, machine) ? _elm_lang$core$Native_Utils.update(
+			machine,
+			{selected: _abadi199$elm_fire_game$Machine$Selected}) : _elm_lang$core$Native_Utils.update(
+			machine,
+			{selected: _abadi199$elm_fire_game$Machine$NotSelected});
+	});
+var _abadi199$elm_fire_game$Machine$select = F2(
+	function (coordinates, machines) {
+		return _elm_lang$core$Native_Utils.update(
+			machines,
+			{
+				machines: A2(
+					_elm_lang$core$Dict$map,
+					_elm_lang$core$Basics$always(
+						_abadi199$elm_fire_game$Machine$updateSelected(coordinates)),
+					machines.machines)
+			});
+	});
 
 var _abadi199$elm_fire_game$Hero$targetStyle = F2(
 	function (_p0, hero) {
@@ -15119,22 +15285,50 @@ var _abadi199$elm_fire_game$Hero$Moving = function (a) {
 };
 var _abadi199$elm_fire_game$Hero$moveTo = F2(
 	function (coordinates, hero) {
-		var _p6 = hero.heroPosition;
-		if (_p6.ctor === 'Stationary') {
-			return _elm_lang$core$Native_Utils.update(
-				hero,
-				{
-					heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-						{from: _p6._0, to: coordinates})
-				});
-		} else {
-			return _elm_lang$core$Native_Utils.update(
-				hero,
-				{
-					heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-						{from: _p6._0.from, to: coordinates})
-				});
-		}
+		var moveToMachine = function (machine) {
+			var _p6 = hero.heroPosition;
+			if (_p6.ctor === 'Stationary') {
+				return _elm_lang$core$Native_Utils.update(
+					hero,
+					{
+						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
+							{from: _p6._0, to: machine.position})
+					});
+			} else {
+				return _elm_lang$core$Native_Utils.update(
+					hero,
+					{
+						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
+							{from: _p6._0.from, to: machine.position})
+					});
+			}
+		};
+		var moveToCoordinates = function () {
+			var _p7 = hero.heroPosition;
+			if (_p7.ctor === 'Stationary') {
+				return _elm_lang$core$Native_Utils.update(
+					hero,
+					{
+						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
+							{from: _p7._0, to: coordinates})
+					});
+			} else {
+				return _elm_lang$core$Native_Utils.update(
+					hero,
+					{
+						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
+							{from: _p7._0.from, to: coordinates})
+					});
+			}
+		}();
+		var machines = hero;
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			moveToCoordinates,
+			A2(
+				_elm_lang$core$Maybe$map,
+				moveToMachine,
+				_abadi199$elm_fire_game$Machine$selected(machines)));
 	});
 var _abadi199$elm_fire_game$Hero$Stationary = function (a) {
 	return {ctor: 'Stationary', _0: a};
@@ -15143,30 +15337,51 @@ var _abadi199$elm_fire_game$Hero$moving = F5(
 	function (from, to, delta, speedPPms, hero) {
 		var toX = to.x - (hero.heroWidth / 2);
 		var travelDistance = (_elm_lang$core$Native_Utils.cmp(from.x, toX) > 0) ? ((-1 * speedPPms) * delta) : (speedPPms * delta);
-		return (_elm_lang$core$Native_Utils.cmp(
+		var hasArrived = _elm_lang$core$Native_Utils.cmp(
 			_elm_lang$core$Basics$abs(from.x - toX),
-			_elm_lang$core$Basics$abs(travelDistance)) < 1) ? _elm_lang$core$Native_Utils.update(
-			hero,
-			{
-				heroPosition: _abadi199$elm_fire_game$Hero$Stationary(
-					{x: toX, y: from.y})
-			}) : _elm_lang$core$Native_Utils.update(
-			hero,
-			{
-				heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-					{
-						from: A2(_abadi199$elm_fire_game$Coordinates$addX, travelDistance, from),
-						to: to
-					})
-			});
+			_elm_lang$core$Basics$abs(travelDistance)) < 1;
+		var machines = hero;
+		return hasArrived ? {
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Native_Utils.update(
+				hero,
+				{
+					heroPosition: _abadi199$elm_fire_game$Hero$Stationary(
+						{x: toX, y: from.y})
+				}),
+			_1: A2(
+				_elm_lang$core$Maybe$withDefault,
+				_elm_lang$core$Platform_Cmd$none,
+				A2(
+					_elm_lang$core$Maybe$map,
+					function (_p8) {
+						return A2(
+							_elm_lang$core$Task$perform,
+							_abadi199$elm_fire_game$Msg$ResetMachineTimer,
+							_elm_lang$core$Task$succeed(_p8));
+					},
+					_abadi199$elm_fire_game$Machine$selectedMachineId(machines)))
+		} : {
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Native_Utils.update(
+				hero,
+				{
+					heroPosition: _abadi199$elm_fire_game$Hero$Moving(
+						{
+							from: A2(_abadi199$elm_fire_game$Coordinates$addX, travelDistance, from),
+							to: to
+						})
+				}),
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
 	});
 var _abadi199$elm_fire_game$Hero$move = F2(
 	function (delta, hero) {
-		var _p7 = hero.heroPosition;
-		if (_p7.ctor === 'Stationary') {
-			return hero;
+		var _p9 = hero.heroPosition;
+		if (_p9.ctor === 'Stationary') {
+			return {ctor: '_Tuple2', _0: hero, _1: _elm_lang$core$Platform_Cmd$none};
 		} else {
-			return A5(_abadi199$elm_fire_game$Hero$moving, _p7._0.from, _p7._0.to, delta, hero.heroSpeedPPms, hero);
+			return A5(_abadi199$elm_fire_game$Hero$moving, _p9._0.from, _p9._0.to, delta, hero.heroSpeedInPixelPerMillisecond, hero);
 		}
 	});
 
@@ -15469,13 +15684,71 @@ var _abadi199$elm_fire_game$Model$initialModel = function (windowSize) {
 			{x: 100, y: 200}),
 		heroWidth: 50,
 		heroHeight: 100,
-		heroSpeedPPms: 0.75
+		heroSpeedInPixelPerMillisecond: 0.75,
+		machines: _elm_lang$core$Dict$fromList(
+			{
+				ctor: '::',
+				_0: {
+					ctor: '_Tuple2',
+					_0: 'A',
+					_1: _abadi199$elm_fire_game$Machine$create(
+						{x: 500, y: 200})
+				},
+				_1: {
+					ctor: '::',
+					_0: {
+						ctor: '_Tuple2',
+						_0: 'B',
+						_1: _abadi199$elm_fire_game$Machine$create(
+							{x: 1000, y: 200})
+					},
+					_1: {
+						ctor: '::',
+						_0: {
+							ctor: '_Tuple2',
+							_0: 'C',
+							_1: _abadi199$elm_fire_game$Machine$create(
+								{x: 1500, y: 200})
+						},
+						_1: {ctor: '[]'}
+					}
+				}
+			})
 	};
 };
 
+var _abadi199$elm_fire_game$Update$updateWindowSize = F2(
+	function (windowSize, model) {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				widthRatio: _abadi199$elm_fire_game$Projector$widthRatio(windowSize),
+				heightRatio: _abadi199$elm_fire_game$Projector$widthRatio(windowSize),
+				windowSize: windowSize
+			});
+	});
 var _abadi199$elm_fire_game$Update$animate = F2(
 	function (delta, model) {
 		return A2(_abadi199$elm_fire_game$Hero$move, delta, model);
+	});
+var _abadi199$elm_fire_game$Update$tick = F2(
+	function (delta, model) {
+		return A2(
+			_abadi199$elm_fire_game$Update$animate,
+			delta,
+			A2(_abadi199$elm_fire_game$Machine$updateTimer, delta, model));
+	});
+var _abadi199$elm_fire_game$Update$mouseClicked = F2(
+	function (mousePosition, model) {
+		var coordinates = A2(_abadi199$elm_fire_game$Coordinates$fromPosition, model, mousePosition);
+		return A2(
+			_abadi199$elm_fire_game$Hero$moveTo,
+			coordinates,
+			A2(_abadi199$elm_fire_game$Machine$select, coordinates, model));
+	});
+var _abadi199$elm_fire_game$Update$resetMachineTimer = F2(
+	function (machineId, model) {
+		return A2(_abadi199$elm_fire_game$Machine$resetTimer, machineId, model);
 	});
 var _abadi199$elm_fire_game$Update$update = F2(
 	function (msg, model) {
@@ -15484,149 +15757,26 @@ var _abadi199$elm_fire_game$Update$update = F2(
 			case 'NoOp':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Tick':
+				return A2(_abadi199$elm_fire_game$Update$tick, _p0._0, model);
+			case 'WindowResized':
 				return {
 					ctor: '_Tuple2',
-					_0: A2(_abadi199$elm_fire_game$Update$animate, _p0._0, model),
+					_0: A2(_abadi199$elm_fire_game$Update$updateWindowSize, _p0._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
-			case 'WindowResized':
-				var _p1 = _p0._0;
+			case 'MouseDown':
 				return {
 					ctor: '_Tuple2',
-					_0: _elm_lang$core$Native_Utils.update(
-						model,
-						{
-							widthRatio: _abadi199$elm_fire_game$Projector$widthRatio(_p1),
-							heightRatio: _abadi199$elm_fire_game$Projector$widthRatio(_p1),
-							windowSize: _p1
-						}),
+					_0: A2(_abadi199$elm_fire_game$Update$mouseClicked, _p0._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
 				return {
 					ctor: '_Tuple2',
-					_0: A2(
-						_abadi199$elm_fire_game$Hero$moveTo,
-						A2(_abadi199$elm_fire_game$Coordinates$fromPosition, model, _p0._0),
-						model),
+					_0: A2(_abadi199$elm_fire_game$Update$resetMachineTimer, _p0._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 		}
-	});
-
-var _rtfeldman$elm_css$Html_Styled_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
-var _rtfeldman$elm_css$Html_Styled_Events$targetChecked = A2(
-	_elm_lang$core$Json_Decode$at,
-	{
-		ctor: '::',
-		_0: 'target',
-		_1: {
-			ctor: '::',
-			_0: 'checked',
-			_1: {ctor: '[]'}
-		}
-	},
-	_elm_lang$core$Json_Decode$bool);
-var _rtfeldman$elm_css$Html_Styled_Events$targetValue = A2(
-	_elm_lang$core$Json_Decode$at,
-	{
-		ctor: '::',
-		_0: 'target',
-		_1: {
-			ctor: '::',
-			_0: 'value',
-			_1: {ctor: '[]'}
-		}
-	},
-	_elm_lang$core$Json_Decode$string);
-var _rtfeldman$elm_css$Html_Styled_Events$defaultOptions = _elm_lang$virtual_dom$VirtualDom$defaultOptions;
-var _rtfeldman$elm_css$Html_Styled_Events$onWithOptions = _rtfeldman$elm_css$VirtualDom_Styled$onWithOptions;
-var _rtfeldman$elm_css$Html_Styled_Events$on = _rtfeldman$elm_css$VirtualDom_Styled$on;
-var _rtfeldman$elm_css$Html_Styled_Events$onFocus = function (msg) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'focus',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onBlur = function (msg) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'blur',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onSubmitOptions = _elm_lang$core$Native_Utils.update(
-	_rtfeldman$elm_css$Html_Styled_Events$defaultOptions,
-	{preventDefault: true});
-var _rtfeldman$elm_css$Html_Styled_Events$onSubmit = function (msg) {
-	return A3(
-		_rtfeldman$elm_css$Html_Styled_Events$onWithOptions,
-		'submit',
-		_rtfeldman$elm_css$Html_Styled_Events$onSubmitOptions,
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onCheck = function (tagger) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'change',
-		A2(_elm_lang$core$Json_Decode$map, tagger, _rtfeldman$elm_css$Html_Styled_Events$targetChecked));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onInput = function (tagger) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'input',
-		A2(_elm_lang$core$Json_Decode$map, tagger, _rtfeldman$elm_css$Html_Styled_Events$targetValue));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onMouseOut = function (msg) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'mouseout',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onMouseOver = function (msg) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'mouseover',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onMouseLeave = function (msg) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'mouseleave',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onMouseEnter = function (msg) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'mouseenter',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onMouseUp = function (msg) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'mouseup',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onMouseDown = function (msg) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'mousedown',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onDoubleClick = function (msg) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'dblclick',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$onClick = function (msg) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Events$on,
-		'click',
-		_elm_lang$core$Json_Decode$succeed(msg));
-};
-var _rtfeldman$elm_css$Html_Styled_Events$Options = F2(
-	function (a, b) {
-		return {stopPropagation: a, preventDefault: b};
 	});
 
 var _abadi199$elm_fire_game$View$world = F2(
@@ -15666,8 +15816,12 @@ var _abadi199$elm_fire_game$View$view = function (model) {
 		model,
 		{
 			ctor: '::',
-			_0: _abadi199$elm_fire_game$Hero$view(model),
-			_1: {ctor: '[]'}
+			_0: _abadi199$elm_fire_game$Machine$view(model),
+			_1: {
+				ctor: '::',
+				_0: _abadi199$elm_fire_game$Hero$view(model),
+				_1: {ctor: '[]'}
+			}
 		});
 };
 

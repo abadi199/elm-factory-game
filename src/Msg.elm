@@ -9,3 +9,4 @@ type Msg
     | Tick Float
     | WindowResized Window.Size
     | MouseDown Mouse.Position
+    | ResetMachineTimer String
