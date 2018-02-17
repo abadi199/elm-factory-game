@@ -1,0 +1,29 @@
+{
+  "dependencies": {
+    "elm": "^0.18.0",
+    "elm-live": "^2.7.5",
+    "elm-test": "^0.18.12"
+  },
+  "name": "elm-factory-game",
+  "description": "Factory Safety Game === wip",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "elm live src/Main.elm --output docs/elm.js --dir=docs/",
+    "test": "elm test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/abadi199/elm-factory-game.git"
+  },
+  "author": "Abadi Kurniawan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/abadi199/elm-factory-game/issues"
+  },
+  "homepage": "https://github.com/abadi199/elm-factory-game#readme"
+}

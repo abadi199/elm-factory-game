@@ -57,10 +57,10 @@ heroStyle : Float -> Float -> Hero a -> Style
 heroStyle x y hero =
     Css.batch
         [ position absolute
-        , Projector.bottom y hero
-        , Projector.left x hero
-        , Projector.width hero.heroWidth hero
-        , Projector.height hero.heroHeight hero
+        , Projector.bottom hero y
+        , Projector.left hero x
+        , Projector.width hero hero.heroWidth
+        , Projector.height hero hero.heroHeight
         , backgroundColor (hex "#000")
         ]
 
@@ -81,8 +81,8 @@ targetStyle { x, y } hero =
         [ position absolute
         , top (px y)
         , left (px x)
-        , Projector.width 10 hero
-        , Projector.height 10 hero
+        , Projector.width hero 10
+        , Projector.height hero 10
         , backgroundColor (rgba 0 0 0 0.2)
         ]
 

@@ -19,7 +19,10 @@ update msg model =
             ( { model | windowSize = windowSize }, Cmd.none )
 
         MouseDown mousePosition ->
-            ( model |> Hero.moveTo (Coordinates.fromPosition mousePosition), Cmd.none )
+            ( model
+                |> Hero.moveTo (Coordinates.fromPosition model mousePosition)
+            , Cmd.none
+            )
 
 
 animate : Float -> Model -> Model
