@@ -16,6 +16,7 @@ import Dict exposing (Dict)
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
 import Msg exposing (Msg(..))
+import Murmur3
 import Projector
 
 
@@ -55,15 +56,18 @@ updateTimer delta machines =
     }
 
 
-create : Coordinates -> Machine
-create coordinates =
-    { position = coordinates
-    , width = 100
-    , height = 300
-    , timerInMillisecond = 0
-    , maxTimeInMillisecond = 10000
-    , selected = NotSelected
-    }
+create : Coordinates -> List ( String, Machine ) -> List ( String, Machine )
+create coordinates list =
+    ( toString <| Murmur3.hashString 8821923 <| toString list
+    , { position = coordinates
+      , width = 100
+      , height = 300
+      , timerInMillisecond = 0
+      , maxTimeInMillisecond = 10000
+      , selected = NotSelected
+      }
+    )
+        :: list
 
 
 view : Machines a -> Html Msg

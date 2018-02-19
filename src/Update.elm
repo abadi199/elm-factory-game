@@ -1,6 +1,7 @@
 module Update exposing (update)
 
 import Coordinates
+import FallingObject
 import Hero
 import Machine
 import Model exposing (Model)
@@ -14,6 +15,9 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         NoOp ->
+            ( model, Cmd.none )
+
+        Initialized _ _ ->
             ( model, Cmd.none )
 
         Tick delta ->
@@ -53,12 +57,7 @@ tick : Float -> Model -> ( Model, Cmd Msg )
 tick delta model =
     model
         |> Machine.updateTimer delta
-        |> animate delta
-
-
-animate : Float -> Model -> ( Model, Cmd Msg )
-animate delta model =
-    model
+        |> FallingObject.move delta
         |> Hero.move delta
 
 

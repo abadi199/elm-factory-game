@@ -1,6 +1,7 @@
 module View exposing (view)
 
 import Css exposing (..)
+import FallingObject
 import Hero
 import Html.Styled exposing (..)
 import Html.Styled.Attributes exposing (..)
@@ -13,6 +14,7 @@ view : Model -> Html Msg
 view model =
     world model
         [ Machine.view model
+        , FallingObject.view model
         , Hero.view model
         ]
 

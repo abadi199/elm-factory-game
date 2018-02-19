@@ -6,6 +6,7 @@ import Window
 
 type Msg
     = NoOp
+    | Initialized Float Window.Size
     | Tick Float
     | WindowResized Window.Size
     | MouseDown Mouse.Position

@@ -6,7 +6,9 @@ import Html.Styled
 import Model exposing (Model)
 import Mouse
 import Msg exposing (Msg(..))
+import Random.Pcg as Random
 import Task
+import Time
 import Update exposing (update)
 import View exposing (view)
 import Window
@@ -46,8 +48,10 @@ initUpdate msg appState =
     case appState of
         Initializing ->
             case msg of
-                WindowResized windowSize ->
-                    ( Ready (Model.initialModel windowSize), Cmd.none )
+                Initialized time windowSize ->
+                    ( Ready (Model.initialModel (Random.initialSeed <| round time) windowSize)
+                    , Cmd.none
+                    )
 
                 _ ->
                     ( appState, Cmd.none )
@@ -73,4 +77,7 @@ initView appState =
 
 init : ( AppState, Cmd Msg )
 init =
-    ( Initializing, Window.size |> Task.perform WindowResized )
+    ( Initializing
+    , Task.map2 (,) Time.now Window.size
+        |> Task.perform (\( time, windowSize ) -> Initialized time windowSize)
+    )
