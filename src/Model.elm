@@ -10,7 +10,7 @@ import Window
 
 
 type alias Model =
-    Window (Hero (Machines (FallingObjects {})))
+    Window (World (Hero (Machines (FallingObjects {}))))
 
 
 type alias Window a =
@@ -21,11 +21,16 @@ type alias Window a =
     }
 
 
+type alias World a =
+    { a | floorPositionY : Float }
+
+
 initialModel : Seed -> Window.Size -> Model
 initialModel seed windowSize =
     { widthRatio = Projector.widthRatio windowSize
     , heightRatio = Projector.widthRatio windowSize
     , windowSize = windowSize
+    , floorPositionY = 200
     , heroPosition = Hero.Stationary { x = 100, y = 200 }
     , heroWidth = 50
     , heroHeight = 100

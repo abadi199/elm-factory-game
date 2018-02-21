@@ -17,12 +17,14 @@ type alias FallingObjects a =
         , widthRatio : Float
         , heightRatio : Float
         , seed : Seed
+        , floorPositionY : Float
     }
 
 
 type alias FallingObject =
     { width : Float
     , height : Float
+    , yieldIntervalInMillisecond : Float
     , speedInPixelPerMillisecond : Float
     , probability : Int
     , state : State
@@ -36,6 +38,7 @@ type State
 
 type alias EmptyData =
     { positionX : Float
+    , yieldCounterInMillisecond : Float
     }
 
 
@@ -53,11 +56,12 @@ type Kind
 create : Float -> List ( String, FallingObject ) -> List ( String, FallingObject )
 create positionX list =
     ( toString <| Murmur3.hashString 2218777484 <| toString list
-    , { state = Empty { positionX = positionX }
+    , { state = Empty { positionX = positionX, yieldCounterInMillisecond = 0 }
       , width = 20
       , height = 20
-      , speedInPixelPerMillisecond = 4
-      , probability = 5
+      , yieldIntervalInMillisecond = 1000
+      , speedInPixelPerMillisecond = 2
+      , probability = 50
       }
     )
         :: list
@@ -100,41 +104,62 @@ fallingObjectStyle model fallingObject =
 
 move : Float -> FallingObjects a -> FallingObjects a
 move delta model =
-    let
-        ( newSeed, newFallingObjects ) =
-            Dict.foldl
-                (moveFallingObject delta)
-                ( model.seed, Dict.empty )
-                model.fallingObjects
-    in
-    { model
-        | fallingObjects = newFallingObjects
-        , seed = newSeed
+    Dict.foldl
+        (moveFallingObject delta)
+        model
+        model.fallingObjects
+
+
+moveFallingObject : Float -> String -> FallingObject -> FallingObjects a -> FallingObjects a
+moveFallingObject delta key fallingObject model =
+    case fallingObject.state of
+        Empty emptyData ->
+            if emptyData.yieldCounterInMillisecond < fallingObject.yieldIntervalInMillisecond then
+                fallingObject
+                    |> updateYieldCounter (emptyData.yieldCounterInMillisecond + delta) emptyData
+                    |> (\object -> { model | fallingObjects = Dict.insert key object model.fallingObjects })
+            else
+                generateNewRandomObject delta key fallingObject emptyData model
+
+        Falling _ ->
+            { model
+                | fallingObjects = Dict.insert key (falling delta model fallingObject) model.fallingObjects
+            }
+
+
+updateYieldCounter : Float -> EmptyData -> FallingObject -> FallingObject
+updateYieldCounter counter emptyData fallingObject =
+    { fallingObject
+        | state =
+            Empty
+                { emptyData
+                    | yieldCounterInMillisecond = counter
+                }
     }
 
 
-moveFallingObject : Float -> String -> FallingObject -> ( Seed, Dict String FallingObject ) -> ( Seed, Dict String FallingObject )
-moveFallingObject delta key fallingObject ( seed, dict ) =
-    case fallingObject.state of
-        Empty _ ->
-            let
-                ( randomNumber, newSeed ) =
-                    Random.step (Random.int 1 100) seed
+generateNewRandomObject : Float -> String -> FallingObject -> EmptyData -> FallingObjects a -> FallingObjects a
+generateNewRandomObject delta key fallingObject emptyData model =
+    let
+        ( randomNumber, newSeed ) =
+            Random.step (Random.int 1 100) model.seed
 
-                newFallingObject =
-                    if randomNumber < fallingObject.probability then
-                        falling delta fallingObject
-                    else
-                        fallingObject
-            in
-            ( newSeed, Dict.insert key newFallingObject dict )
+        newFallingObject =
+            if randomNumber < fallingObject.probability then
+                fallingObject
+                    |> falling delta model
+            else
+                fallingObject
+                    |> updateYieldCounter 0 emptyData
+    in
+    { model
+        | seed = newSeed
+        , fallingObjects = Dict.insert key newFallingObject model.fallingObjects
+    }
 
-        Falling _ ->
-            ( seed, Dict.insert key (falling delta fallingObject) dict )
 
-
-falling : Float -> FallingObject -> FallingObject
-falling delta fallingObject =
+falling : Float -> FallingObjects a -> FallingObject -> FallingObject
+falling delta model fallingObject =
     case fallingObject.state of
         Empty data ->
             { fallingObject
@@ -149,13 +174,20 @@ falling delta fallingObject =
             }
 
         Falling data ->
-            { fallingObject
-                | state =
-                    Falling
-                        { data
-                            | position =
-                                { x = data.position.x
-                                , y = data.position.y - fallingObject.speedInPixelPerMillisecond
-                                }
-                        }
-            }
+            let
+                newPositionY =
+                    data.position.y - fallingObject.speedInPixelPerMillisecond
+            in
+            if newPositionY < model.floorPositionY then
+                { fallingObject | state = Empty { positionX = data.position.x, yieldCounterInMillisecond = 0 } }
+            else
+                { fallingObject
+                    | state =
+                        Falling
+                            { data
+                                | position =
+                                    { x = data.position.x
+                                    , y = newPositionY
+                                    }
+                            }
+                }
