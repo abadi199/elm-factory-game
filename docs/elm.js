@@ -14086,9 +14086,9 @@ var _abadi199$elm_fire_game$FallingObject$view = function (model) {
 			_abadi199$elm_fire_game$FallingObject$fallingObjectView(model),
 			_elm_lang$core$Dict$values(model.fallingObjects)));
 };
-var _abadi199$elm_fire_game$FallingObject$FallingObject = F6(
-	function (a, b, c, d, e, f) {
-		return {width: a, height: b, yieldIntervalInMillisecond: c, speedInPixelPerMillisecond: d, probability: e, state: f};
+var _abadi199$elm_fire_game$FallingObject$FallingObject = F7(
+	function (a, b, c, d, e, f, g) {
+		return {width: a, height: b, yieldIntervalInMillisecond: c, speedInPixelPerMillisecond: d, yieldProbability: e, goodKindProbability: f, state: g};
 	});
 var _abadi199$elm_fire_game$FallingObject$EmptyData = F2(
 	function (a, b) {
@@ -14122,7 +14122,8 @@ var _abadi199$elm_fire_game$FallingObject$create = F2(
 					height: 20,
 					yieldIntervalInMillisecond: 1000,
 					speedInPixelPerMillisecond: 0.1,
-					probability: 50
+					yieldProbability: 50,
+					goodKindProbability: 90
 				}
 			},
 			_1: list
@@ -14141,48 +14142,64 @@ var _abadi199$elm_fire_game$FallingObject$updateYieldCounter = F3(
 	});
 var _abadi199$elm_fire_game$FallingObject$Bad = {ctor: 'Bad'};
 var _abadi199$elm_fire_game$FallingObject$Good = {ctor: 'Good'};
+var _abadi199$elm_fire_game$FallingObject$startFalling = F4(
+	function (delta, model, data, fallingObject) {
+		var _p3 = A2(
+			_mgold$elm_random_pcg$Random_Pcg$step,
+			A2(_mgold$elm_random_pcg$Random_Pcg$int, 1, 100),
+			model.seed);
+		var randomNumber = _p3._0;
+		var kind = (_elm_lang$core$Native_Utils.cmp(randomNumber, fallingObject.goodKindProbability) < 0) ? _abadi199$elm_fire_game$FallingObject$Good : _abadi199$elm_fire_game$FallingObject$Bad;
+		return _elm_lang$core$Native_Utils.update(
+			fallingObject,
+			{
+				state: _abadi199$elm_fire_game$FallingObject$Falling(
+					{
+						position: {x: data.positionX, y: 1080 + fallingObject.height},
+						kind: kind
+					})
+			});
+	});
 var _abadi199$elm_fire_game$FallingObject$falling = F3(
 	function (delta, model, fallingObject) {
-		var _p3 = fallingObject.state;
-		if (_p3.ctor === 'Empty') {
-			return _elm_lang$core$Native_Utils.update(
-				fallingObject,
-				{
-					state: _abadi199$elm_fire_game$FallingObject$Falling(
-						{
-							position: {x: _p3._0.positionX, y: 1080 + fallingObject.height},
-							kind: _abadi199$elm_fire_game$FallingObject$Good
-						})
-				});
+		var _p4 = fallingObject.state;
+		if (_p4.ctor === 'Empty') {
+			return A4(_abadi199$elm_fire_game$FallingObject$startFalling, delta, model, _p4._0, fallingObject);
 		} else {
-			var _p4 = _p3._0;
-			var newPositionY = _p4.position.y - (fallingObject.speedInPixelPerMillisecond * delta);
+			var _p5 = _p4._0;
+			var newPositionY = _p5.position.y - (fallingObject.speedInPixelPerMillisecond * delta);
 			return (_elm_lang$core$Native_Utils.cmp(newPositionY, model.floorPositionY) < 0) ? _elm_lang$core$Native_Utils.update(
 				fallingObject,
 				{
 					state: _abadi199$elm_fire_game$FallingObject$Empty(
-						{positionX: _p4.position.x, yieldCounterInMillisecond: 0})
+						{positionX: _p5.position.x, yieldCounterInMillisecond: 0})
 				}) : _elm_lang$core$Native_Utils.update(
 				fallingObject,
 				{
 					state: _abadi199$elm_fire_game$FallingObject$Falling(
 						_elm_lang$core$Native_Utils.update(
-							_p4,
+							_p5,
 							{
-								position: {x: _p4.position.x, y: newPositionY}
+								position: {x: _p5.position.x, y: newPositionY}
 							}))
 				});
 		}
 	});
 var _abadi199$elm_fire_game$FallingObject$generateNewRandomObject = F5(
 	function (delta, key, fallingObject, emptyData, model) {
-		var _p5 = A2(
+		var _p6 = A2(
 			_mgold$elm_random_pcg$Random_Pcg$step,
 			A2(_mgold$elm_random_pcg$Random_Pcg$int, 1, 100),
 			model.seed);
-		var randomNumber = _p5._0;
-		var newSeed = _p5._1;
-		var newFallingObject = (_elm_lang$core$Native_Utils.cmp(randomNumber, fallingObject.probability) < 0) ? A3(_abadi199$elm_fire_game$FallingObject$falling, delta, model, fallingObject) : A3(_abadi199$elm_fire_game$FallingObject$updateYieldCounter, 0, emptyData, fallingObject);
+		var randomNumber = _p6._0;
+		var newSeed = _p6._1;
+		var newFallingObject = (_elm_lang$core$Native_Utils.cmp(randomNumber, fallingObject.yieldProbability) < 0) ? A3(
+			_abadi199$elm_fire_game$FallingObject$falling,
+			delta,
+			_elm_lang$core$Native_Utils.update(
+				model,
+				{seed: newSeed}),
+			fallingObject) : A3(_abadi199$elm_fire_game$FallingObject$updateYieldCounter, 0, emptyData, fallingObject);
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{
@@ -14192,17 +14209,17 @@ var _abadi199$elm_fire_game$FallingObject$generateNewRandomObject = F5(
 	});
 var _abadi199$elm_fire_game$FallingObject$moveFallingObject = F4(
 	function (delta, key, fallingObject, model) {
-		var _p6 = fallingObject.state;
-		if (_p6.ctor === 'Empty') {
-			var _p7 = _p6._0;
-			return (_elm_lang$core$Native_Utils.cmp(_p7.yieldCounterInMillisecond, fallingObject.yieldIntervalInMillisecond) < 0) ? function (object) {
+		var _p7 = fallingObject.state;
+		if (_p7.ctor === 'Empty') {
+			var _p8 = _p7._0;
+			return (_elm_lang$core$Native_Utils.cmp(_p8.yieldCounterInMillisecond, fallingObject.yieldIntervalInMillisecond) < 0) ? function (object) {
 				return _elm_lang$core$Native_Utils.update(
 					model,
 					{
 						fallingObjects: A3(_elm_lang$core$Dict$insert, key, object, model.fallingObjects)
 					});
 			}(
-				A3(_abadi199$elm_fire_game$FallingObject$updateYieldCounter, _p7.yieldCounterInMillisecond + delta, _p7, fallingObject)) : A5(_abadi199$elm_fire_game$FallingObject$generateNewRandomObject, delta, key, fallingObject, _p7, model);
+				A3(_abadi199$elm_fire_game$FallingObject$updateYieldCounter, _p8.yieldCounterInMillisecond + delta, _p8, fallingObject)) : A5(_abadi199$elm_fire_game$FallingObject$generateNewRandomObject, delta, key, fallingObject, _p8, model);
 		} else {
 			return _elm_lang$core$Native_Utils.update(
 				model,

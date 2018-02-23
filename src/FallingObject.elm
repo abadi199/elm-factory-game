@@ -26,7 +26,8 @@ type alias FallingObject =
     , height : Float
     , yieldIntervalInMillisecond : Float
     , speedInPixelPerMillisecond : Float
-    , probability : Int
+    , yieldProbability : Int
+    , goodKindProbability : Int
     , state : State
     }
 
@@ -61,7 +62,8 @@ create positionX list =
       , height = 20
       , yieldIntervalInMillisecond = 1000
       , speedInPixelPerMillisecond = 0.1
-      , probability = 50
+      , yieldProbability = 50
+      , goodKindProbability = 90
       }
     )
         :: list
@@ -153,9 +155,9 @@ generateNewRandomObject delta key fallingObject emptyData model =
             Random.step (Random.int 1 100) model.seed
 
         newFallingObject =
-            if randomNumber < fallingObject.probability then
+            if randomNumber < fallingObject.yieldProbability then
                 fallingObject
-                    |> falling delta model
+                    |> falling delta { model | seed = newSeed }
             else
                 fallingObject
                     |> updateYieldCounter 0 emptyData
@@ -170,16 +172,7 @@ falling : Float -> FallingObjects a -> FallingObject -> FallingObject
 falling delta model fallingObject =
     case fallingObject.state of
         Empty data ->
-            { fallingObject
-                | state =
-                    Falling
-                        { position =
-                            { x = data.positionX
-                            , y = 1080 + fallingObject.height
-                            }
-                        , kind = Good
-                        }
-            }
+            startFalling delta model data fallingObject
 
         Falling data ->
             let
@@ -199,3 +192,27 @@ falling delta model fallingObject =
                                     }
                             }
                 }
+
+
+startFalling : Float -> FallingObjects a -> EmptyData -> FallingObject -> FallingObject
+startFalling delta model data fallingObject =
+    let
+        ( randomNumber, _ ) =
+            Random.step (Random.int 1 100) model.seed
+
+        kind =
+            if randomNumber < fallingObject.goodKindProbability then
+                Good
+            else
+                Bad
+    in
+    { fallingObject
+        | state =
+            Falling
+                { position =
+                    { x = data.positionX
+                    , y = 1080 + fallingObject.height
+                    }
+                , kind = kind
+                }
+    }
