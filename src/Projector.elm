@@ -4,6 +4,7 @@ module Projector
         , height
         , heightRatio
         , left
+        , project
         , toViewportX
         , toViewportY
         , toWorldX
@@ -50,12 +51,30 @@ toViewportY { heightRatio } y =
 
 left : { a | widthRatio : Float } -> Float -> Css.Style
 left model value =
-    Css.left (Css.px (toWorldX model value))
+    Css.batch
+        [ Css.left Css.zero
+        , Css.transform <| Css.translateX (Css.px (toWorldX model value))
+        ]
 
 
 bottom : { a | heightRatio : Float } -> Float -> Css.Style
 bottom model value =
-    Css.bottom (Css.px (toWorldY model value))
+    Css.batch
+        [ Css.bottom Css.zero
+        , Css.transform <| Css.translateY (Css.px (-1 * toWorldY model value))
+        ]
+
+
+project : { a | widthRatio : Float, heightRatio : Float } -> { x : Float, y : Float } -> Css.Style
+project model { x, y } =
+    Css.batch
+        [ Css.left Css.zero
+        , Css.bottom Css.zero
+        , Css.transforms
+            [ Css.translateY (Css.px (-1 * toWorldY model y))
+            , Css.translateX (Css.px (toWorldX model x))
+            ]
+        ]
 
 
 width : { a | widthRatio : Float } -> Float -> Css.Style

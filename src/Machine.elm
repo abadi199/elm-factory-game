@@ -13,8 +13,8 @@ module Machine
 import Coordinates exposing (Coordinates)
 import Css exposing (..)
 import Dict exposing (Dict)
-import Html.Styled exposing (..)
-import Html.Styled.Attributes exposing (..)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 import Msg exposing (Msg(..))
 import Murmur3
 import Projector
@@ -77,7 +77,7 @@ view model =
 
 machineView : Machines a -> Machine -> Html Msg
 machineView model machine =
-    div [ css [ machineStyle model machine ] ]
+    div [ style <| Css.asPairsDEPRECATED [ machineStyle model machine ] ]
         [ text <| toString <| Basics.round <| machine.timerInMillisecond / 1000 ]
 
 
@@ -97,8 +97,7 @@ machineStyle model machine =
         , position absolute
         , Projector.width model machine.width
         , Projector.height model machine.height
-        , Projector.left model machine.position.x
-        , Projector.bottom model machine.position.y
+        , Projector.project model machine.position
         ]
 
 

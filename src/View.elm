@@ -3,8 +3,8 @@ module View exposing (view)
 import Css exposing (..)
 import FallingObject
 import Hero
-import Html.Styled exposing (..)
-import Html.Styled.Attributes exposing (..)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 import Machine
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -23,12 +23,13 @@ view model =
 world : Model -> List (Html Msg) -> Html Msg
 world model content =
     div
-        [ css
-            [ Css.width (vw 100)
-            , Css.height (vh 100)
-            , backgroundColor (hex "#87ceeb")
-            , position relative
-            ]
+        [ style <|
+            Css.asPairsDEPRECATED
+                [ Css.width (vw 100)
+                , Css.height (vh 100)
+                , backgroundColor (hex "#87ceeb")
+                , position relative
+                ]
         ]
         (floor model :: content)
 
@@ -36,13 +37,13 @@ world model content =
 floor : Model -> Html Msg
 floor model =
     div
-        [ css
-            [ backgroundColor (hex "#aaa")
-            , position absolute
-            , Projector.left model 0
-            , Projector.bottom model 0
-            , Css.width (vw 100)
-            , Projector.height model model.floorPositionY
-            ]
+        [ style <|
+            Css.asPairsDEPRECATED
+                [ backgroundColor (hex "#aaa")
+                , position absolute
+                , Projector.project model { x = 0, y = 0 }
+                , Css.width (vw 100)
+                , Projector.height model model.floorPositionY
+                ]
         ]
         []

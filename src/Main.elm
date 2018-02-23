@@ -72,7 +72,7 @@ initView appState =
             div [] []
 
         Ready model ->
-            view model |> Html.Styled.toUnstyled
+            view model
 
 
 init : ( AppState, Cmd Msg )

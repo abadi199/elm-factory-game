@@ -3,8 +3,8 @@ module FallingObject exposing (FallingObjects, create, move, view)
 import Coordinates exposing (Coordinates)
 import Css exposing (..)
 import Dict exposing (Dict)
-import Html.Styled exposing (..)
-import Html.Styled.Attributes exposing (..)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 import Msg exposing (Msg(..))
 import Murmur3
 import Projector
@@ -60,7 +60,7 @@ create positionX list =
       , width = 20
       , height = 20
       , yieldIntervalInMillisecond = 1000
-      , speedInPixelPerMillisecond = 2
+      , speedInPixelPerMillisecond = 0.1
       , probability = 50
       }
     )
@@ -79,8 +79,8 @@ view model =
 fallingObjectView : FallingObjects a -> FallingObject -> Html Msg
 fallingObjectView model fallingObject =
     div
-        [ css
-            [ fallingObjectStyle model fallingObject ]
+        [ style <|
+            Css.asPairsDEPRECATED [ fallingObjectStyle model fallingObject ]
         ]
         []
 
@@ -92,13 +92,21 @@ fallingObjectStyle model fallingObject =
             Css.batch [ display none ]
 
         Falling data ->
+            let
+                color =
+                    case data.kind of
+                        Good ->
+                            hex "#0F0"
+
+                        Bad ->
+                            hex "#F00"
+            in
             Css.batch
-                [ backgroundColor (hex "#F0F")
-                , Projector.left model data.position.x
-                , Projector.bottom model data.position.y
-                , Projector.width model fallingObject.width
+                [ Projector.width model fallingObject.width
                 , Projector.height model fallingObject.height
+                , Projector.project model data.position
                 , position absolute
+                , backgroundColor color
                 ]
 
 
@@ -176,7 +184,7 @@ falling delta model fallingObject =
         Falling data ->
             let
                 newPositionY =
-                    data.position.y - fallingObject.speedInPixelPerMillisecond
+                    data.position.y - (fallingObject.speedInPixelPerMillisecond * delta)
             in
             if newPositionY < model.floorPositionY then
                 { fallingObject | state = Empty { positionX = data.position.x, yieldCounterInMillisecond = 0 } }

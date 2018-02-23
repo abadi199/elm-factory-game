@@ -10935,9 +10935,19 @@ var _abadi199$elm_fire_game$Projector$toWorldY = F2(
 	});
 var _abadi199$elm_fire_game$Projector$bottom = F2(
 	function (model, value) {
-		return _rtfeldman$elm_css$Css$bottom(
-			_rtfeldman$elm_css$Css$px(
-				A2(_abadi199$elm_fire_game$Projector$toWorldY, model, value)));
+		return _rtfeldman$elm_css$Css$batch(
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$bottom(_rtfeldman$elm_css$Css$zero),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$transform(
+						_rtfeldman$elm_css$Css$translateY(
+							_rtfeldman$elm_css$Css$px(
+								-1 * A2(_abadi199$elm_fire_game$Projector$toWorldY, model, value)))),
+					_1: {ctor: '[]'}
+				}
+			});
 	});
 var _abadi199$elm_fire_game$Projector$height = F2(
 	function (model, value) {
@@ -10952,9 +10962,50 @@ var _abadi199$elm_fire_game$Projector$toWorldX = F2(
 	});
 var _abadi199$elm_fire_game$Projector$left = F2(
 	function (model, value) {
-		return _rtfeldman$elm_css$Css$left(
-			_rtfeldman$elm_css$Css$px(
-				A2(_abadi199$elm_fire_game$Projector$toWorldX, model, value)));
+		return _rtfeldman$elm_css$Css$batch(
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$left(_rtfeldman$elm_css$Css$zero),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$transform(
+						_rtfeldman$elm_css$Css$translateX(
+							_rtfeldman$elm_css$Css$px(
+								A2(_abadi199$elm_fire_game$Projector$toWorldX, model, value)))),
+					_1: {ctor: '[]'}
+				}
+			});
+	});
+var _abadi199$elm_fire_game$Projector$project = F2(
+	function (model, _p8) {
+		var _p9 = _p8;
+		return _rtfeldman$elm_css$Css$batch(
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$left(_rtfeldman$elm_css$Css$zero),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$bottom(_rtfeldman$elm_css$Css$zero),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$transforms(
+							{
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$translateY(
+									_rtfeldman$elm_css$Css$px(
+										-1 * A2(_abadi199$elm_fire_game$Projector$toWorldY, model, _p9.y))),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$translateX(
+										_rtfeldman$elm_css$Css$px(
+											A2(_abadi199$elm_fire_game$Projector$toWorldX, model, _p9.x))),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
 	});
 var _abadi199$elm_fire_game$Projector$width = F2(
 	function (model, value) {
@@ -12911,6 +12962,1822 @@ var _elm_lang$virtual_dom$VirtualDom$Options = F2(
 var _elm_lang$virtual_dom$VirtualDom$Node = {ctor: 'Node'};
 var _elm_lang$virtual_dom$VirtualDom$Property = {ctor: 'Property'};
 
+var _elm_lang$html$Html$programWithFlags = _elm_lang$virtual_dom$VirtualDom$programWithFlags;
+var _elm_lang$html$Html$program = _elm_lang$virtual_dom$VirtualDom$program;
+var _elm_lang$html$Html$beginnerProgram = function (_p0) {
+	var _p1 = _p0;
+	return _elm_lang$html$Html$program(
+		{
+			init: A2(
+				_elm_lang$core$Platform_Cmd_ops['!'],
+				_p1.model,
+				{ctor: '[]'}),
+			update: F2(
+				function (msg, model) {
+					return A2(
+						_elm_lang$core$Platform_Cmd_ops['!'],
+						A2(_p1.update, msg, model),
+						{ctor: '[]'});
+				}),
+			view: _p1.view,
+			subscriptions: function (_p2) {
+				return _elm_lang$core$Platform_Sub$none;
+			}
+		});
+};
+var _elm_lang$html$Html$map = _elm_lang$virtual_dom$VirtualDom$map;
+var _elm_lang$html$Html$text = _elm_lang$virtual_dom$VirtualDom$text;
+var _elm_lang$html$Html$node = _elm_lang$virtual_dom$VirtualDom$node;
+var _elm_lang$html$Html$body = _elm_lang$html$Html$node('body');
+var _elm_lang$html$Html$section = _elm_lang$html$Html$node('section');
+var _elm_lang$html$Html$nav = _elm_lang$html$Html$node('nav');
+var _elm_lang$html$Html$article = _elm_lang$html$Html$node('article');
+var _elm_lang$html$Html$aside = _elm_lang$html$Html$node('aside');
+var _elm_lang$html$Html$h1 = _elm_lang$html$Html$node('h1');
+var _elm_lang$html$Html$h2 = _elm_lang$html$Html$node('h2');
+var _elm_lang$html$Html$h3 = _elm_lang$html$Html$node('h3');
+var _elm_lang$html$Html$h4 = _elm_lang$html$Html$node('h4');
+var _elm_lang$html$Html$h5 = _elm_lang$html$Html$node('h5');
+var _elm_lang$html$Html$h6 = _elm_lang$html$Html$node('h6');
+var _elm_lang$html$Html$header = _elm_lang$html$Html$node('header');
+var _elm_lang$html$Html$footer = _elm_lang$html$Html$node('footer');
+var _elm_lang$html$Html$address = _elm_lang$html$Html$node('address');
+var _elm_lang$html$Html$main_ = _elm_lang$html$Html$node('main');
+var _elm_lang$html$Html$p = _elm_lang$html$Html$node('p');
+var _elm_lang$html$Html$hr = _elm_lang$html$Html$node('hr');
+var _elm_lang$html$Html$pre = _elm_lang$html$Html$node('pre');
+var _elm_lang$html$Html$blockquote = _elm_lang$html$Html$node('blockquote');
+var _elm_lang$html$Html$ol = _elm_lang$html$Html$node('ol');
+var _elm_lang$html$Html$ul = _elm_lang$html$Html$node('ul');
+var _elm_lang$html$Html$li = _elm_lang$html$Html$node('li');
+var _elm_lang$html$Html$dl = _elm_lang$html$Html$node('dl');
+var _elm_lang$html$Html$dt = _elm_lang$html$Html$node('dt');
+var _elm_lang$html$Html$dd = _elm_lang$html$Html$node('dd');
+var _elm_lang$html$Html$figure = _elm_lang$html$Html$node('figure');
+var _elm_lang$html$Html$figcaption = _elm_lang$html$Html$node('figcaption');
+var _elm_lang$html$Html$div = _elm_lang$html$Html$node('div');
+var _elm_lang$html$Html$a = _elm_lang$html$Html$node('a');
+var _elm_lang$html$Html$em = _elm_lang$html$Html$node('em');
+var _elm_lang$html$Html$strong = _elm_lang$html$Html$node('strong');
+var _elm_lang$html$Html$small = _elm_lang$html$Html$node('small');
+var _elm_lang$html$Html$s = _elm_lang$html$Html$node('s');
+var _elm_lang$html$Html$cite = _elm_lang$html$Html$node('cite');
+var _elm_lang$html$Html$q = _elm_lang$html$Html$node('q');
+var _elm_lang$html$Html$dfn = _elm_lang$html$Html$node('dfn');
+var _elm_lang$html$Html$abbr = _elm_lang$html$Html$node('abbr');
+var _elm_lang$html$Html$time = _elm_lang$html$Html$node('time');
+var _elm_lang$html$Html$code = _elm_lang$html$Html$node('code');
+var _elm_lang$html$Html$var = _elm_lang$html$Html$node('var');
+var _elm_lang$html$Html$samp = _elm_lang$html$Html$node('samp');
+var _elm_lang$html$Html$kbd = _elm_lang$html$Html$node('kbd');
+var _elm_lang$html$Html$sub = _elm_lang$html$Html$node('sub');
+var _elm_lang$html$Html$sup = _elm_lang$html$Html$node('sup');
+var _elm_lang$html$Html$i = _elm_lang$html$Html$node('i');
+var _elm_lang$html$Html$b = _elm_lang$html$Html$node('b');
+var _elm_lang$html$Html$u = _elm_lang$html$Html$node('u');
+var _elm_lang$html$Html$mark = _elm_lang$html$Html$node('mark');
+var _elm_lang$html$Html$ruby = _elm_lang$html$Html$node('ruby');
+var _elm_lang$html$Html$rt = _elm_lang$html$Html$node('rt');
+var _elm_lang$html$Html$rp = _elm_lang$html$Html$node('rp');
+var _elm_lang$html$Html$bdi = _elm_lang$html$Html$node('bdi');
+var _elm_lang$html$Html$bdo = _elm_lang$html$Html$node('bdo');
+var _elm_lang$html$Html$span = _elm_lang$html$Html$node('span');
+var _elm_lang$html$Html$br = _elm_lang$html$Html$node('br');
+var _elm_lang$html$Html$wbr = _elm_lang$html$Html$node('wbr');
+var _elm_lang$html$Html$ins = _elm_lang$html$Html$node('ins');
+var _elm_lang$html$Html$del = _elm_lang$html$Html$node('del');
+var _elm_lang$html$Html$img = _elm_lang$html$Html$node('img');
+var _elm_lang$html$Html$iframe = _elm_lang$html$Html$node('iframe');
+var _elm_lang$html$Html$embed = _elm_lang$html$Html$node('embed');
+var _elm_lang$html$Html$object = _elm_lang$html$Html$node('object');
+var _elm_lang$html$Html$param = _elm_lang$html$Html$node('param');
+var _elm_lang$html$Html$video = _elm_lang$html$Html$node('video');
+var _elm_lang$html$Html$audio = _elm_lang$html$Html$node('audio');
+var _elm_lang$html$Html$source = _elm_lang$html$Html$node('source');
+var _elm_lang$html$Html$track = _elm_lang$html$Html$node('track');
+var _elm_lang$html$Html$canvas = _elm_lang$html$Html$node('canvas');
+var _elm_lang$html$Html$math = _elm_lang$html$Html$node('math');
+var _elm_lang$html$Html$table = _elm_lang$html$Html$node('table');
+var _elm_lang$html$Html$caption = _elm_lang$html$Html$node('caption');
+var _elm_lang$html$Html$colgroup = _elm_lang$html$Html$node('colgroup');
+var _elm_lang$html$Html$col = _elm_lang$html$Html$node('col');
+var _elm_lang$html$Html$tbody = _elm_lang$html$Html$node('tbody');
+var _elm_lang$html$Html$thead = _elm_lang$html$Html$node('thead');
+var _elm_lang$html$Html$tfoot = _elm_lang$html$Html$node('tfoot');
+var _elm_lang$html$Html$tr = _elm_lang$html$Html$node('tr');
+var _elm_lang$html$Html$td = _elm_lang$html$Html$node('td');
+var _elm_lang$html$Html$th = _elm_lang$html$Html$node('th');
+var _elm_lang$html$Html$form = _elm_lang$html$Html$node('form');
+var _elm_lang$html$Html$fieldset = _elm_lang$html$Html$node('fieldset');
+var _elm_lang$html$Html$legend = _elm_lang$html$Html$node('legend');
+var _elm_lang$html$Html$label = _elm_lang$html$Html$node('label');
+var _elm_lang$html$Html$input = _elm_lang$html$Html$node('input');
+var _elm_lang$html$Html$button = _elm_lang$html$Html$node('button');
+var _elm_lang$html$Html$select = _elm_lang$html$Html$node('select');
+var _elm_lang$html$Html$datalist = _elm_lang$html$Html$node('datalist');
+var _elm_lang$html$Html$optgroup = _elm_lang$html$Html$node('optgroup');
+var _elm_lang$html$Html$option = _elm_lang$html$Html$node('option');
+var _elm_lang$html$Html$textarea = _elm_lang$html$Html$node('textarea');
+var _elm_lang$html$Html$keygen = _elm_lang$html$Html$node('keygen');
+var _elm_lang$html$Html$output = _elm_lang$html$Html$node('output');
+var _elm_lang$html$Html$progress = _elm_lang$html$Html$node('progress');
+var _elm_lang$html$Html$meter = _elm_lang$html$Html$node('meter');
+var _elm_lang$html$Html$details = _elm_lang$html$Html$node('details');
+var _elm_lang$html$Html$summary = _elm_lang$html$Html$node('summary');
+var _elm_lang$html$Html$menuitem = _elm_lang$html$Html$node('menuitem');
+var _elm_lang$html$Html$menu = _elm_lang$html$Html$node('menu');
+
+var _elm_lang$html$Html_Attributes$map = _elm_lang$virtual_dom$VirtualDom$mapProperty;
+var _elm_lang$html$Html_Attributes$attribute = _elm_lang$virtual_dom$VirtualDom$attribute;
+var _elm_lang$html$Html_Attributes$contextmenu = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'contextmenu', value);
+};
+var _elm_lang$html$Html_Attributes$draggable = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'draggable', value);
+};
+var _elm_lang$html$Html_Attributes$itemprop = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'itemprop', value);
+};
+var _elm_lang$html$Html_Attributes$tabindex = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'tabIndex',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$charset = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'charset', value);
+};
+var _elm_lang$html$Html_Attributes$height = function (value) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'height',
+		_elm_lang$core$Basics$toString(value));
+};
+var _elm_lang$html$Html_Attributes$width = function (value) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'width',
+		_elm_lang$core$Basics$toString(value));
+};
+var _elm_lang$html$Html_Attributes$formaction = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'formAction', value);
+};
+var _elm_lang$html$Html_Attributes$list = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'list', value);
+};
+var _elm_lang$html$Html_Attributes$minlength = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'minLength',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$maxlength = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'maxlength',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$size = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'size',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$form = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'form', value);
+};
+var _elm_lang$html$Html_Attributes$cols = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'cols',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$rows = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'rows',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$challenge = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'challenge', value);
+};
+var _elm_lang$html$Html_Attributes$media = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'media', value);
+};
+var _elm_lang$html$Html_Attributes$rel = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'rel', value);
+};
+var _elm_lang$html$Html_Attributes$datetime = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'datetime', value);
+};
+var _elm_lang$html$Html_Attributes$pubdate = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'pubdate', value);
+};
+var _elm_lang$html$Html_Attributes$colspan = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'colspan',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$rowspan = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$attribute,
+		'rowspan',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$manifest = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$attribute, 'manifest', value);
+};
+var _elm_lang$html$Html_Attributes$property = _elm_lang$virtual_dom$VirtualDom$property;
+var _elm_lang$html$Html_Attributes$stringProperty = F2(
+	function (name, string) {
+		return A2(
+			_elm_lang$html$Html_Attributes$property,
+			name,
+			_elm_lang$core$Json_Encode$string(string));
+	});
+var _elm_lang$html$Html_Attributes$class = function (name) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'className', name);
+};
+var _elm_lang$html$Html_Attributes$id = function (name) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'id', name);
+};
+var _elm_lang$html$Html_Attributes$title = function (name) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'title', name);
+};
+var _elm_lang$html$Html_Attributes$accesskey = function ($char) {
+	return A2(
+		_elm_lang$html$Html_Attributes$stringProperty,
+		'accessKey',
+		_elm_lang$core$String$fromChar($char));
+};
+var _elm_lang$html$Html_Attributes$dir = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'dir', value);
+};
+var _elm_lang$html$Html_Attributes$dropzone = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'dropzone', value);
+};
+var _elm_lang$html$Html_Attributes$lang = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'lang', value);
+};
+var _elm_lang$html$Html_Attributes$content = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'content', value);
+};
+var _elm_lang$html$Html_Attributes$httpEquiv = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'httpEquiv', value);
+};
+var _elm_lang$html$Html_Attributes$language = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'language', value);
+};
+var _elm_lang$html$Html_Attributes$src = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'src', value);
+};
+var _elm_lang$html$Html_Attributes$alt = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'alt', value);
+};
+var _elm_lang$html$Html_Attributes$preload = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'preload', value);
+};
+var _elm_lang$html$Html_Attributes$poster = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'poster', value);
+};
+var _elm_lang$html$Html_Attributes$kind = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'kind', value);
+};
+var _elm_lang$html$Html_Attributes$srclang = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'srclang', value);
+};
+var _elm_lang$html$Html_Attributes$sandbox = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'sandbox', value);
+};
+var _elm_lang$html$Html_Attributes$srcdoc = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'srcdoc', value);
+};
+var _elm_lang$html$Html_Attributes$type_ = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'type', value);
+};
+var _elm_lang$html$Html_Attributes$value = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'value', value);
+};
+var _elm_lang$html$Html_Attributes$defaultValue = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'defaultValue', value);
+};
+var _elm_lang$html$Html_Attributes$placeholder = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'placeholder', value);
+};
+var _elm_lang$html$Html_Attributes$accept = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'accept', value);
+};
+var _elm_lang$html$Html_Attributes$acceptCharset = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'acceptCharset', value);
+};
+var _elm_lang$html$Html_Attributes$action = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'action', value);
+};
+var _elm_lang$html$Html_Attributes$autocomplete = function (bool) {
+	return A2(
+		_elm_lang$html$Html_Attributes$stringProperty,
+		'autocomplete',
+		bool ? 'on' : 'off');
+};
+var _elm_lang$html$Html_Attributes$enctype = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'enctype', value);
+};
+var _elm_lang$html$Html_Attributes$method = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'method', value);
+};
+var _elm_lang$html$Html_Attributes$name = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'name', value);
+};
+var _elm_lang$html$Html_Attributes$pattern = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'pattern', value);
+};
+var _elm_lang$html$Html_Attributes$for = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'htmlFor', value);
+};
+var _elm_lang$html$Html_Attributes$max = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'max', value);
+};
+var _elm_lang$html$Html_Attributes$min = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'min', value);
+};
+var _elm_lang$html$Html_Attributes$step = function (n) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'step', n);
+};
+var _elm_lang$html$Html_Attributes$wrap = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'wrap', value);
+};
+var _elm_lang$html$Html_Attributes$usemap = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'useMap', value);
+};
+var _elm_lang$html$Html_Attributes$shape = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'shape', value);
+};
+var _elm_lang$html$Html_Attributes$coords = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'coords', value);
+};
+var _elm_lang$html$Html_Attributes$keytype = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'keytype', value);
+};
+var _elm_lang$html$Html_Attributes$align = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'align', value);
+};
+var _elm_lang$html$Html_Attributes$cite = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'cite', value);
+};
+var _elm_lang$html$Html_Attributes$href = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'href', value);
+};
+var _elm_lang$html$Html_Attributes$target = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'target', value);
+};
+var _elm_lang$html$Html_Attributes$downloadAs = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'download', value);
+};
+var _elm_lang$html$Html_Attributes$hreflang = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'hreflang', value);
+};
+var _elm_lang$html$Html_Attributes$ping = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'ping', value);
+};
+var _elm_lang$html$Html_Attributes$start = function (n) {
+	return A2(
+		_elm_lang$html$Html_Attributes$stringProperty,
+		'start',
+		_elm_lang$core$Basics$toString(n));
+};
+var _elm_lang$html$Html_Attributes$headers = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'headers', value);
+};
+var _elm_lang$html$Html_Attributes$scope = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$stringProperty, 'scope', value);
+};
+var _elm_lang$html$Html_Attributes$boolProperty = F2(
+	function (name, bool) {
+		return A2(
+			_elm_lang$html$Html_Attributes$property,
+			name,
+			_elm_lang$core$Json_Encode$bool(bool));
+	});
+var _elm_lang$html$Html_Attributes$hidden = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'hidden', bool);
+};
+var _elm_lang$html$Html_Attributes$contenteditable = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'contentEditable', bool);
+};
+var _elm_lang$html$Html_Attributes$spellcheck = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'spellcheck', bool);
+};
+var _elm_lang$html$Html_Attributes$async = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'async', bool);
+};
+var _elm_lang$html$Html_Attributes$defer = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'defer', bool);
+};
+var _elm_lang$html$Html_Attributes$scoped = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'scoped', bool);
+};
+var _elm_lang$html$Html_Attributes$autoplay = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'autoplay', bool);
+};
+var _elm_lang$html$Html_Attributes$controls = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'controls', bool);
+};
+var _elm_lang$html$Html_Attributes$loop = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'loop', bool);
+};
+var _elm_lang$html$Html_Attributes$default = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'default', bool);
+};
+var _elm_lang$html$Html_Attributes$seamless = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'seamless', bool);
+};
+var _elm_lang$html$Html_Attributes$checked = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'checked', bool);
+};
+var _elm_lang$html$Html_Attributes$selected = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'selected', bool);
+};
+var _elm_lang$html$Html_Attributes$autofocus = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'autofocus', bool);
+};
+var _elm_lang$html$Html_Attributes$disabled = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'disabled', bool);
+};
+var _elm_lang$html$Html_Attributes$multiple = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'multiple', bool);
+};
+var _elm_lang$html$Html_Attributes$novalidate = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'noValidate', bool);
+};
+var _elm_lang$html$Html_Attributes$readonly = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'readOnly', bool);
+};
+var _elm_lang$html$Html_Attributes$required = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'required', bool);
+};
+var _elm_lang$html$Html_Attributes$ismap = function (value) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'isMap', value);
+};
+var _elm_lang$html$Html_Attributes$download = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'download', bool);
+};
+var _elm_lang$html$Html_Attributes$reversed = function (bool) {
+	return A2(_elm_lang$html$Html_Attributes$boolProperty, 'reversed', bool);
+};
+var _elm_lang$html$Html_Attributes$classList = function (list) {
+	return _elm_lang$html$Html_Attributes$class(
+		A2(
+			_elm_lang$core$String$join,
+			' ',
+			A2(
+				_elm_lang$core$List$map,
+				_elm_lang$core$Tuple$first,
+				A2(_elm_lang$core$List$filter, _elm_lang$core$Tuple$second, list))));
+};
+var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$style;
+
+var _abadi199$elm_fire_game$Msg$ResetMachineTimer = function (a) {
+	return {ctor: 'ResetMachineTimer', _0: a};
+};
+var _abadi199$elm_fire_game$Msg$MouseDown = function (a) {
+	return {ctor: 'MouseDown', _0: a};
+};
+var _abadi199$elm_fire_game$Msg$WindowResized = function (a) {
+	return {ctor: 'WindowResized', _0: a};
+};
+var _abadi199$elm_fire_game$Msg$Tick = function (a) {
+	return {ctor: 'Tick', _0: a};
+};
+var _abadi199$elm_fire_game$Msg$Initialized = F2(
+	function (a, b) {
+		return {ctor: 'Initialized', _0: a, _1: b};
+	});
+var _abadi199$elm_fire_game$Msg$NoOp = {ctor: 'NoOp'};
+
+var _mgold$elm_random_pcg$Random_Pcg$toJson = function (_p0) {
+	var _p1 = _p0;
+	return _elm_lang$core$Json_Encode$list(
+		{
+			ctor: '::',
+			_0: _elm_lang$core$Json_Encode$int(_p1._0),
+			_1: {
+				ctor: '::',
+				_0: _elm_lang$core$Json_Encode$int(_p1._1),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _mgold$elm_random_pcg$Random_Pcg$mul32 = F2(
+	function (a, b) {
+		var bl = b & 65535;
+		var bh = 65535 & (b >>> 16);
+		var al = a & 65535;
+		var ah = 65535 & (a >>> 16);
+		return 0 | ((al * bl) + ((((ah * bl) + (al * bh)) << 16) >>> 0));
+	});
+var _mgold$elm_random_pcg$Random_Pcg$listHelp = F4(
+	function (list, n, generate, seed) {
+		listHelp:
+		while (true) {
+			if (_elm_lang$core$Native_Utils.cmp(n, 1) < 0) {
+				return {ctor: '_Tuple2', _0: list, _1: seed};
+			} else {
+				var _p2 = generate(seed);
+				var value = _p2._0;
+				var newSeed = _p2._1;
+				var _v1 = {ctor: '::', _0: value, _1: list},
+					_v2 = n - 1,
+					_v3 = generate,
+					_v4 = newSeed;
+				list = _v1;
+				n = _v2;
+				generate = _v3;
+				seed = _v4;
+				continue listHelp;
+			}
+		}
+	});
+var _mgold$elm_random_pcg$Random_Pcg$minInt = -2147483648;
+var _mgold$elm_random_pcg$Random_Pcg$maxInt = 2147483647;
+var _mgold$elm_random_pcg$Random_Pcg$bit27 = 1.34217728e8;
+var _mgold$elm_random_pcg$Random_Pcg$bit53 = 9.007199254740992e15;
+var _mgold$elm_random_pcg$Random_Pcg$peel = function (_p3) {
+	var _p4 = _p3;
+	var _p5 = _p4._0;
+	var word = (_p5 ^ (_p5 >>> ((_p5 >>> 28) + 4))) * 277803737;
+	return ((word >>> 22) ^ word) >>> 0;
+};
+var _mgold$elm_random_pcg$Random_Pcg$step = F2(
+	function (_p6, seed) {
+		var _p7 = _p6;
+		return _p7._0(seed);
+	});
+var _mgold$elm_random_pcg$Random_Pcg$retry = F3(
+	function (generator, predicate, seed) {
+		retry:
+		while (true) {
+			var _p8 = A2(_mgold$elm_random_pcg$Random_Pcg$step, generator, seed);
+			var candidate = _p8._0;
+			var newSeed = _p8._1;
+			if (predicate(candidate)) {
+				return {ctor: '_Tuple2', _0: candidate, _1: newSeed};
+			} else {
+				var _v7 = generator,
+					_v8 = predicate,
+					_v9 = newSeed;
+				generator = _v7;
+				predicate = _v8;
+				seed = _v9;
+				continue retry;
+			}
+		}
+	});
+var _mgold$elm_random_pcg$Random_Pcg$Generator = function (a) {
+	return {ctor: 'Generator', _0: a};
+};
+var _mgold$elm_random_pcg$Random_Pcg$list = F2(
+	function (n, _p9) {
+		var _p10 = _p9;
+		return _mgold$elm_random_pcg$Random_Pcg$Generator(
+			function (seed) {
+				return A4(
+					_mgold$elm_random_pcg$Random_Pcg$listHelp,
+					{ctor: '[]'},
+					n,
+					_p10._0,
+					seed);
+			});
+	});
+var _mgold$elm_random_pcg$Random_Pcg$constant = function (value) {
+	return _mgold$elm_random_pcg$Random_Pcg$Generator(
+		function (seed) {
+			return {ctor: '_Tuple2', _0: value, _1: seed};
+		});
+};
+var _mgold$elm_random_pcg$Random_Pcg$map = F2(
+	function (func, _p11) {
+		var _p12 = _p11;
+		return _mgold$elm_random_pcg$Random_Pcg$Generator(
+			function (seed0) {
+				var _p13 = _p12._0(seed0);
+				var a = _p13._0;
+				var seed1 = _p13._1;
+				return {
+					ctor: '_Tuple2',
+					_0: func(a),
+					_1: seed1
+				};
+			});
+	});
+var _mgold$elm_random_pcg$Random_Pcg$map2 = F3(
+	function (func, _p15, _p14) {
+		var _p16 = _p15;
+		var _p17 = _p14;
+		return _mgold$elm_random_pcg$Random_Pcg$Generator(
+			function (seed0) {
+				var _p18 = _p16._0(seed0);
+				var a = _p18._0;
+				var seed1 = _p18._1;
+				var _p19 = _p17._0(seed1);
+				var b = _p19._0;
+				var seed2 = _p19._1;
+				return {
+					ctor: '_Tuple2',
+					_0: A2(func, a, b),
+					_1: seed2
+				};
+			});
+	});
+var _mgold$elm_random_pcg$Random_Pcg$pair = F2(
+	function (genA, genB) {
+		return A3(
+			_mgold$elm_random_pcg$Random_Pcg$map2,
+			F2(
+				function (v0, v1) {
+					return {ctor: '_Tuple2', _0: v0, _1: v1};
+				}),
+			genA,
+			genB);
+	});
+var _mgold$elm_random_pcg$Random_Pcg$andMap = _mgold$elm_random_pcg$Random_Pcg$map2(
+	F2(
+		function (x, y) {
+			return y(x);
+		}));
+var _mgold$elm_random_pcg$Random_Pcg$map3 = F4(
+	function (func, _p22, _p21, _p20) {
+		var _p23 = _p22;
+		var _p24 = _p21;
+		var _p25 = _p20;
+		return _mgold$elm_random_pcg$Random_Pcg$Generator(
+			function (seed0) {
+				var _p26 = _p23._0(seed0);
+				var a = _p26._0;
+				var seed1 = _p26._1;
+				var _p27 = _p24._0(seed1);
+				var b = _p27._0;
+				var seed2 = _p27._1;
+				var _p28 = _p25._0(seed2);
+				var c = _p28._0;
+				var seed3 = _p28._1;
+				return {
+					ctor: '_Tuple2',
+					_0: A3(func, a, b, c),
+					_1: seed3
+				};
+			});
+	});
+var _mgold$elm_random_pcg$Random_Pcg$map4 = F5(
+	function (func, _p32, _p31, _p30, _p29) {
+		var _p33 = _p32;
+		var _p34 = _p31;
+		var _p35 = _p30;
+		var _p36 = _p29;
+		return _mgold$elm_random_pcg$Random_Pcg$Generator(
+			function (seed0) {
+				var _p37 = _p33._0(seed0);
+				var a = _p37._0;
+				var seed1 = _p37._1;
+				var _p38 = _p34._0(seed1);
+				var b = _p38._0;
+				var seed2 = _p38._1;
+				var _p39 = _p35._0(seed2);
+				var c = _p39._0;
+				var seed3 = _p39._1;
+				var _p40 = _p36._0(seed3);
+				var d = _p40._0;
+				var seed4 = _p40._1;
+				return {
+					ctor: '_Tuple2',
+					_0: A4(func, a, b, c, d),
+					_1: seed4
+				};
+			});
+	});
+var _mgold$elm_random_pcg$Random_Pcg$map5 = F6(
+	function (func, _p45, _p44, _p43, _p42, _p41) {
+		var _p46 = _p45;
+		var _p47 = _p44;
+		var _p48 = _p43;
+		var _p49 = _p42;
+		var _p50 = _p41;
+		return _mgold$elm_random_pcg$Random_Pcg$Generator(
+			function (seed0) {
+				var _p51 = _p46._0(seed0);
+				var a = _p51._0;
+				var seed1 = _p51._1;
+				var _p52 = _p47._0(seed1);
+				var b = _p52._0;
+				var seed2 = _p52._1;
+				var _p53 = _p48._0(seed2);
+				var c = _p53._0;
+				var seed3 = _p53._1;
+				var _p54 = _p49._0(seed3);
+				var d = _p54._0;
+				var seed4 = _p54._1;
+				var _p55 = _p50._0(seed4);
+				var e = _p55._0;
+				var seed5 = _p55._1;
+				return {
+					ctor: '_Tuple2',
+					_0: A5(func, a, b, c, d, e),
+					_1: seed5
+				};
+			});
+	});
+var _mgold$elm_random_pcg$Random_Pcg$andThen = F2(
+	function (callback, _p56) {
+		var _p57 = _p56;
+		return _mgold$elm_random_pcg$Random_Pcg$Generator(
+			function (seed) {
+				var _p58 = _p57._0(seed);
+				var result = _p58._0;
+				var newSeed = _p58._1;
+				var _p59 = callback(result);
+				var generateB = _p59._0;
+				return generateB(newSeed);
+			});
+	});
+var _mgold$elm_random_pcg$Random_Pcg$maybe = F2(
+	function (genBool, genA) {
+		return A2(
+			_mgold$elm_random_pcg$Random_Pcg$andThen,
+			function (b) {
+				return b ? A2(_mgold$elm_random_pcg$Random_Pcg$map, _elm_lang$core$Maybe$Just, genA) : _mgold$elm_random_pcg$Random_Pcg$constant(_elm_lang$core$Maybe$Nothing);
+			},
+			genBool);
+	});
+var _mgold$elm_random_pcg$Random_Pcg$filter = F2(
+	function (predicate, generator) {
+		return _mgold$elm_random_pcg$Random_Pcg$Generator(
+			A2(_mgold$elm_random_pcg$Random_Pcg$retry, generator, predicate));
+	});
+var _mgold$elm_random_pcg$Random_Pcg$Seed = F2(
+	function (a, b) {
+		return {ctor: 'Seed', _0: a, _1: b};
+	});
+var _mgold$elm_random_pcg$Random_Pcg$next = function (_p60) {
+	var _p61 = _p60;
+	var _p62 = _p61._1;
+	return A2(_mgold$elm_random_pcg$Random_Pcg$Seed, ((_p61._0 * 1664525) + _p62) >>> 0, _p62);
+};
+var _mgold$elm_random_pcg$Random_Pcg$initialSeed = function (x) {
+	var _p63 = _mgold$elm_random_pcg$Random_Pcg$next(
+		A2(_mgold$elm_random_pcg$Random_Pcg$Seed, 0, 1013904223));
+	var state1 = _p63._0;
+	var incr = _p63._1;
+	var state2 = (state1 + x) >>> 0;
+	return _mgold$elm_random_pcg$Random_Pcg$next(
+		A2(_mgold$elm_random_pcg$Random_Pcg$Seed, state2, incr));
+};
+var _mgold$elm_random_pcg$Random_Pcg$generate = F2(
+	function (toMsg, generator) {
+		return A2(
+			_elm_lang$core$Task$perform,
+			toMsg,
+			A2(
+				_elm_lang$core$Task$map,
+				function (_p64) {
+					return _elm_lang$core$Tuple$first(
+						A2(
+							_mgold$elm_random_pcg$Random_Pcg$step,
+							generator,
+							_mgold$elm_random_pcg$Random_Pcg$initialSeed(
+								_elm_lang$core$Basics$round(_p64))));
+				},
+				_elm_lang$core$Time$now));
+	});
+var _mgold$elm_random_pcg$Random_Pcg$int = F2(
+	function (a, b) {
+		return _mgold$elm_random_pcg$Random_Pcg$Generator(
+			function (seed0) {
+				var _p65 = (_elm_lang$core$Native_Utils.cmp(a, b) < 0) ? {ctor: '_Tuple2', _0: a, _1: b} : {ctor: '_Tuple2', _0: b, _1: a};
+				var lo = _p65._0;
+				var hi = _p65._1;
+				var range = (hi - lo) + 1;
+				if (_elm_lang$core$Native_Utils.eq((range - 1) & range, 0)) {
+					return {
+						ctor: '_Tuple2',
+						_0: (((range - 1) & _mgold$elm_random_pcg$Random_Pcg$peel(seed0)) >>> 0) + lo,
+						_1: _mgold$elm_random_pcg$Random_Pcg$next(seed0)
+					};
+				} else {
+					var threshhold = A2(_elm_lang$core$Basics$rem, (0 - range) >>> 0, range) >>> 0;
+					var accountForBias = function (seed) {
+						accountForBias:
+						while (true) {
+							var seedN = _mgold$elm_random_pcg$Random_Pcg$next(seed);
+							var x = _mgold$elm_random_pcg$Random_Pcg$peel(seed);
+							if (_elm_lang$core$Native_Utils.cmp(x, threshhold) < 0) {
+								var _v28 = seedN;
+								seed = _v28;
+								continue accountForBias;
+							} else {
+								return {
+									ctor: '_Tuple2',
+									_0: A2(_elm_lang$core$Basics$rem, x, range) + lo,
+									_1: seedN
+								};
+							}
+						}
+					};
+					return accountForBias(seed0);
+				}
+			});
+	});
+var _mgold$elm_random_pcg$Random_Pcg$bool = A2(
+	_mgold$elm_random_pcg$Random_Pcg$map,
+	F2(
+		function (x, y) {
+			return _elm_lang$core$Native_Utils.eq(x, y);
+		})(1),
+	A2(_mgold$elm_random_pcg$Random_Pcg$int, 0, 1));
+var _mgold$elm_random_pcg$Random_Pcg$choice = F2(
+	function (x, y) {
+		return A2(
+			_mgold$elm_random_pcg$Random_Pcg$map,
+			function (b) {
+				return b ? x : y;
+			},
+			_mgold$elm_random_pcg$Random_Pcg$bool);
+	});
+var _mgold$elm_random_pcg$Random_Pcg$oneIn = function (n) {
+	return A2(
+		_mgold$elm_random_pcg$Random_Pcg$map,
+		F2(
+			function (x, y) {
+				return _elm_lang$core$Native_Utils.eq(x, y);
+			})(1),
+		A2(_mgold$elm_random_pcg$Random_Pcg$int, 1, n));
+};
+var _mgold$elm_random_pcg$Random_Pcg$sample = function () {
+	var find = F2(
+		function (k, ys) {
+			find:
+			while (true) {
+				var _p66 = ys;
+				if (_p66.ctor === '[]') {
+					return _elm_lang$core$Maybe$Nothing;
+				} else {
+					if (_elm_lang$core$Native_Utils.eq(k, 0)) {
+						return _elm_lang$core$Maybe$Just(_p66._0);
+					} else {
+						var _v30 = k - 1,
+							_v31 = _p66._1;
+						k = _v30;
+						ys = _v31;
+						continue find;
+					}
+				}
+			}
+		});
+	return function (xs) {
+		return A2(
+			_mgold$elm_random_pcg$Random_Pcg$map,
+			function (i) {
+				return A2(find, i, xs);
+			},
+			A2(
+				_mgold$elm_random_pcg$Random_Pcg$int,
+				0,
+				_elm_lang$core$List$length(xs) - 1));
+	};
+}();
+var _mgold$elm_random_pcg$Random_Pcg$float = F2(
+	function (min, max) {
+		return _mgold$elm_random_pcg$Random_Pcg$Generator(
+			function (seed0) {
+				var range = _elm_lang$core$Basics$abs(max - min);
+				var n0 = _mgold$elm_random_pcg$Random_Pcg$peel(seed0);
+				var hi = _elm_lang$core$Basics$toFloat(67108863 & n0) * 1.0;
+				var seed1 = _mgold$elm_random_pcg$Random_Pcg$next(seed0);
+				var n1 = _mgold$elm_random_pcg$Random_Pcg$peel(seed1);
+				var lo = _elm_lang$core$Basics$toFloat(134217727 & n1) * 1.0;
+				var val = ((hi * _mgold$elm_random_pcg$Random_Pcg$bit27) + lo) / _mgold$elm_random_pcg$Random_Pcg$bit53;
+				var scaled = (val * range) + min;
+				return {
+					ctor: '_Tuple2',
+					_0: scaled,
+					_1: _mgold$elm_random_pcg$Random_Pcg$next(seed1)
+				};
+			});
+	});
+var _mgold$elm_random_pcg$Random_Pcg$frequency = function (pairs) {
+	var pick = F2(
+		function (choices, n) {
+			pick:
+			while (true) {
+				var _p67 = choices;
+				if ((_p67.ctor === '::') && (_p67._0.ctor === '_Tuple2')) {
+					var _p68 = _p67._0._0;
+					if (_elm_lang$core$Native_Utils.cmp(n, _p68) < 1) {
+						return _p67._0._1;
+					} else {
+						var _v33 = _p67._1,
+							_v34 = n - _p68;
+						choices = _v33;
+						n = _v34;
+						continue pick;
+					}
+				} else {
+					return _elm_lang$core$Native_Utils.crashCase(
+						'Random.Pcg',
+						{
+							start: {line: 677, column: 13},
+							end: {line: 685, column: 77}
+						},
+						_p67)('Empty list passed to Random.Pcg.frequency!');
+				}
+			}
+		});
+	var total = _elm_lang$core$List$sum(
+		A2(
+			_elm_lang$core$List$map,
+			function (_p70) {
+				return _elm_lang$core$Basics$abs(
+					_elm_lang$core$Tuple$first(_p70));
+			},
+			pairs));
+	return A2(
+		_mgold$elm_random_pcg$Random_Pcg$andThen,
+		pick(pairs),
+		A2(_mgold$elm_random_pcg$Random_Pcg$float, 0, total));
+};
+var _mgold$elm_random_pcg$Random_Pcg$choices = function (gens) {
+	return _mgold$elm_random_pcg$Random_Pcg$frequency(
+		A2(
+			_elm_lang$core$List$map,
+			function (g) {
+				return {ctor: '_Tuple2', _0: 1, _1: g};
+			},
+			gens));
+};
+var _mgold$elm_random_pcg$Random_Pcg$independentSeed = _mgold$elm_random_pcg$Random_Pcg$Generator(
+	function (seed0) {
+		var gen = A2(_mgold$elm_random_pcg$Random_Pcg$int, 0, 4294967295);
+		var _p71 = A2(
+			_mgold$elm_random_pcg$Random_Pcg$step,
+			A4(
+				_mgold$elm_random_pcg$Random_Pcg$map3,
+				F3(
+					function (v0, v1, v2) {
+						return {ctor: '_Tuple3', _0: v0, _1: v1, _2: v2};
+					}),
+				gen,
+				gen,
+				gen),
+			seed0);
+		var state = _p71._0._0;
+		var b = _p71._0._1;
+		var c = _p71._0._2;
+		var seed1 = _p71._1;
+		var incr = (1 | (b ^ c)) >>> 0;
+		return {
+			ctor: '_Tuple2',
+			_0: seed1,
+			_1: _mgold$elm_random_pcg$Random_Pcg$next(
+				A2(_mgold$elm_random_pcg$Random_Pcg$Seed, state, incr))
+		};
+	});
+var _mgold$elm_random_pcg$Random_Pcg$fastForward = F2(
+	function (delta0, _p72) {
+		var _p73 = _p72;
+		var _p76 = _p73._1;
+		var helper = F6(
+			function (accMult, accPlus, curMult, curPlus, delta, repeat) {
+				helper:
+				while (true) {
+					var newDelta = delta >>> 1;
+					var curMult_ = A2(_mgold$elm_random_pcg$Random_Pcg$mul32, curMult, curMult);
+					var curPlus_ = A2(_mgold$elm_random_pcg$Random_Pcg$mul32, curMult + 1, curPlus);
+					var _p74 = _elm_lang$core$Native_Utils.eq(delta & 1, 1) ? {
+						ctor: '_Tuple2',
+						_0: A2(_mgold$elm_random_pcg$Random_Pcg$mul32, accMult, curMult),
+						_1: (A2(_mgold$elm_random_pcg$Random_Pcg$mul32, accPlus, curMult) + curPlus) >>> 0
+					} : {ctor: '_Tuple2', _0: accMult, _1: accPlus};
+					var accMult_ = _p74._0;
+					var accPlus_ = _p74._1;
+					if (_elm_lang$core$Native_Utils.eq(newDelta, 0)) {
+						if ((_elm_lang$core$Native_Utils.cmp(delta0, 0) < 0) && repeat) {
+							var _v36 = accMult_,
+								_v37 = accPlus_,
+								_v38 = curMult_,
+								_v39 = curPlus_,
+								_v40 = -1,
+								_v41 = false;
+							accMult = _v36;
+							accPlus = _v37;
+							curMult = _v38;
+							curPlus = _v39;
+							delta = _v40;
+							repeat = _v41;
+							continue helper;
+						} else {
+							return {ctor: '_Tuple2', _0: accMult_, _1: accPlus_};
+						}
+					} else {
+						var _v42 = accMult_,
+							_v43 = accPlus_,
+							_v44 = curMult_,
+							_v45 = curPlus_,
+							_v46 = newDelta,
+							_v47 = repeat;
+						accMult = _v42;
+						accPlus = _v43;
+						curMult = _v44;
+						curPlus = _v45;
+						delta = _v46;
+						repeat = _v47;
+						continue helper;
+					}
+				}
+			});
+		var _p75 = A6(helper, 1, 0, 1664525, _p76, delta0, true);
+		var accMultFinal = _p75._0;
+		var accPlusFinal = _p75._1;
+		return A2(
+			_mgold$elm_random_pcg$Random_Pcg$Seed,
+			(A2(_mgold$elm_random_pcg$Random_Pcg$mul32, accMultFinal, _p73._0) + accPlusFinal) >>> 0,
+			_p76);
+	});
+var _mgold$elm_random_pcg$Random_Pcg$fromJson = _elm_lang$core$Json_Decode$oneOf(
+	{
+		ctor: '::',
+		_0: A3(
+			_elm_lang$core$Json_Decode$map2,
+			_mgold$elm_random_pcg$Random_Pcg$Seed,
+			A2(_elm_lang$core$Json_Decode$index, 0, _elm_lang$core$Json_Decode$int),
+			A2(_elm_lang$core$Json_Decode$index, 1, _elm_lang$core$Json_Decode$int)),
+		_1: {
+			ctor: '::',
+			_0: A2(_elm_lang$core$Json_Decode$map, _mgold$elm_random_pcg$Random_Pcg$initialSeed, _elm_lang$core$Json_Decode$int),
+			_1: {ctor: '[]'}
+		}
+	});
+
+var _abadi199$elm_fire_game$FallingObject$fallingObjectStyle = F2(
+	function (model, fallingObject) {
+		var _p0 = fallingObject.state;
+		if (_p0.ctor === 'Empty') {
+			return _rtfeldman$elm_css$Css$batch(
+				{
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$display(_rtfeldman$elm_css$Css$none),
+					_1: {ctor: '[]'}
+				});
+		} else {
+			var _p2 = _p0._0;
+			var color = function () {
+				var _p1 = _p2.kind;
+				if (_p1.ctor === 'Good') {
+					return _rtfeldman$elm_css$Css$hex('#0F0');
+				} else {
+					return _rtfeldman$elm_css$Css$hex('#F00');
+				}
+			}();
+			return _rtfeldman$elm_css$Css$batch(
+				{
+					ctor: '::',
+					_0: A2(_abadi199$elm_fire_game$Projector$width, model, fallingObject.width),
+					_1: {
+						ctor: '::',
+						_0: A2(_abadi199$elm_fire_game$Projector$height, model, fallingObject.height),
+						_1: {
+							ctor: '::',
+							_0: A2(_abadi199$elm_fire_game$Projector$project, model, _p2.position),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$backgroundColor(color),
+									_1: {ctor: '[]'}
+								}
+							}
+						}
+					}
+				});
+		}
+	});
+var _abadi199$elm_fire_game$FallingObject$fallingObjectView = F2(
+	function (model, fallingObject) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$style(
+					_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+						{
+							ctor: '::',
+							_0: A2(_abadi199$elm_fire_game$FallingObject$fallingObjectStyle, model, fallingObject),
+							_1: {ctor: '[]'}
+						})),
+				_1: {ctor: '[]'}
+			},
+			{ctor: '[]'});
+	});
+var _abadi199$elm_fire_game$FallingObject$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(
+			_elm_lang$core$List$map,
+			_abadi199$elm_fire_game$FallingObject$fallingObjectView(model),
+			_elm_lang$core$Dict$values(model.fallingObjects)));
+};
+var _abadi199$elm_fire_game$FallingObject$FallingObject = F6(
+	function (a, b, c, d, e, f) {
+		return {width: a, height: b, yieldIntervalInMillisecond: c, speedInPixelPerMillisecond: d, probability: e, state: f};
+	});
+var _abadi199$elm_fire_game$FallingObject$EmptyData = F2(
+	function (a, b) {
+		return {positionX: a, yieldCounterInMillisecond: b};
+	});
+var _abadi199$elm_fire_game$FallingObject$FallingData = F2(
+	function (a, b) {
+		return {position: a, kind: b};
+	});
+var _abadi199$elm_fire_game$FallingObject$Falling = function (a) {
+	return {ctor: 'Falling', _0: a};
+};
+var _abadi199$elm_fire_game$FallingObject$Empty = function (a) {
+	return {ctor: 'Empty', _0: a};
+};
+var _abadi199$elm_fire_game$FallingObject$create = F2(
+	function (positionX, list) {
+		return {
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Basics$toString(
+					A2(
+						_Skinney$murmur3$Murmur3$hashString,
+						2218777484,
+						_elm_lang$core$Basics$toString(list))),
+				_1: {
+					state: _abadi199$elm_fire_game$FallingObject$Empty(
+						{positionX: positionX, yieldCounterInMillisecond: 0}),
+					width: 20,
+					height: 20,
+					yieldIntervalInMillisecond: 1000,
+					speedInPixelPerMillisecond: 0.1,
+					probability: 50
+				}
+			},
+			_1: list
+		};
+	});
+var _abadi199$elm_fire_game$FallingObject$updateYieldCounter = F3(
+	function (counter, emptyData, fallingObject) {
+		return _elm_lang$core$Native_Utils.update(
+			fallingObject,
+			{
+				state: _abadi199$elm_fire_game$FallingObject$Empty(
+					_elm_lang$core$Native_Utils.update(
+						emptyData,
+						{yieldCounterInMillisecond: counter}))
+			});
+	});
+var _abadi199$elm_fire_game$FallingObject$Bad = {ctor: 'Bad'};
+var _abadi199$elm_fire_game$FallingObject$Good = {ctor: 'Good'};
+var _abadi199$elm_fire_game$FallingObject$falling = F3(
+	function (delta, model, fallingObject) {
+		var _p3 = fallingObject.state;
+		if (_p3.ctor === 'Empty') {
+			return _elm_lang$core$Native_Utils.update(
+				fallingObject,
+				{
+					state: _abadi199$elm_fire_game$FallingObject$Falling(
+						{
+							position: {x: _p3._0.positionX, y: 1080 + fallingObject.height},
+							kind: _abadi199$elm_fire_game$FallingObject$Good
+						})
+				});
+		} else {
+			var _p4 = _p3._0;
+			var newPositionY = _p4.position.y - (fallingObject.speedInPixelPerMillisecond * delta);
+			return (_elm_lang$core$Native_Utils.cmp(newPositionY, model.floorPositionY) < 0) ? _elm_lang$core$Native_Utils.update(
+				fallingObject,
+				{
+					state: _abadi199$elm_fire_game$FallingObject$Empty(
+						{positionX: _p4.position.x, yieldCounterInMillisecond: 0})
+				}) : _elm_lang$core$Native_Utils.update(
+				fallingObject,
+				{
+					state: _abadi199$elm_fire_game$FallingObject$Falling(
+						_elm_lang$core$Native_Utils.update(
+							_p4,
+							{
+								position: {x: _p4.position.x, y: newPositionY}
+							}))
+				});
+		}
+	});
+var _abadi199$elm_fire_game$FallingObject$generateNewRandomObject = F5(
+	function (delta, key, fallingObject, emptyData, model) {
+		var _p5 = A2(
+			_mgold$elm_random_pcg$Random_Pcg$step,
+			A2(_mgold$elm_random_pcg$Random_Pcg$int, 1, 100),
+			model.seed);
+		var randomNumber = _p5._0;
+		var newSeed = _p5._1;
+		var newFallingObject = (_elm_lang$core$Native_Utils.cmp(randomNumber, fallingObject.probability) < 0) ? A3(_abadi199$elm_fire_game$FallingObject$falling, delta, model, fallingObject) : A3(_abadi199$elm_fire_game$FallingObject$updateYieldCounter, 0, emptyData, fallingObject);
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				seed: newSeed,
+				fallingObjects: A3(_elm_lang$core$Dict$insert, key, newFallingObject, model.fallingObjects)
+			});
+	});
+var _abadi199$elm_fire_game$FallingObject$moveFallingObject = F4(
+	function (delta, key, fallingObject, model) {
+		var _p6 = fallingObject.state;
+		if (_p6.ctor === 'Empty') {
+			var _p7 = _p6._0;
+			return (_elm_lang$core$Native_Utils.cmp(_p7.yieldCounterInMillisecond, fallingObject.yieldIntervalInMillisecond) < 0) ? function (object) {
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						fallingObjects: A3(_elm_lang$core$Dict$insert, key, object, model.fallingObjects)
+					});
+			}(
+				A3(_abadi199$elm_fire_game$FallingObject$updateYieldCounter, _p7.yieldCounterInMillisecond + delta, _p7, fallingObject)) : A5(_abadi199$elm_fire_game$FallingObject$generateNewRandomObject, delta, key, fallingObject, _p7, model);
+		} else {
+			return _elm_lang$core$Native_Utils.update(
+				model,
+				{
+					fallingObjects: A3(
+						_elm_lang$core$Dict$insert,
+						key,
+						A3(_abadi199$elm_fire_game$FallingObject$falling, delta, model, fallingObject),
+						model.fallingObjects)
+				});
+		}
+	});
+var _abadi199$elm_fire_game$FallingObject$move = F2(
+	function (delta, model) {
+		return A3(
+			_elm_lang$core$Dict$foldl,
+			_abadi199$elm_fire_game$FallingObject$moveFallingObject(delta),
+			model,
+			model.fallingObjects);
+	});
+
+var _abadi199$elm_fire_game$Machine$resetTimer = F2(
+	function (machineId, machines) {
+		var reset = function (machine) {
+			return _elm_lang$core$Native_Utils.update(
+				machine,
+				{timerInMillisecond: 0});
+		};
+		return _elm_lang$core$Native_Utils.update(
+			machines,
+			{
+				machines: A3(
+					_elm_lang$core$Dict$update,
+					machineId,
+					_elm_lang$core$Maybe$map(reset),
+					machines.machines)
+			});
+	});
+var _abadi199$elm_fire_game$Machine$collidesWith = F2(
+	function (coordinates, machine) {
+		return A2(_abadi199$elm_fire_game$Coordinates$collidesWithRect, machine, coordinates);
+	});
+var _abadi199$elm_fire_game$Machine$isSelected = function (machine) {
+	var _p0 = machine.selected;
+	if (_p0.ctor === 'Selected') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var _abadi199$elm_fire_game$Machine$selectedMachineId = function (machines) {
+	return _elm_lang$core$List$head(
+		_elm_lang$core$Dict$keys(
+			A2(
+				_elm_lang$core$Dict$filter,
+				F2(
+					function (_p1, machine) {
+						return _abadi199$elm_fire_game$Machine$isSelected(machine);
+					}),
+				machines.machines)));
+};
+var _abadi199$elm_fire_game$Machine$selected = function (machines) {
+	return _elm_lang$core$List$head(
+		A2(
+			_elm_lang$core$List$filter,
+			_abadi199$elm_fire_game$Machine$isSelected,
+			_elm_lang$core$Dict$values(machines.machines)));
+};
+var _abadi199$elm_fire_game$Machine$machineStyle = F2(
+	function (model, machine) {
+		var backgroundColor = function () {
+			var _p2 = machine.selected;
+			if (_p2.ctor === 'Selected') {
+				return _rtfeldman$elm_css$Css$hex('#F88');
+			} else {
+				return _rtfeldman$elm_css$Css$hex('#F00');
+			}
+		}();
+		return _rtfeldman$elm_css$Css$batch(
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$backgroundColor(backgroundColor),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
+					_1: {
+						ctor: '::',
+						_0: A2(_abadi199$elm_fire_game$Projector$width, model, machine.width),
+						_1: {
+							ctor: '::',
+							_0: A2(_abadi199$elm_fire_game$Projector$height, model, machine.height),
+							_1: {
+								ctor: '::',
+								_0: A2(_abadi199$elm_fire_game$Projector$project, model, machine.position),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			});
+	});
+var _abadi199$elm_fire_game$Machine$machineView = F2(
+	function (model, machine) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$style(
+					_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+						{
+							ctor: '::',
+							_0: A2(_abadi199$elm_fire_game$Machine$machineStyle, model, machine),
+							_1: {ctor: '[]'}
+						})),
+				_1: {ctor: '[]'}
+			},
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html$text(
+					_elm_lang$core$Basics$toString(
+						_elm_lang$core$Basics$round(machine.timerInMillisecond / 1000))),
+				_1: {ctor: '[]'}
+			});
+	});
+var _abadi199$elm_fire_game$Machine$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		A2(
+			_elm_lang$core$List$map,
+			_abadi199$elm_fire_game$Machine$machineView(model),
+			_elm_lang$core$Dict$values(model.machines)));
+};
+var _abadi199$elm_fire_game$Machine$updateTimer = F2(
+	function (delta, machines) {
+		var updateMachineTimer = F2(
+			function (_p3, machine) {
+				return _elm_lang$core$Native_Utils.update(
+					machine,
+					{timerInMillisecond: machine.timerInMillisecond + delta});
+			});
+		return _elm_lang$core$Native_Utils.update(
+			machines,
+			{
+				machines: A2(_elm_lang$core$Dict$map, updateMachineTimer, machines.machines)
+			});
+	});
+var _abadi199$elm_fire_game$Machine$Machine = F6(
+	function (a, b, c, d, e, f) {
+		return {position: a, width: b, height: c, timerInMillisecond: d, maxTimeInMillisecond: e, selected: f};
+	});
+var _abadi199$elm_fire_game$Machine$NotSelected = {ctor: 'NotSelected'};
+var _abadi199$elm_fire_game$Machine$create = F2(
+	function (coordinates, list) {
+		return {
+			ctor: '::',
+			_0: {
+				ctor: '_Tuple2',
+				_0: _elm_lang$core$Basics$toString(
+					A2(
+						_Skinney$murmur3$Murmur3$hashString,
+						8821923,
+						_elm_lang$core$Basics$toString(list))),
+				_1: {position: coordinates, width: 100, height: 300, timerInMillisecond: 0, maxTimeInMillisecond: 10000, selected: _abadi199$elm_fire_game$Machine$NotSelected}
+			},
+			_1: list
+		};
+	});
+var _abadi199$elm_fire_game$Machine$Selected = {ctor: 'Selected'};
+var _abadi199$elm_fire_game$Machine$updateSelected = F2(
+	function (coordinates, machine) {
+		return A2(_abadi199$elm_fire_game$Machine$collidesWith, coordinates, machine) ? _elm_lang$core$Native_Utils.update(
+			machine,
+			{selected: _abadi199$elm_fire_game$Machine$Selected}) : _elm_lang$core$Native_Utils.update(
+			machine,
+			{selected: _abadi199$elm_fire_game$Machine$NotSelected});
+	});
+var _abadi199$elm_fire_game$Machine$select = F2(
+	function (coordinates, machines) {
+		return _elm_lang$core$Native_Utils.update(
+			machines,
+			{
+				machines: A2(
+					_elm_lang$core$Dict$map,
+					_elm_lang$core$Basics$always(
+						_abadi199$elm_fire_game$Machine$updateSelected(coordinates)),
+					machines.machines)
+			});
+	});
+
+var _abadi199$elm_fire_game$Hero$targetStyle = F2(
+	function (_p0, hero) {
+		var _p1 = _p0;
+		return _rtfeldman$elm_css$Css$batch(
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
+				_1: {
+					ctor: '::',
+					_0: A2(
+						_abadi199$elm_fire_game$Projector$project,
+						hero,
+						{x: _p1.x - 10, y: _p1.y - 10}),
+					_1: {
+						ctor: '::',
+						_0: A2(_abadi199$elm_fire_game$Projector$width, hero, 20),
+						_1: {
+							ctor: '::',
+							_0: A2(_abadi199$elm_fire_game$Projector$height, hero, 20),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$backgroundColor(
+									A4(_rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0.2)),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			});
+	});
+var _abadi199$elm_fire_game$Hero$targetView = function (hero) {
+	var _p2 = hero.heroPosition;
+	if (_p2.ctor === 'Stationary') {
+		return _elm_lang$html$Html$text('');
+	} else {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$style(
+					_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+						{
+							ctor: '::',
+							_0: A2(_abadi199$elm_fire_game$Hero$targetStyle, _p2._0.to, hero),
+							_1: {ctor: '[]'}
+						})),
+				_1: {ctor: '[]'}
+			},
+			{ctor: '[]'});
+	}
+};
+var _abadi199$elm_fire_game$Hero$heroStyle = F2(
+	function (coordinates, hero) {
+		return _rtfeldman$elm_css$Css$batch(
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
+				_1: {
+					ctor: '::',
+					_0: A2(_abadi199$elm_fire_game$Projector$project, hero, coordinates),
+					_1: {
+						ctor: '::',
+						_0: A2(_abadi199$elm_fire_game$Projector$width, hero, hero.heroWidth),
+						_1: {
+							ctor: '::',
+							_0: A2(_abadi199$elm_fire_game$Projector$height, hero, hero.heroHeight),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$backgroundColor(
+									_rtfeldman$elm_css$Css$hex('#000')),
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			});
+	});
+var _abadi199$elm_fire_game$Hero$heroView = function (hero) {
+	var draw = function (coordinates) {
+		return A2(
+			_elm_lang$html$Html$div,
+			{
+				ctor: '::',
+				_0: _elm_lang$html$Html_Attributes$style(
+					_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+						{
+							ctor: '::',
+							_0: A2(_abadi199$elm_fire_game$Hero$heroStyle, coordinates, hero),
+							_1: {ctor: '[]'}
+						})),
+				_1: {ctor: '[]'}
+			},
+			{ctor: '[]'});
+	};
+	var _p3 = hero.heroPosition;
+	if (_p3.ctor === 'Stationary') {
+		return draw(_p3._0);
+	} else {
+		return draw(_p3._0.from);
+	}
+};
+var _abadi199$elm_fire_game$Hero$view = function (hero) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _abadi199$elm_fire_game$Hero$heroView(hero),
+			_1: {
+				ctor: '::',
+				_0: _abadi199$elm_fire_game$Hero$targetView(hero),
+				_1: {ctor: '[]'}
+			}
+		});
+};
+var _abadi199$elm_fire_game$Hero$Moving = function (a) {
+	return {ctor: 'Moving', _0: a};
+};
+var _abadi199$elm_fire_game$Hero$moveTo = F2(
+	function (coordinates, hero) {
+		var moveToMachine = function (machine) {
+			var _p4 = hero.heroPosition;
+			if (_p4.ctor === 'Stationary') {
+				return _elm_lang$core$Native_Utils.update(
+					hero,
+					{
+						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
+							{from: _p4._0, to: machine.position})
+					});
+			} else {
+				return _elm_lang$core$Native_Utils.update(
+					hero,
+					{
+						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
+							{from: _p4._0.from, to: machine.position})
+					});
+			}
+		};
+		var moveToCoordinates = function () {
+			var _p5 = hero.heroPosition;
+			if (_p5.ctor === 'Stationary') {
+				return _elm_lang$core$Native_Utils.update(
+					hero,
+					{
+						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
+							{from: _p5._0, to: coordinates})
+					});
+			} else {
+				return _elm_lang$core$Native_Utils.update(
+					hero,
+					{
+						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
+							{from: _p5._0.from, to: coordinates})
+					});
+			}
+		}();
+		var machines = hero;
+		return A2(
+			_elm_lang$core$Maybe$withDefault,
+			moveToCoordinates,
+			A2(
+				_elm_lang$core$Maybe$map,
+				moveToMachine,
+				_abadi199$elm_fire_game$Machine$selected(machines)));
+	});
+var _abadi199$elm_fire_game$Hero$Stationary = function (a) {
+	return {ctor: 'Stationary', _0: a};
+};
+var _abadi199$elm_fire_game$Hero$moving = F5(
+	function (from, to, delta, speedPPms, hero) {
+		var toX = to.x - (hero.heroWidth / 2);
+		var travelDistance = (_elm_lang$core$Native_Utils.cmp(from.x, toX) > 0) ? ((-1 * speedPPms) * delta) : (speedPPms * delta);
+		var hasArrived = _elm_lang$core$Native_Utils.cmp(
+			_elm_lang$core$Basics$abs(from.x - toX),
+			_elm_lang$core$Basics$abs(travelDistance)) < 1;
+		var machines = hero;
+		return hasArrived ? {
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Native_Utils.update(
+				hero,
+				{
+					heroPosition: _abadi199$elm_fire_game$Hero$Stationary(
+						{x: toX, y: from.y})
+				}),
+			_1: A2(
+				_elm_lang$core$Maybe$withDefault,
+				_elm_lang$core$Platform_Cmd$none,
+				A2(
+					_elm_lang$core$Maybe$map,
+					function (_p6) {
+						return A2(
+							_elm_lang$core$Task$perform,
+							_abadi199$elm_fire_game$Msg$ResetMachineTimer,
+							_elm_lang$core$Task$succeed(_p6));
+					},
+					_abadi199$elm_fire_game$Machine$selectedMachineId(machines)))
+		} : {
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Native_Utils.update(
+				hero,
+				{
+					heroPosition: _abadi199$elm_fire_game$Hero$Moving(
+						{
+							from: A2(_abadi199$elm_fire_game$Coordinates$addX, travelDistance, from),
+							to: to
+						})
+				}),
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	});
+var _abadi199$elm_fire_game$Hero$move = F2(
+	function (delta, hero) {
+		var _p7 = hero.heroPosition;
+		if (_p7.ctor === 'Stationary') {
+			return {ctor: '_Tuple2', _0: hero, _1: _elm_lang$core$Platform_Cmd$none};
+		} else {
+			return A5(_abadi199$elm_fire_game$Hero$moving, _p7._0.from, _p7._0.to, delta, hero.heroSpeedInPixelPerMillisecond, hero);
+		}
+	});
+
+var _elm_lang$animation_frame$Native_AnimationFrame = function()
+{
+
+function create()
+{
+	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
+	{
+		var id = requestAnimationFrame(function() {
+			callback(_elm_lang$core$Native_Scheduler.succeed(Date.now()));
+		});
+
+		return function() {
+			cancelAnimationFrame(id);
+		};
+	});
+}
+
+return {
+	create: create
+};
+
+}();
+
+var _elm_lang$animation_frame$AnimationFrame$rAF = _elm_lang$animation_frame$Native_AnimationFrame.create(
+	{ctor: '_Tuple0'});
+var _elm_lang$animation_frame$AnimationFrame$subscription = _elm_lang$core$Native_Platform.leaf('AnimationFrame');
+var _elm_lang$animation_frame$AnimationFrame$State = F3(
+	function (a, b, c) {
+		return {subs: a, request: b, oldTime: c};
+	});
+var _elm_lang$animation_frame$AnimationFrame$init = _elm_lang$core$Task$succeed(
+	A3(
+		_elm_lang$animation_frame$AnimationFrame$State,
+		{ctor: '[]'},
+		_elm_lang$core$Maybe$Nothing,
+		0));
+var _elm_lang$animation_frame$AnimationFrame$onEffects = F3(
+	function (router, subs, _p0) {
+		var _p1 = _p0;
+		var _p5 = _p1.request;
+		var _p4 = _p1.oldTime;
+		var _p2 = {ctor: '_Tuple2', _0: _p5, _1: subs};
+		if (_p2._0.ctor === 'Nothing') {
+			if (_p2._1.ctor === '[]') {
+				return _elm_lang$core$Task$succeed(
+					A3(
+						_elm_lang$animation_frame$AnimationFrame$State,
+						{ctor: '[]'},
+						_elm_lang$core$Maybe$Nothing,
+						_p4));
+			} else {
+				return A2(
+					_elm_lang$core$Task$andThen,
+					function (pid) {
+						return A2(
+							_elm_lang$core$Task$andThen,
+							function (time) {
+								return _elm_lang$core$Task$succeed(
+									A3(
+										_elm_lang$animation_frame$AnimationFrame$State,
+										subs,
+										_elm_lang$core$Maybe$Just(pid),
+										time));
+							},
+							_elm_lang$core$Time$now);
+					},
+					_elm_lang$core$Process$spawn(
+						A2(
+							_elm_lang$core$Task$andThen,
+							_elm_lang$core$Platform$sendToSelf(router),
+							_elm_lang$animation_frame$AnimationFrame$rAF)));
+			}
+		} else {
+			if (_p2._1.ctor === '[]') {
+				return A2(
+					_elm_lang$core$Task$andThen,
+					function (_p3) {
+						return _elm_lang$core$Task$succeed(
+							A3(
+								_elm_lang$animation_frame$AnimationFrame$State,
+								{ctor: '[]'},
+								_elm_lang$core$Maybe$Nothing,
+								_p4));
+					},
+					_elm_lang$core$Process$kill(_p2._0._0));
+			} else {
+				return _elm_lang$core$Task$succeed(
+					A3(_elm_lang$animation_frame$AnimationFrame$State, subs, _p5, _p4));
+			}
+		}
+	});
+var _elm_lang$animation_frame$AnimationFrame$onSelfMsg = F3(
+	function (router, newTime, _p6) {
+		var _p7 = _p6;
+		var _p10 = _p7.subs;
+		var diff = newTime - _p7.oldTime;
+		var send = function (sub) {
+			var _p8 = sub;
+			if (_p8.ctor === 'Time') {
+				return A2(
+					_elm_lang$core$Platform$sendToApp,
+					router,
+					_p8._0(newTime));
+			} else {
+				return A2(
+					_elm_lang$core$Platform$sendToApp,
+					router,
+					_p8._0(diff));
+			}
+		};
+		return A2(
+			_elm_lang$core$Task$andThen,
+			function (pid) {
+				return A2(
+					_elm_lang$core$Task$andThen,
+					function (_p9) {
+						return _elm_lang$core$Task$succeed(
+							A3(
+								_elm_lang$animation_frame$AnimationFrame$State,
+								_p10,
+								_elm_lang$core$Maybe$Just(pid),
+								newTime));
+					},
+					_elm_lang$core$Task$sequence(
+						A2(_elm_lang$core$List$map, send, _p10)));
+			},
+			_elm_lang$core$Process$spawn(
+				A2(
+					_elm_lang$core$Task$andThen,
+					_elm_lang$core$Platform$sendToSelf(router),
+					_elm_lang$animation_frame$AnimationFrame$rAF)));
+	});
+var _elm_lang$animation_frame$AnimationFrame$Diff = function (a) {
+	return {ctor: 'Diff', _0: a};
+};
+var _elm_lang$animation_frame$AnimationFrame$diffs = function (tagger) {
+	return _elm_lang$animation_frame$AnimationFrame$subscription(
+		_elm_lang$animation_frame$AnimationFrame$Diff(tagger));
+};
+var _elm_lang$animation_frame$AnimationFrame$Time = function (a) {
+	return {ctor: 'Time', _0: a};
+};
+var _elm_lang$animation_frame$AnimationFrame$times = function (tagger) {
+	return _elm_lang$animation_frame$AnimationFrame$subscription(
+		_elm_lang$animation_frame$AnimationFrame$Time(tagger));
+};
+var _elm_lang$animation_frame$AnimationFrame$subMap = F2(
+	function (func, sub) {
+		var _p11 = sub;
+		if (_p11.ctor === 'Time') {
+			return _elm_lang$animation_frame$AnimationFrame$Time(
+				function (_p12) {
+					return func(
+						_p11._0(_p12));
+				});
+		} else {
+			return _elm_lang$animation_frame$AnimationFrame$Diff(
+				function (_p13) {
+					return func(
+						_p11._0(_p13));
+				});
+		}
+	});
+_elm_lang$core$Native_Platform.effectManagers['AnimationFrame'] = {pkg: 'elm-lang/animation-frame', init: _elm_lang$animation_frame$AnimationFrame$init, onEffects: _elm_lang$animation_frame$AnimationFrame$onEffects, onSelfMsg: _elm_lang$animation_frame$AnimationFrame$onSelfMsg, tag: 'sub', subMap: _elm_lang$animation_frame$AnimationFrame$subMap};
+
 var _rtfeldman$elm_css$Css_Structure_Output$noIndent = '';
 var _rtfeldman$elm_css$Css_Structure_Output$spaceIndent = '    ';
 var _rtfeldman$elm_css$Css_Structure_Output$indent = function (str) {
@@ -14633,1830 +16500,6 @@ var _rtfeldman$elm_css$Html_Styled$summary = _rtfeldman$elm_css$Html_Styled$node
 var _rtfeldman$elm_css$Html_Styled$menuitem = _rtfeldman$elm_css$Html_Styled$node('menuitem');
 var _rtfeldman$elm_css$Html_Styled$menu = _rtfeldman$elm_css$Html_Styled$node('menu');
 
-var _rtfeldman$elm_css$Html_Styled_Attributes$css = _rtfeldman$elm_css$Html_Styled_Internal$css;
-var _rtfeldman$elm_css$Html_Styled_Attributes$map = _rtfeldman$elm_css$VirtualDom_Styled$mapProperty;
-var _rtfeldman$elm_css$Html_Styled_Attributes$attribute = _rtfeldman$elm_css$VirtualDom_Styled$attribute;
-var _rtfeldman$elm_css$Html_Styled_Attributes$contextmenu = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'contextmenu', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$draggable = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'draggable', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$itemprop = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'itemprop', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$tabindex = function (n) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$attribute,
-		'tabIndex',
-		_elm_lang$core$Basics$toString(n));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$charset = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'charset', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$height = function (value) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$attribute,
-		'height',
-		_elm_lang$core$Basics$toString(value));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$width = function (value) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$attribute,
-		'width',
-		_elm_lang$core$Basics$toString(value));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$formaction = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'formAction', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$list = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'list', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$minlength = function (n) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$attribute,
-		'minLength',
-		_elm_lang$core$Basics$toString(n));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$maxlength = function (n) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$attribute,
-		'maxlength',
-		_elm_lang$core$Basics$toString(n));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$size = function (n) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$attribute,
-		'size',
-		_elm_lang$core$Basics$toString(n));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$form = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'form', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$cols = function (n) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$attribute,
-		'cols',
-		_elm_lang$core$Basics$toString(n));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$rows = function (n) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$attribute,
-		'rows',
-		_elm_lang$core$Basics$toString(n));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$challenge = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'challenge', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$media = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'media', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$rel = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'rel', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$datetime = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'datetime', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$pubdate = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'pubdate', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$colspan = function (n) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$attribute,
-		'colspan',
-		_elm_lang$core$Basics$toString(n));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$rowspan = function (n) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$attribute,
-		'rowspan',
-		_elm_lang$core$Basics$toString(n));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$manifest = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$attribute, 'manifest', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$property = _rtfeldman$elm_css$VirtualDom_Styled$property;
-var _rtfeldman$elm_css$Html_Styled_Attributes$stringProperty = F2(
-	function (name, string) {
-		return A2(
-			_rtfeldman$elm_css$Html_Styled_Attributes$property,
-			name,
-			_elm_lang$core$Json_Encode$string(string));
-	});
-var _rtfeldman$elm_css$Html_Styled_Attributes$class = function (name) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'className', name);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$id = function (name) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'id', name);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$title = function (name) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'title', name);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$accesskey = function ($char) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty,
-		'accessKey',
-		_elm_lang$core$String$fromChar($char));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$dir = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'dir', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$dropzone = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'dropzone', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$lang = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'lang', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$content = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'content', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$httpEquiv = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'httpEquiv', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$language = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'language', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$src = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'src', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$alt = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'alt', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$preload = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'preload', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$poster = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'poster', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$kind = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'kind', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$srclang = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'srclang', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$sandbox = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'sandbox', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$srcdoc = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'srcdoc', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$type_ = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'type', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$value = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'value', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$defaultValue = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'defaultValue', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$placeholder = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'placeholder', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$accept = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'accept', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$acceptCharset = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'acceptCharset', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$action = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'action', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$autocomplete = function (bool) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty,
-		'autocomplete',
-		bool ? 'on' : 'off');
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$enctype = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'enctype', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$method = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'method', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$name = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'name', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$pattern = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'pattern', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$for = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'htmlFor', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$max = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'max', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$min = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'min', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$step = function (n) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'step', n);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$wrap = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'wrap', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$usemap = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'useMap', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$shape = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'shape', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$coords = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'coords', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$keytype = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'keytype', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$align = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'align', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$cite = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'cite', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$href = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'href', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$target = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'target', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$downloadAs = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'download', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$hreflang = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'hreflang', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$ping = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'ping', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$start = function (n) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty,
-		'start',
-		_elm_lang$core$Basics$toString(n));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$headers = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'headers', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$scope = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$stringProperty, 'scope', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$boolProperty = F2(
-	function (name, bool) {
-		return A2(
-			_rtfeldman$elm_css$Html_Styled_Attributes$property,
-			name,
-			_elm_lang$core$Json_Encode$bool(bool));
-	});
-var _rtfeldman$elm_css$Html_Styled_Attributes$hidden = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'hidden', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$contenteditable = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'contentEditable', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$spellcheck = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'spellcheck', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$async = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'async', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$defer = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'defer', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$scoped = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'scoped', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$autoplay = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'autoplay', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$controls = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'controls', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$loop = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'loop', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$default = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'default', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$seamless = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'seamless', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$checked = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'checked', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$selected = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'selected', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$autofocus = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'autofocus', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$disabled = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'disabled', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$multiple = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'multiple', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$novalidate = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'noValidate', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$readonly = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'readOnly', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$required = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'required', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$ismap = function (value) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'isMap', value);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$download = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'download', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$reversed = function (bool) {
-	return A2(_rtfeldman$elm_css$Html_Styled_Attributes$boolProperty, 'reversed', bool);
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$classList = function (list) {
-	return _rtfeldman$elm_css$Html_Styled_Attributes$class(
-		A2(
-			_elm_lang$core$String$join,
-			' ',
-			A2(
-				_elm_lang$core$List$map,
-				_elm_lang$core$Tuple$first,
-				A2(_elm_lang$core$List$filter, _elm_lang$core$Tuple$second, list))));
-};
-var _rtfeldman$elm_css$Html_Styled_Attributes$fromUnstyled = _rtfeldman$elm_css$VirtualDom_Styled$unstyledProperty;
-var _rtfeldman$elm_css$Html_Styled_Attributes$style = function (_p0) {
-	return _rtfeldman$elm_css$Html_Styled_Attributes$fromUnstyled(
-		_elm_lang$virtual_dom$VirtualDom$style(_p0));
-};
-
-var _abadi199$elm_fire_game$Msg$ResetMachineTimer = function (a) {
-	return {ctor: 'ResetMachineTimer', _0: a};
-};
-var _abadi199$elm_fire_game$Msg$MouseDown = function (a) {
-	return {ctor: 'MouseDown', _0: a};
-};
-var _abadi199$elm_fire_game$Msg$WindowResized = function (a) {
-	return {ctor: 'WindowResized', _0: a};
-};
-var _abadi199$elm_fire_game$Msg$Tick = function (a) {
-	return {ctor: 'Tick', _0: a};
-};
-var _abadi199$elm_fire_game$Msg$Initialized = F2(
-	function (a, b) {
-		return {ctor: 'Initialized', _0: a, _1: b};
-	});
-var _abadi199$elm_fire_game$Msg$NoOp = {ctor: 'NoOp'};
-
-var _mgold$elm_random_pcg$Random_Pcg$toJson = function (_p0) {
-	var _p1 = _p0;
-	return _elm_lang$core$Json_Encode$list(
-		{
-			ctor: '::',
-			_0: _elm_lang$core$Json_Encode$int(_p1._0),
-			_1: {
-				ctor: '::',
-				_0: _elm_lang$core$Json_Encode$int(_p1._1),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _mgold$elm_random_pcg$Random_Pcg$mul32 = F2(
-	function (a, b) {
-		var bl = b & 65535;
-		var bh = 65535 & (b >>> 16);
-		var al = a & 65535;
-		var ah = 65535 & (a >>> 16);
-		return 0 | ((al * bl) + ((((ah * bl) + (al * bh)) << 16) >>> 0));
-	});
-var _mgold$elm_random_pcg$Random_Pcg$listHelp = F4(
-	function (list, n, generate, seed) {
-		listHelp:
-		while (true) {
-			if (_elm_lang$core$Native_Utils.cmp(n, 1) < 0) {
-				return {ctor: '_Tuple2', _0: list, _1: seed};
-			} else {
-				var _p2 = generate(seed);
-				var value = _p2._0;
-				var newSeed = _p2._1;
-				var _v1 = {ctor: '::', _0: value, _1: list},
-					_v2 = n - 1,
-					_v3 = generate,
-					_v4 = newSeed;
-				list = _v1;
-				n = _v2;
-				generate = _v3;
-				seed = _v4;
-				continue listHelp;
-			}
-		}
-	});
-var _mgold$elm_random_pcg$Random_Pcg$minInt = -2147483648;
-var _mgold$elm_random_pcg$Random_Pcg$maxInt = 2147483647;
-var _mgold$elm_random_pcg$Random_Pcg$bit27 = 1.34217728e8;
-var _mgold$elm_random_pcg$Random_Pcg$bit53 = 9.007199254740992e15;
-var _mgold$elm_random_pcg$Random_Pcg$peel = function (_p3) {
-	var _p4 = _p3;
-	var _p5 = _p4._0;
-	var word = (_p5 ^ (_p5 >>> ((_p5 >>> 28) + 4))) * 277803737;
-	return ((word >>> 22) ^ word) >>> 0;
-};
-var _mgold$elm_random_pcg$Random_Pcg$step = F2(
-	function (_p6, seed) {
-		var _p7 = _p6;
-		return _p7._0(seed);
-	});
-var _mgold$elm_random_pcg$Random_Pcg$retry = F3(
-	function (generator, predicate, seed) {
-		retry:
-		while (true) {
-			var _p8 = A2(_mgold$elm_random_pcg$Random_Pcg$step, generator, seed);
-			var candidate = _p8._0;
-			var newSeed = _p8._1;
-			if (predicate(candidate)) {
-				return {ctor: '_Tuple2', _0: candidate, _1: newSeed};
-			} else {
-				var _v7 = generator,
-					_v8 = predicate,
-					_v9 = newSeed;
-				generator = _v7;
-				predicate = _v8;
-				seed = _v9;
-				continue retry;
-			}
-		}
-	});
-var _mgold$elm_random_pcg$Random_Pcg$Generator = function (a) {
-	return {ctor: 'Generator', _0: a};
-};
-var _mgold$elm_random_pcg$Random_Pcg$list = F2(
-	function (n, _p9) {
-		var _p10 = _p9;
-		return _mgold$elm_random_pcg$Random_Pcg$Generator(
-			function (seed) {
-				return A4(
-					_mgold$elm_random_pcg$Random_Pcg$listHelp,
-					{ctor: '[]'},
-					n,
-					_p10._0,
-					seed);
-			});
-	});
-var _mgold$elm_random_pcg$Random_Pcg$constant = function (value) {
-	return _mgold$elm_random_pcg$Random_Pcg$Generator(
-		function (seed) {
-			return {ctor: '_Tuple2', _0: value, _1: seed};
-		});
-};
-var _mgold$elm_random_pcg$Random_Pcg$map = F2(
-	function (func, _p11) {
-		var _p12 = _p11;
-		return _mgold$elm_random_pcg$Random_Pcg$Generator(
-			function (seed0) {
-				var _p13 = _p12._0(seed0);
-				var a = _p13._0;
-				var seed1 = _p13._1;
-				return {
-					ctor: '_Tuple2',
-					_0: func(a),
-					_1: seed1
-				};
-			});
-	});
-var _mgold$elm_random_pcg$Random_Pcg$map2 = F3(
-	function (func, _p15, _p14) {
-		var _p16 = _p15;
-		var _p17 = _p14;
-		return _mgold$elm_random_pcg$Random_Pcg$Generator(
-			function (seed0) {
-				var _p18 = _p16._0(seed0);
-				var a = _p18._0;
-				var seed1 = _p18._1;
-				var _p19 = _p17._0(seed1);
-				var b = _p19._0;
-				var seed2 = _p19._1;
-				return {
-					ctor: '_Tuple2',
-					_0: A2(func, a, b),
-					_1: seed2
-				};
-			});
-	});
-var _mgold$elm_random_pcg$Random_Pcg$pair = F2(
-	function (genA, genB) {
-		return A3(
-			_mgold$elm_random_pcg$Random_Pcg$map2,
-			F2(
-				function (v0, v1) {
-					return {ctor: '_Tuple2', _0: v0, _1: v1};
-				}),
-			genA,
-			genB);
-	});
-var _mgold$elm_random_pcg$Random_Pcg$andMap = _mgold$elm_random_pcg$Random_Pcg$map2(
-	F2(
-		function (x, y) {
-			return y(x);
-		}));
-var _mgold$elm_random_pcg$Random_Pcg$map3 = F4(
-	function (func, _p22, _p21, _p20) {
-		var _p23 = _p22;
-		var _p24 = _p21;
-		var _p25 = _p20;
-		return _mgold$elm_random_pcg$Random_Pcg$Generator(
-			function (seed0) {
-				var _p26 = _p23._0(seed0);
-				var a = _p26._0;
-				var seed1 = _p26._1;
-				var _p27 = _p24._0(seed1);
-				var b = _p27._0;
-				var seed2 = _p27._1;
-				var _p28 = _p25._0(seed2);
-				var c = _p28._0;
-				var seed3 = _p28._1;
-				return {
-					ctor: '_Tuple2',
-					_0: A3(func, a, b, c),
-					_1: seed3
-				};
-			});
-	});
-var _mgold$elm_random_pcg$Random_Pcg$map4 = F5(
-	function (func, _p32, _p31, _p30, _p29) {
-		var _p33 = _p32;
-		var _p34 = _p31;
-		var _p35 = _p30;
-		var _p36 = _p29;
-		return _mgold$elm_random_pcg$Random_Pcg$Generator(
-			function (seed0) {
-				var _p37 = _p33._0(seed0);
-				var a = _p37._0;
-				var seed1 = _p37._1;
-				var _p38 = _p34._0(seed1);
-				var b = _p38._0;
-				var seed2 = _p38._1;
-				var _p39 = _p35._0(seed2);
-				var c = _p39._0;
-				var seed3 = _p39._1;
-				var _p40 = _p36._0(seed3);
-				var d = _p40._0;
-				var seed4 = _p40._1;
-				return {
-					ctor: '_Tuple2',
-					_0: A4(func, a, b, c, d),
-					_1: seed4
-				};
-			});
-	});
-var _mgold$elm_random_pcg$Random_Pcg$map5 = F6(
-	function (func, _p45, _p44, _p43, _p42, _p41) {
-		var _p46 = _p45;
-		var _p47 = _p44;
-		var _p48 = _p43;
-		var _p49 = _p42;
-		var _p50 = _p41;
-		return _mgold$elm_random_pcg$Random_Pcg$Generator(
-			function (seed0) {
-				var _p51 = _p46._0(seed0);
-				var a = _p51._0;
-				var seed1 = _p51._1;
-				var _p52 = _p47._0(seed1);
-				var b = _p52._0;
-				var seed2 = _p52._1;
-				var _p53 = _p48._0(seed2);
-				var c = _p53._0;
-				var seed3 = _p53._1;
-				var _p54 = _p49._0(seed3);
-				var d = _p54._0;
-				var seed4 = _p54._1;
-				var _p55 = _p50._0(seed4);
-				var e = _p55._0;
-				var seed5 = _p55._1;
-				return {
-					ctor: '_Tuple2',
-					_0: A5(func, a, b, c, d, e),
-					_1: seed5
-				};
-			});
-	});
-var _mgold$elm_random_pcg$Random_Pcg$andThen = F2(
-	function (callback, _p56) {
-		var _p57 = _p56;
-		return _mgold$elm_random_pcg$Random_Pcg$Generator(
-			function (seed) {
-				var _p58 = _p57._0(seed);
-				var result = _p58._0;
-				var newSeed = _p58._1;
-				var _p59 = callback(result);
-				var generateB = _p59._0;
-				return generateB(newSeed);
-			});
-	});
-var _mgold$elm_random_pcg$Random_Pcg$maybe = F2(
-	function (genBool, genA) {
-		return A2(
-			_mgold$elm_random_pcg$Random_Pcg$andThen,
-			function (b) {
-				return b ? A2(_mgold$elm_random_pcg$Random_Pcg$map, _elm_lang$core$Maybe$Just, genA) : _mgold$elm_random_pcg$Random_Pcg$constant(_elm_lang$core$Maybe$Nothing);
-			},
-			genBool);
-	});
-var _mgold$elm_random_pcg$Random_Pcg$filter = F2(
-	function (predicate, generator) {
-		return _mgold$elm_random_pcg$Random_Pcg$Generator(
-			A2(_mgold$elm_random_pcg$Random_Pcg$retry, generator, predicate));
-	});
-var _mgold$elm_random_pcg$Random_Pcg$Seed = F2(
-	function (a, b) {
-		return {ctor: 'Seed', _0: a, _1: b};
-	});
-var _mgold$elm_random_pcg$Random_Pcg$next = function (_p60) {
-	var _p61 = _p60;
-	var _p62 = _p61._1;
-	return A2(_mgold$elm_random_pcg$Random_Pcg$Seed, ((_p61._0 * 1664525) + _p62) >>> 0, _p62);
-};
-var _mgold$elm_random_pcg$Random_Pcg$initialSeed = function (x) {
-	var _p63 = _mgold$elm_random_pcg$Random_Pcg$next(
-		A2(_mgold$elm_random_pcg$Random_Pcg$Seed, 0, 1013904223));
-	var state1 = _p63._0;
-	var incr = _p63._1;
-	var state2 = (state1 + x) >>> 0;
-	return _mgold$elm_random_pcg$Random_Pcg$next(
-		A2(_mgold$elm_random_pcg$Random_Pcg$Seed, state2, incr));
-};
-var _mgold$elm_random_pcg$Random_Pcg$generate = F2(
-	function (toMsg, generator) {
-		return A2(
-			_elm_lang$core$Task$perform,
-			toMsg,
-			A2(
-				_elm_lang$core$Task$map,
-				function (_p64) {
-					return _elm_lang$core$Tuple$first(
-						A2(
-							_mgold$elm_random_pcg$Random_Pcg$step,
-							generator,
-							_mgold$elm_random_pcg$Random_Pcg$initialSeed(
-								_elm_lang$core$Basics$round(_p64))));
-				},
-				_elm_lang$core$Time$now));
-	});
-var _mgold$elm_random_pcg$Random_Pcg$int = F2(
-	function (a, b) {
-		return _mgold$elm_random_pcg$Random_Pcg$Generator(
-			function (seed0) {
-				var _p65 = (_elm_lang$core$Native_Utils.cmp(a, b) < 0) ? {ctor: '_Tuple2', _0: a, _1: b} : {ctor: '_Tuple2', _0: b, _1: a};
-				var lo = _p65._0;
-				var hi = _p65._1;
-				var range = (hi - lo) + 1;
-				if (_elm_lang$core$Native_Utils.eq((range - 1) & range, 0)) {
-					return {
-						ctor: '_Tuple2',
-						_0: (((range - 1) & _mgold$elm_random_pcg$Random_Pcg$peel(seed0)) >>> 0) + lo,
-						_1: _mgold$elm_random_pcg$Random_Pcg$next(seed0)
-					};
-				} else {
-					var threshhold = A2(_elm_lang$core$Basics$rem, (0 - range) >>> 0, range) >>> 0;
-					var accountForBias = function (seed) {
-						accountForBias:
-						while (true) {
-							var seedN = _mgold$elm_random_pcg$Random_Pcg$next(seed);
-							var x = _mgold$elm_random_pcg$Random_Pcg$peel(seed);
-							if (_elm_lang$core$Native_Utils.cmp(x, threshhold) < 0) {
-								var _v28 = seedN;
-								seed = _v28;
-								continue accountForBias;
-							} else {
-								return {
-									ctor: '_Tuple2',
-									_0: A2(_elm_lang$core$Basics$rem, x, range) + lo,
-									_1: seedN
-								};
-							}
-						}
-					};
-					return accountForBias(seed0);
-				}
-			});
-	});
-var _mgold$elm_random_pcg$Random_Pcg$bool = A2(
-	_mgold$elm_random_pcg$Random_Pcg$map,
-	F2(
-		function (x, y) {
-			return _elm_lang$core$Native_Utils.eq(x, y);
-		})(1),
-	A2(_mgold$elm_random_pcg$Random_Pcg$int, 0, 1));
-var _mgold$elm_random_pcg$Random_Pcg$choice = F2(
-	function (x, y) {
-		return A2(
-			_mgold$elm_random_pcg$Random_Pcg$map,
-			function (b) {
-				return b ? x : y;
-			},
-			_mgold$elm_random_pcg$Random_Pcg$bool);
-	});
-var _mgold$elm_random_pcg$Random_Pcg$oneIn = function (n) {
-	return A2(
-		_mgold$elm_random_pcg$Random_Pcg$map,
-		F2(
-			function (x, y) {
-				return _elm_lang$core$Native_Utils.eq(x, y);
-			})(1),
-		A2(_mgold$elm_random_pcg$Random_Pcg$int, 1, n));
-};
-var _mgold$elm_random_pcg$Random_Pcg$sample = function () {
-	var find = F2(
-		function (k, ys) {
-			find:
-			while (true) {
-				var _p66 = ys;
-				if (_p66.ctor === '[]') {
-					return _elm_lang$core$Maybe$Nothing;
-				} else {
-					if (_elm_lang$core$Native_Utils.eq(k, 0)) {
-						return _elm_lang$core$Maybe$Just(_p66._0);
-					} else {
-						var _v30 = k - 1,
-							_v31 = _p66._1;
-						k = _v30;
-						ys = _v31;
-						continue find;
-					}
-				}
-			}
-		});
-	return function (xs) {
-		return A2(
-			_mgold$elm_random_pcg$Random_Pcg$map,
-			function (i) {
-				return A2(find, i, xs);
-			},
-			A2(
-				_mgold$elm_random_pcg$Random_Pcg$int,
-				0,
-				_elm_lang$core$List$length(xs) - 1));
-	};
-}();
-var _mgold$elm_random_pcg$Random_Pcg$float = F2(
-	function (min, max) {
-		return _mgold$elm_random_pcg$Random_Pcg$Generator(
-			function (seed0) {
-				var range = _elm_lang$core$Basics$abs(max - min);
-				var n0 = _mgold$elm_random_pcg$Random_Pcg$peel(seed0);
-				var hi = _elm_lang$core$Basics$toFloat(67108863 & n0) * 1.0;
-				var seed1 = _mgold$elm_random_pcg$Random_Pcg$next(seed0);
-				var n1 = _mgold$elm_random_pcg$Random_Pcg$peel(seed1);
-				var lo = _elm_lang$core$Basics$toFloat(134217727 & n1) * 1.0;
-				var val = ((hi * _mgold$elm_random_pcg$Random_Pcg$bit27) + lo) / _mgold$elm_random_pcg$Random_Pcg$bit53;
-				var scaled = (val * range) + min;
-				return {
-					ctor: '_Tuple2',
-					_0: scaled,
-					_1: _mgold$elm_random_pcg$Random_Pcg$next(seed1)
-				};
-			});
-	});
-var _mgold$elm_random_pcg$Random_Pcg$frequency = function (pairs) {
-	var pick = F2(
-		function (choices, n) {
-			pick:
-			while (true) {
-				var _p67 = choices;
-				if ((_p67.ctor === '::') && (_p67._0.ctor === '_Tuple2')) {
-					var _p68 = _p67._0._0;
-					if (_elm_lang$core$Native_Utils.cmp(n, _p68) < 1) {
-						return _p67._0._1;
-					} else {
-						var _v33 = _p67._1,
-							_v34 = n - _p68;
-						choices = _v33;
-						n = _v34;
-						continue pick;
-					}
-				} else {
-					return _elm_lang$core$Native_Utils.crashCase(
-						'Random.Pcg',
-						{
-							start: {line: 677, column: 13},
-							end: {line: 685, column: 77}
-						},
-						_p67)('Empty list passed to Random.Pcg.frequency!');
-				}
-			}
-		});
-	var total = _elm_lang$core$List$sum(
-		A2(
-			_elm_lang$core$List$map,
-			function (_p70) {
-				return _elm_lang$core$Basics$abs(
-					_elm_lang$core$Tuple$first(_p70));
-			},
-			pairs));
-	return A2(
-		_mgold$elm_random_pcg$Random_Pcg$andThen,
-		pick(pairs),
-		A2(_mgold$elm_random_pcg$Random_Pcg$float, 0, total));
-};
-var _mgold$elm_random_pcg$Random_Pcg$choices = function (gens) {
-	return _mgold$elm_random_pcg$Random_Pcg$frequency(
-		A2(
-			_elm_lang$core$List$map,
-			function (g) {
-				return {ctor: '_Tuple2', _0: 1, _1: g};
-			},
-			gens));
-};
-var _mgold$elm_random_pcg$Random_Pcg$independentSeed = _mgold$elm_random_pcg$Random_Pcg$Generator(
-	function (seed0) {
-		var gen = A2(_mgold$elm_random_pcg$Random_Pcg$int, 0, 4294967295);
-		var _p71 = A2(
-			_mgold$elm_random_pcg$Random_Pcg$step,
-			A4(
-				_mgold$elm_random_pcg$Random_Pcg$map3,
-				F3(
-					function (v0, v1, v2) {
-						return {ctor: '_Tuple3', _0: v0, _1: v1, _2: v2};
-					}),
-				gen,
-				gen,
-				gen),
-			seed0);
-		var state = _p71._0._0;
-		var b = _p71._0._1;
-		var c = _p71._0._2;
-		var seed1 = _p71._1;
-		var incr = (1 | (b ^ c)) >>> 0;
-		return {
-			ctor: '_Tuple2',
-			_0: seed1,
-			_1: _mgold$elm_random_pcg$Random_Pcg$next(
-				A2(_mgold$elm_random_pcg$Random_Pcg$Seed, state, incr))
-		};
-	});
-var _mgold$elm_random_pcg$Random_Pcg$fastForward = F2(
-	function (delta0, _p72) {
-		var _p73 = _p72;
-		var _p76 = _p73._1;
-		var helper = F6(
-			function (accMult, accPlus, curMult, curPlus, delta, repeat) {
-				helper:
-				while (true) {
-					var newDelta = delta >>> 1;
-					var curMult_ = A2(_mgold$elm_random_pcg$Random_Pcg$mul32, curMult, curMult);
-					var curPlus_ = A2(_mgold$elm_random_pcg$Random_Pcg$mul32, curMult + 1, curPlus);
-					var _p74 = _elm_lang$core$Native_Utils.eq(delta & 1, 1) ? {
-						ctor: '_Tuple2',
-						_0: A2(_mgold$elm_random_pcg$Random_Pcg$mul32, accMult, curMult),
-						_1: (A2(_mgold$elm_random_pcg$Random_Pcg$mul32, accPlus, curMult) + curPlus) >>> 0
-					} : {ctor: '_Tuple2', _0: accMult, _1: accPlus};
-					var accMult_ = _p74._0;
-					var accPlus_ = _p74._1;
-					if (_elm_lang$core$Native_Utils.eq(newDelta, 0)) {
-						if ((_elm_lang$core$Native_Utils.cmp(delta0, 0) < 0) && repeat) {
-							var _v36 = accMult_,
-								_v37 = accPlus_,
-								_v38 = curMult_,
-								_v39 = curPlus_,
-								_v40 = -1,
-								_v41 = false;
-							accMult = _v36;
-							accPlus = _v37;
-							curMult = _v38;
-							curPlus = _v39;
-							delta = _v40;
-							repeat = _v41;
-							continue helper;
-						} else {
-							return {ctor: '_Tuple2', _0: accMult_, _1: accPlus_};
-						}
-					} else {
-						var _v42 = accMult_,
-							_v43 = accPlus_,
-							_v44 = curMult_,
-							_v45 = curPlus_,
-							_v46 = newDelta,
-							_v47 = repeat;
-						accMult = _v42;
-						accPlus = _v43;
-						curMult = _v44;
-						curPlus = _v45;
-						delta = _v46;
-						repeat = _v47;
-						continue helper;
-					}
-				}
-			});
-		var _p75 = A6(helper, 1, 0, 1664525, _p76, delta0, true);
-		var accMultFinal = _p75._0;
-		var accPlusFinal = _p75._1;
-		return A2(
-			_mgold$elm_random_pcg$Random_Pcg$Seed,
-			(A2(_mgold$elm_random_pcg$Random_Pcg$mul32, accMultFinal, _p73._0) + accPlusFinal) >>> 0,
-			_p76);
-	});
-var _mgold$elm_random_pcg$Random_Pcg$fromJson = _elm_lang$core$Json_Decode$oneOf(
-	{
-		ctor: '::',
-		_0: A3(
-			_elm_lang$core$Json_Decode$map2,
-			_mgold$elm_random_pcg$Random_Pcg$Seed,
-			A2(_elm_lang$core$Json_Decode$index, 0, _elm_lang$core$Json_Decode$int),
-			A2(_elm_lang$core$Json_Decode$index, 1, _elm_lang$core$Json_Decode$int)),
-		_1: {
-			ctor: '::',
-			_0: A2(_elm_lang$core$Json_Decode$map, _mgold$elm_random_pcg$Random_Pcg$initialSeed, _elm_lang$core$Json_Decode$int),
-			_1: {ctor: '[]'}
-		}
-	});
-
-var _abadi199$elm_fire_game$FallingObject$fallingObjectStyle = F2(
-	function (model, fallingObject) {
-		var _p0 = fallingObject.state;
-		if (_p0.ctor === 'Empty') {
-			return _rtfeldman$elm_css$Css$batch(
-				{
-					ctor: '::',
-					_0: _rtfeldman$elm_css$Css$display(_rtfeldman$elm_css$Css$none),
-					_1: {ctor: '[]'}
-				});
-		} else {
-			var _p1 = _p0._0;
-			return _rtfeldman$elm_css$Css$batch(
-				{
-					ctor: '::',
-					_0: _rtfeldman$elm_css$Css$backgroundColor(
-						_rtfeldman$elm_css$Css$hex('#F0F')),
-					_1: {
-						ctor: '::',
-						_0: A2(_abadi199$elm_fire_game$Projector$left, model, _p1.position.x),
-						_1: {
-							ctor: '::',
-							_0: A2(_abadi199$elm_fire_game$Projector$bottom, model, _p1.position.y),
-							_1: {
-								ctor: '::',
-								_0: A2(_abadi199$elm_fire_game$Projector$width, model, fallingObject.width),
-								_1: {
-									ctor: '::',
-									_0: A2(_abadi199$elm_fire_game$Projector$height, model, fallingObject.height),
-									_1: {
-										ctor: '::',
-										_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
-										_1: {ctor: '[]'}
-									}
-								}
-							}
-						}
-					}
-				});
-		}
-	});
-var _abadi199$elm_fire_game$FallingObject$fallingObjectView = F2(
-	function (model, fallingObject) {
-		return A2(
-			_rtfeldman$elm_css$Html_Styled$div,
-			{
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
-					{
-						ctor: '::',
-						_0: A2(_abadi199$elm_fire_game$FallingObject$fallingObjectStyle, model, fallingObject),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			},
-			{ctor: '[]'});
-	});
-var _abadi199$elm_fire_game$FallingObject$view = function (model) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled$div,
-		{ctor: '[]'},
-		A2(
-			_elm_lang$core$List$map,
-			_abadi199$elm_fire_game$FallingObject$fallingObjectView(model),
-			_elm_lang$core$Dict$values(model.fallingObjects)));
-};
-var _abadi199$elm_fire_game$FallingObject$FallingObject = F6(
-	function (a, b, c, d, e, f) {
-		return {width: a, height: b, yieldIntervalInMillisecond: c, speedInPixelPerMillisecond: d, probability: e, state: f};
-	});
-var _abadi199$elm_fire_game$FallingObject$EmptyData = F2(
-	function (a, b) {
-		return {positionX: a, yieldCounterInMillisecond: b};
-	});
-var _abadi199$elm_fire_game$FallingObject$FallingData = F2(
-	function (a, b) {
-		return {position: a, kind: b};
-	});
-var _abadi199$elm_fire_game$FallingObject$Falling = function (a) {
-	return {ctor: 'Falling', _0: a};
-};
-var _abadi199$elm_fire_game$FallingObject$Empty = function (a) {
-	return {ctor: 'Empty', _0: a};
-};
-var _abadi199$elm_fire_game$FallingObject$create = F2(
-	function (positionX, list) {
-		return {
-			ctor: '::',
-			_0: {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Basics$toString(
-					A2(
-						_Skinney$murmur3$Murmur3$hashString,
-						2218777484,
-						_elm_lang$core$Basics$toString(list))),
-				_1: {
-					state: _abadi199$elm_fire_game$FallingObject$Empty(
-						{positionX: positionX, yieldCounterInMillisecond: 0}),
-					width: 20,
-					height: 20,
-					yieldIntervalInMillisecond: 1000,
-					speedInPixelPerMillisecond: 2,
-					probability: 50
-				}
-			},
-			_1: list
-		};
-	});
-var _abadi199$elm_fire_game$FallingObject$updateYieldCounter = F3(
-	function (counter, emptyData, fallingObject) {
-		return _elm_lang$core$Native_Utils.update(
-			fallingObject,
-			{
-				state: _abadi199$elm_fire_game$FallingObject$Empty(
-					_elm_lang$core$Native_Utils.update(
-						emptyData,
-						{yieldCounterInMillisecond: counter}))
-			});
-	});
-var _abadi199$elm_fire_game$FallingObject$Bad = {ctor: 'Bad'};
-var _abadi199$elm_fire_game$FallingObject$Good = {ctor: 'Good'};
-var _abadi199$elm_fire_game$FallingObject$falling = F3(
-	function (delta, model, fallingObject) {
-		var _p2 = fallingObject.state;
-		if (_p2.ctor === 'Empty') {
-			return _elm_lang$core$Native_Utils.update(
-				fallingObject,
-				{
-					state: _abadi199$elm_fire_game$FallingObject$Falling(
-						{
-							position: {x: _p2._0.positionX, y: 1080 + fallingObject.height},
-							kind: _abadi199$elm_fire_game$FallingObject$Good
-						})
-				});
-		} else {
-			var _p3 = _p2._0;
-			var newPositionY = _p3.position.y - fallingObject.speedInPixelPerMillisecond;
-			return (_elm_lang$core$Native_Utils.cmp(newPositionY, model.floorPositionY) < 0) ? _elm_lang$core$Native_Utils.update(
-				fallingObject,
-				{
-					state: _abadi199$elm_fire_game$FallingObject$Empty(
-						{positionX: _p3.position.x, yieldCounterInMillisecond: 0})
-				}) : _elm_lang$core$Native_Utils.update(
-				fallingObject,
-				{
-					state: _abadi199$elm_fire_game$FallingObject$Falling(
-						_elm_lang$core$Native_Utils.update(
-							_p3,
-							{
-								position: {x: _p3.position.x, y: newPositionY}
-							}))
-				});
-		}
-	});
-var _abadi199$elm_fire_game$FallingObject$generateNewRandomObject = F5(
-	function (delta, key, fallingObject, emptyData, model) {
-		var _p4 = A2(
-			_mgold$elm_random_pcg$Random_Pcg$step,
-			A2(_mgold$elm_random_pcg$Random_Pcg$int, 1, 100),
-			model.seed);
-		var randomNumber = _p4._0;
-		var newSeed = _p4._1;
-		var newFallingObject = (_elm_lang$core$Native_Utils.cmp(randomNumber, fallingObject.probability) < 0) ? A3(_abadi199$elm_fire_game$FallingObject$falling, delta, model, fallingObject) : A3(_abadi199$elm_fire_game$FallingObject$updateYieldCounter, 0, emptyData, fallingObject);
-		return _elm_lang$core$Native_Utils.update(
-			model,
-			{
-				seed: newSeed,
-				fallingObjects: A3(_elm_lang$core$Dict$insert, key, newFallingObject, model.fallingObjects)
-			});
-	});
-var _abadi199$elm_fire_game$FallingObject$moveFallingObject = F4(
-	function (delta, key, fallingObject, model) {
-		var _p5 = fallingObject.state;
-		if (_p5.ctor === 'Empty') {
-			var _p6 = _p5._0;
-			return (_elm_lang$core$Native_Utils.cmp(_p6.yieldCounterInMillisecond, fallingObject.yieldIntervalInMillisecond) < 0) ? function (object) {
-				return _elm_lang$core$Native_Utils.update(
-					model,
-					{
-						fallingObjects: A3(_elm_lang$core$Dict$insert, key, object, model.fallingObjects)
-					});
-			}(
-				A3(_abadi199$elm_fire_game$FallingObject$updateYieldCounter, _p6.yieldCounterInMillisecond + delta, _p6, fallingObject)) : A5(_abadi199$elm_fire_game$FallingObject$generateNewRandomObject, delta, key, fallingObject, _p6, model);
-		} else {
-			return _elm_lang$core$Native_Utils.update(
-				model,
-				{
-					fallingObjects: A3(
-						_elm_lang$core$Dict$insert,
-						key,
-						A3(_abadi199$elm_fire_game$FallingObject$falling, delta, model, fallingObject),
-						model.fallingObjects)
-				});
-		}
-	});
-var _abadi199$elm_fire_game$FallingObject$move = F2(
-	function (delta, model) {
-		return A3(
-			_elm_lang$core$Dict$foldl,
-			_abadi199$elm_fire_game$FallingObject$moveFallingObject(delta),
-			model,
-			model.fallingObjects);
-	});
-
-var _abadi199$elm_fire_game$Machine$resetTimer = F2(
-	function (machineId, machines) {
-		var reset = function (machine) {
-			return _elm_lang$core$Native_Utils.update(
-				machine,
-				{timerInMillisecond: 0});
-		};
-		return _elm_lang$core$Native_Utils.update(
-			machines,
-			{
-				machines: A3(
-					_elm_lang$core$Dict$update,
-					machineId,
-					_elm_lang$core$Maybe$map(reset),
-					machines.machines)
-			});
-	});
-var _abadi199$elm_fire_game$Machine$collidesWith = F2(
-	function (coordinates, machine) {
-		return A2(_abadi199$elm_fire_game$Coordinates$collidesWithRect, machine, coordinates);
-	});
-var _abadi199$elm_fire_game$Machine$isSelected = function (machine) {
-	var _p0 = machine.selected;
-	if (_p0.ctor === 'Selected') {
-		return true;
-	} else {
-		return false;
-	}
-};
-var _abadi199$elm_fire_game$Machine$selectedMachineId = function (machines) {
-	return _elm_lang$core$List$head(
-		_elm_lang$core$Dict$keys(
-			A2(
-				_elm_lang$core$Dict$filter,
-				F2(
-					function (_p1, machine) {
-						return _abadi199$elm_fire_game$Machine$isSelected(machine);
-					}),
-				machines.machines)));
-};
-var _abadi199$elm_fire_game$Machine$selected = function (machines) {
-	return _elm_lang$core$List$head(
-		A2(
-			_elm_lang$core$List$filter,
-			_abadi199$elm_fire_game$Machine$isSelected,
-			_elm_lang$core$Dict$values(machines.machines)));
-};
-var _abadi199$elm_fire_game$Machine$machineStyle = F2(
-	function (model, machine) {
-		var backgroundColor = function () {
-			var _p2 = machine.selected;
-			if (_p2.ctor === 'Selected') {
-				return _rtfeldman$elm_css$Css$hex('#F88');
-			} else {
-				return _rtfeldman$elm_css$Css$hex('#F00');
-			}
-		}();
-		return _rtfeldman$elm_css$Css$batch(
-			{
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$backgroundColor(backgroundColor),
-				_1: {
-					ctor: '::',
-					_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
-					_1: {
-						ctor: '::',
-						_0: A2(_abadi199$elm_fire_game$Projector$width, model, machine.width),
-						_1: {
-							ctor: '::',
-							_0: A2(_abadi199$elm_fire_game$Projector$height, model, machine.height),
-							_1: {
-								ctor: '::',
-								_0: A2(_abadi199$elm_fire_game$Projector$left, model, machine.position.x),
-								_1: {
-									ctor: '::',
-									_0: A2(_abadi199$elm_fire_game$Projector$bottom, model, machine.position.y),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				}
-			});
-	});
-var _abadi199$elm_fire_game$Machine$machineView = F2(
-	function (model, machine) {
-		return A2(
-			_rtfeldman$elm_css$Html_Styled$div,
-			{
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
-					{
-						ctor: '::',
-						_0: A2(_abadi199$elm_fire_game$Machine$machineStyle, model, machine),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			},
-			{
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Html_Styled$text(
-					_elm_lang$core$Basics$toString(
-						_elm_lang$core$Basics$round(machine.timerInMillisecond / 1000))),
-				_1: {ctor: '[]'}
-			});
-	});
-var _abadi199$elm_fire_game$Machine$view = function (model) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled$div,
-		{ctor: '[]'},
-		A2(
-			_elm_lang$core$List$map,
-			_abadi199$elm_fire_game$Machine$machineView(model),
-			_elm_lang$core$Dict$values(model.machines)));
-};
-var _abadi199$elm_fire_game$Machine$updateTimer = F2(
-	function (delta, machines) {
-		var updateMachineTimer = F2(
-			function (_p3, machine) {
-				return _elm_lang$core$Native_Utils.update(
-					machine,
-					{timerInMillisecond: machine.timerInMillisecond + delta});
-			});
-		return _elm_lang$core$Native_Utils.update(
-			machines,
-			{
-				machines: A2(_elm_lang$core$Dict$map, updateMachineTimer, machines.machines)
-			});
-	});
-var _abadi199$elm_fire_game$Machine$Machine = F6(
-	function (a, b, c, d, e, f) {
-		return {position: a, width: b, height: c, timerInMillisecond: d, maxTimeInMillisecond: e, selected: f};
-	});
-var _abadi199$elm_fire_game$Machine$NotSelected = {ctor: 'NotSelected'};
-var _abadi199$elm_fire_game$Machine$create = F2(
-	function (coordinates, list) {
-		return {
-			ctor: '::',
-			_0: {
-				ctor: '_Tuple2',
-				_0: _elm_lang$core$Basics$toString(
-					A2(
-						_Skinney$murmur3$Murmur3$hashString,
-						8821923,
-						_elm_lang$core$Basics$toString(list))),
-				_1: {position: coordinates, width: 100, height: 300, timerInMillisecond: 0, maxTimeInMillisecond: 10000, selected: _abadi199$elm_fire_game$Machine$NotSelected}
-			},
-			_1: list
-		};
-	});
-var _abadi199$elm_fire_game$Machine$Selected = {ctor: 'Selected'};
-var _abadi199$elm_fire_game$Machine$updateSelected = F2(
-	function (coordinates, machine) {
-		return A2(_abadi199$elm_fire_game$Machine$collidesWith, coordinates, machine) ? _elm_lang$core$Native_Utils.update(
-			machine,
-			{selected: _abadi199$elm_fire_game$Machine$Selected}) : _elm_lang$core$Native_Utils.update(
-			machine,
-			{selected: _abadi199$elm_fire_game$Machine$NotSelected});
-	});
-var _abadi199$elm_fire_game$Machine$select = F2(
-	function (coordinates, machines) {
-		return _elm_lang$core$Native_Utils.update(
-			machines,
-			{
-				machines: A2(
-					_elm_lang$core$Dict$map,
-					_elm_lang$core$Basics$always(
-						_abadi199$elm_fire_game$Machine$updateSelected(coordinates)),
-					machines.machines)
-			});
-	});
-
-var _abadi199$elm_fire_game$Hero$targetStyle = F2(
-	function (_p0, hero) {
-		var _p1 = _p0;
-		return _rtfeldman$elm_css$Css$batch(
-			{
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
-				_1: {
-					ctor: '::',
-					_0: A2(_abadi199$elm_fire_game$Projector$bottom, hero, _p1.y - 10),
-					_1: {
-						ctor: '::',
-						_0: A2(_abadi199$elm_fire_game$Projector$left, hero, _p1.x - 10),
-						_1: {
-							ctor: '::',
-							_0: A2(_abadi199$elm_fire_game$Projector$width, hero, 20),
-							_1: {
-								ctor: '::',
-								_0: A2(_abadi199$elm_fire_game$Projector$height, hero, 20),
-								_1: {
-									ctor: '::',
-									_0: _rtfeldman$elm_css$Css$backgroundColor(
-										A4(_rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0.2)),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				}
-			});
-	});
-var _abadi199$elm_fire_game$Hero$targetView = function (hero) {
-	var _p2 = hero.heroPosition;
-	if (_p2.ctor === 'Stationary') {
-		return _rtfeldman$elm_css$Html_Styled$text('');
-	} else {
-		return A2(
-			_rtfeldman$elm_css$Html_Styled$div,
-			{
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
-					{
-						ctor: '::',
-						_0: A2(_abadi199$elm_fire_game$Hero$targetStyle, _p2._0.to, hero),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			},
-			{ctor: '[]'});
-	}
-};
-var _abadi199$elm_fire_game$Hero$heroStyle = F3(
-	function (x, y, hero) {
-		return _rtfeldman$elm_css$Css$batch(
-			{
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
-				_1: {
-					ctor: '::',
-					_0: A2(_abadi199$elm_fire_game$Projector$bottom, hero, y),
-					_1: {
-						ctor: '::',
-						_0: A2(_abadi199$elm_fire_game$Projector$left, hero, x),
-						_1: {
-							ctor: '::',
-							_0: A2(_abadi199$elm_fire_game$Projector$width, hero, hero.heroWidth),
-							_1: {
-								ctor: '::',
-								_0: A2(_abadi199$elm_fire_game$Projector$height, hero, hero.heroHeight),
-								_1: {
-									ctor: '::',
-									_0: _rtfeldman$elm_css$Css$backgroundColor(
-										_rtfeldman$elm_css$Css$hex('#000')),
-									_1: {ctor: '[]'}
-								}
-							}
-						}
-					}
-				}
-			});
-	});
-var _abadi199$elm_fire_game$Hero$heroView = function (hero) {
-	var draw = function (_p3) {
-		var _p4 = _p3;
-		return A2(
-			_rtfeldman$elm_css$Html_Styled$div,
-			{
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
-					{
-						ctor: '::',
-						_0: A3(_abadi199$elm_fire_game$Hero$heroStyle, _p4.x, _p4.y, hero),
-						_1: {ctor: '[]'}
-					}),
-				_1: {ctor: '[]'}
-			},
-			{ctor: '[]'});
-	};
-	var _p5 = hero.heroPosition;
-	if (_p5.ctor === 'Stationary') {
-		return draw(_p5._0);
-	} else {
-		return draw(_p5._0.from);
-	}
-};
-var _abadi199$elm_fire_game$Hero$view = function (hero) {
-	return A2(
-		_rtfeldman$elm_css$Html_Styled$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _abadi199$elm_fire_game$Hero$heroView(hero),
-			_1: {
-				ctor: '::',
-				_0: _abadi199$elm_fire_game$Hero$targetView(hero),
-				_1: {ctor: '[]'}
-			}
-		});
-};
-var _abadi199$elm_fire_game$Hero$Moving = function (a) {
-	return {ctor: 'Moving', _0: a};
-};
-var _abadi199$elm_fire_game$Hero$moveTo = F2(
-	function (coordinates, hero) {
-		var moveToMachine = function (machine) {
-			var _p6 = hero.heroPosition;
-			if (_p6.ctor === 'Stationary') {
-				return _elm_lang$core$Native_Utils.update(
-					hero,
-					{
-						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-							{from: _p6._0, to: machine.position})
-					});
-			} else {
-				return _elm_lang$core$Native_Utils.update(
-					hero,
-					{
-						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-							{from: _p6._0.from, to: machine.position})
-					});
-			}
-		};
-		var moveToCoordinates = function () {
-			var _p7 = hero.heroPosition;
-			if (_p7.ctor === 'Stationary') {
-				return _elm_lang$core$Native_Utils.update(
-					hero,
-					{
-						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-							{from: _p7._0, to: coordinates})
-					});
-			} else {
-				return _elm_lang$core$Native_Utils.update(
-					hero,
-					{
-						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-							{from: _p7._0.from, to: coordinates})
-					});
-			}
-		}();
-		var machines = hero;
-		return A2(
-			_elm_lang$core$Maybe$withDefault,
-			moveToCoordinates,
-			A2(
-				_elm_lang$core$Maybe$map,
-				moveToMachine,
-				_abadi199$elm_fire_game$Machine$selected(machines)));
-	});
-var _abadi199$elm_fire_game$Hero$Stationary = function (a) {
-	return {ctor: 'Stationary', _0: a};
-};
-var _abadi199$elm_fire_game$Hero$moving = F5(
-	function (from, to, delta, speedPPms, hero) {
-		var toX = to.x - (hero.heroWidth / 2);
-		var travelDistance = (_elm_lang$core$Native_Utils.cmp(from.x, toX) > 0) ? ((-1 * speedPPms) * delta) : (speedPPms * delta);
-		var hasArrived = _elm_lang$core$Native_Utils.cmp(
-			_elm_lang$core$Basics$abs(from.x - toX),
-			_elm_lang$core$Basics$abs(travelDistance)) < 1;
-		var machines = hero;
-		return hasArrived ? {
-			ctor: '_Tuple2',
-			_0: _elm_lang$core$Native_Utils.update(
-				hero,
-				{
-					heroPosition: _abadi199$elm_fire_game$Hero$Stationary(
-						{x: toX, y: from.y})
-				}),
-			_1: A2(
-				_elm_lang$core$Maybe$withDefault,
-				_elm_lang$core$Platform_Cmd$none,
-				A2(
-					_elm_lang$core$Maybe$map,
-					function (_p8) {
-						return A2(
-							_elm_lang$core$Task$perform,
-							_abadi199$elm_fire_game$Msg$ResetMachineTimer,
-							_elm_lang$core$Task$succeed(_p8));
-					},
-					_abadi199$elm_fire_game$Machine$selectedMachineId(machines)))
-		} : {
-			ctor: '_Tuple2',
-			_0: _elm_lang$core$Native_Utils.update(
-				hero,
-				{
-					heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-						{
-							from: A2(_abadi199$elm_fire_game$Coordinates$addX, travelDistance, from),
-							to: to
-						})
-				}),
-			_1: _elm_lang$core$Platform_Cmd$none
-		};
-	});
-var _abadi199$elm_fire_game$Hero$move = F2(
-	function (delta, hero) {
-		var _p9 = hero.heroPosition;
-		if (_p9.ctor === 'Stationary') {
-			return {ctor: '_Tuple2', _0: hero, _1: _elm_lang$core$Platform_Cmd$none};
-		} else {
-			return A5(_abadi199$elm_fire_game$Hero$moving, _p9._0.from, _p9._0.to, delta, hero.heroSpeedInPixelPerMillisecond, hero);
-		}
-	});
-
-var _elm_lang$animation_frame$Native_AnimationFrame = function()
-{
-
-function create()
-{
-	return _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)
-	{
-		var id = requestAnimationFrame(function() {
-			callback(_elm_lang$core$Native_Scheduler.succeed(Date.now()));
-		});
-
-		return function() {
-			cancelAnimationFrame(id);
-		};
-	});
-}
-
-return {
-	create: create
-};
-
-}();
-
-var _elm_lang$animation_frame$AnimationFrame$rAF = _elm_lang$animation_frame$Native_AnimationFrame.create(
-	{ctor: '_Tuple0'});
-var _elm_lang$animation_frame$AnimationFrame$subscription = _elm_lang$core$Native_Platform.leaf('AnimationFrame');
-var _elm_lang$animation_frame$AnimationFrame$State = F3(
-	function (a, b, c) {
-		return {subs: a, request: b, oldTime: c};
-	});
-var _elm_lang$animation_frame$AnimationFrame$init = _elm_lang$core$Task$succeed(
-	A3(
-		_elm_lang$animation_frame$AnimationFrame$State,
-		{ctor: '[]'},
-		_elm_lang$core$Maybe$Nothing,
-		0));
-var _elm_lang$animation_frame$AnimationFrame$onEffects = F3(
-	function (router, subs, _p0) {
-		var _p1 = _p0;
-		var _p5 = _p1.request;
-		var _p4 = _p1.oldTime;
-		var _p2 = {ctor: '_Tuple2', _0: _p5, _1: subs};
-		if (_p2._0.ctor === 'Nothing') {
-			if (_p2._1.ctor === '[]') {
-				return _elm_lang$core$Task$succeed(
-					A3(
-						_elm_lang$animation_frame$AnimationFrame$State,
-						{ctor: '[]'},
-						_elm_lang$core$Maybe$Nothing,
-						_p4));
-			} else {
-				return A2(
-					_elm_lang$core$Task$andThen,
-					function (pid) {
-						return A2(
-							_elm_lang$core$Task$andThen,
-							function (time) {
-								return _elm_lang$core$Task$succeed(
-									A3(
-										_elm_lang$animation_frame$AnimationFrame$State,
-										subs,
-										_elm_lang$core$Maybe$Just(pid),
-										time));
-							},
-							_elm_lang$core$Time$now);
-					},
-					_elm_lang$core$Process$spawn(
-						A2(
-							_elm_lang$core$Task$andThen,
-							_elm_lang$core$Platform$sendToSelf(router),
-							_elm_lang$animation_frame$AnimationFrame$rAF)));
-			}
-		} else {
-			if (_p2._1.ctor === '[]') {
-				return A2(
-					_elm_lang$core$Task$andThen,
-					function (_p3) {
-						return _elm_lang$core$Task$succeed(
-							A3(
-								_elm_lang$animation_frame$AnimationFrame$State,
-								{ctor: '[]'},
-								_elm_lang$core$Maybe$Nothing,
-								_p4));
-					},
-					_elm_lang$core$Process$kill(_p2._0._0));
-			} else {
-				return _elm_lang$core$Task$succeed(
-					A3(_elm_lang$animation_frame$AnimationFrame$State, subs, _p5, _p4));
-			}
-		}
-	});
-var _elm_lang$animation_frame$AnimationFrame$onSelfMsg = F3(
-	function (router, newTime, _p6) {
-		var _p7 = _p6;
-		var _p10 = _p7.subs;
-		var diff = newTime - _p7.oldTime;
-		var send = function (sub) {
-			var _p8 = sub;
-			if (_p8.ctor === 'Time') {
-				return A2(
-					_elm_lang$core$Platform$sendToApp,
-					router,
-					_p8._0(newTime));
-			} else {
-				return A2(
-					_elm_lang$core$Platform$sendToApp,
-					router,
-					_p8._0(diff));
-			}
-		};
-		return A2(
-			_elm_lang$core$Task$andThen,
-			function (pid) {
-				return A2(
-					_elm_lang$core$Task$andThen,
-					function (_p9) {
-						return _elm_lang$core$Task$succeed(
-							A3(
-								_elm_lang$animation_frame$AnimationFrame$State,
-								_p10,
-								_elm_lang$core$Maybe$Just(pid),
-								newTime));
-					},
-					_elm_lang$core$Task$sequence(
-						A2(_elm_lang$core$List$map, send, _p10)));
-			},
-			_elm_lang$core$Process$spawn(
-				A2(
-					_elm_lang$core$Task$andThen,
-					_elm_lang$core$Platform$sendToSelf(router),
-					_elm_lang$animation_frame$AnimationFrame$rAF)));
-	});
-var _elm_lang$animation_frame$AnimationFrame$Diff = function (a) {
-	return {ctor: 'Diff', _0: a};
-};
-var _elm_lang$animation_frame$AnimationFrame$diffs = function (tagger) {
-	return _elm_lang$animation_frame$AnimationFrame$subscription(
-		_elm_lang$animation_frame$AnimationFrame$Diff(tagger));
-};
-var _elm_lang$animation_frame$AnimationFrame$Time = function (a) {
-	return {ctor: 'Time', _0: a};
-};
-var _elm_lang$animation_frame$AnimationFrame$times = function (tagger) {
-	return _elm_lang$animation_frame$AnimationFrame$subscription(
-		_elm_lang$animation_frame$AnimationFrame$Time(tagger));
-};
-var _elm_lang$animation_frame$AnimationFrame$subMap = F2(
-	function (func, sub) {
-		var _p11 = sub;
-		if (_p11.ctor === 'Time') {
-			return _elm_lang$animation_frame$AnimationFrame$Time(
-				function (_p12) {
-					return func(
-						_p11._0(_p12));
-				});
-		} else {
-			return _elm_lang$animation_frame$AnimationFrame$Diff(
-				function (_p13) {
-					return func(
-						_p11._0(_p13));
-				});
-		}
-	});
-_elm_lang$core$Native_Platform.effectManagers['AnimationFrame'] = {pkg: 'elm-lang/animation-frame', init: _elm_lang$animation_frame$AnimationFrame$init, onEffects: _elm_lang$animation_frame$AnimationFrame$onEffects, onSelfMsg: _elm_lang$animation_frame$AnimationFrame$onSelfMsg, tag: 'sub', subMap: _elm_lang$animation_frame$AnimationFrame$subMap};
-
-var _elm_lang$html$Html$programWithFlags = _elm_lang$virtual_dom$VirtualDom$programWithFlags;
-var _elm_lang$html$Html$program = _elm_lang$virtual_dom$VirtualDom$program;
-var _elm_lang$html$Html$beginnerProgram = function (_p0) {
-	var _p1 = _p0;
-	return _elm_lang$html$Html$program(
-		{
-			init: A2(
-				_elm_lang$core$Platform_Cmd_ops['!'],
-				_p1.model,
-				{ctor: '[]'}),
-			update: F2(
-				function (msg, model) {
-					return A2(
-						_elm_lang$core$Platform_Cmd_ops['!'],
-						A2(_p1.update, msg, model),
-						{ctor: '[]'});
-				}),
-			view: _p1.view,
-			subscriptions: function (_p2) {
-				return _elm_lang$core$Platform_Sub$none;
-			}
-		});
-};
-var _elm_lang$html$Html$map = _elm_lang$virtual_dom$VirtualDom$map;
-var _elm_lang$html$Html$text = _elm_lang$virtual_dom$VirtualDom$text;
-var _elm_lang$html$Html$node = _elm_lang$virtual_dom$VirtualDom$node;
-var _elm_lang$html$Html$body = _elm_lang$html$Html$node('body');
-var _elm_lang$html$Html$section = _elm_lang$html$Html$node('section');
-var _elm_lang$html$Html$nav = _elm_lang$html$Html$node('nav');
-var _elm_lang$html$Html$article = _elm_lang$html$Html$node('article');
-var _elm_lang$html$Html$aside = _elm_lang$html$Html$node('aside');
-var _elm_lang$html$Html$h1 = _elm_lang$html$Html$node('h1');
-var _elm_lang$html$Html$h2 = _elm_lang$html$Html$node('h2');
-var _elm_lang$html$Html$h3 = _elm_lang$html$Html$node('h3');
-var _elm_lang$html$Html$h4 = _elm_lang$html$Html$node('h4');
-var _elm_lang$html$Html$h5 = _elm_lang$html$Html$node('h5');
-var _elm_lang$html$Html$h6 = _elm_lang$html$Html$node('h6');
-var _elm_lang$html$Html$header = _elm_lang$html$Html$node('header');
-var _elm_lang$html$Html$footer = _elm_lang$html$Html$node('footer');
-var _elm_lang$html$Html$address = _elm_lang$html$Html$node('address');
-var _elm_lang$html$Html$main_ = _elm_lang$html$Html$node('main');
-var _elm_lang$html$Html$p = _elm_lang$html$Html$node('p');
-var _elm_lang$html$Html$hr = _elm_lang$html$Html$node('hr');
-var _elm_lang$html$Html$pre = _elm_lang$html$Html$node('pre');
-var _elm_lang$html$Html$blockquote = _elm_lang$html$Html$node('blockquote');
-var _elm_lang$html$Html$ol = _elm_lang$html$Html$node('ol');
-var _elm_lang$html$Html$ul = _elm_lang$html$Html$node('ul');
-var _elm_lang$html$Html$li = _elm_lang$html$Html$node('li');
-var _elm_lang$html$Html$dl = _elm_lang$html$Html$node('dl');
-var _elm_lang$html$Html$dt = _elm_lang$html$Html$node('dt');
-var _elm_lang$html$Html$dd = _elm_lang$html$Html$node('dd');
-var _elm_lang$html$Html$figure = _elm_lang$html$Html$node('figure');
-var _elm_lang$html$Html$figcaption = _elm_lang$html$Html$node('figcaption');
-var _elm_lang$html$Html$div = _elm_lang$html$Html$node('div');
-var _elm_lang$html$Html$a = _elm_lang$html$Html$node('a');
-var _elm_lang$html$Html$em = _elm_lang$html$Html$node('em');
-var _elm_lang$html$Html$strong = _elm_lang$html$Html$node('strong');
-var _elm_lang$html$Html$small = _elm_lang$html$Html$node('small');
-var _elm_lang$html$Html$s = _elm_lang$html$Html$node('s');
-var _elm_lang$html$Html$cite = _elm_lang$html$Html$node('cite');
-var _elm_lang$html$Html$q = _elm_lang$html$Html$node('q');
-var _elm_lang$html$Html$dfn = _elm_lang$html$Html$node('dfn');
-var _elm_lang$html$Html$abbr = _elm_lang$html$Html$node('abbr');
-var _elm_lang$html$Html$time = _elm_lang$html$Html$node('time');
-var _elm_lang$html$Html$code = _elm_lang$html$Html$node('code');
-var _elm_lang$html$Html$var = _elm_lang$html$Html$node('var');
-var _elm_lang$html$Html$samp = _elm_lang$html$Html$node('samp');
-var _elm_lang$html$Html$kbd = _elm_lang$html$Html$node('kbd');
-var _elm_lang$html$Html$sub = _elm_lang$html$Html$node('sub');
-var _elm_lang$html$Html$sup = _elm_lang$html$Html$node('sup');
-var _elm_lang$html$Html$i = _elm_lang$html$Html$node('i');
-var _elm_lang$html$Html$b = _elm_lang$html$Html$node('b');
-var _elm_lang$html$Html$u = _elm_lang$html$Html$node('u');
-var _elm_lang$html$Html$mark = _elm_lang$html$Html$node('mark');
-var _elm_lang$html$Html$ruby = _elm_lang$html$Html$node('ruby');
-var _elm_lang$html$Html$rt = _elm_lang$html$Html$node('rt');
-var _elm_lang$html$Html$rp = _elm_lang$html$Html$node('rp');
-var _elm_lang$html$Html$bdi = _elm_lang$html$Html$node('bdi');
-var _elm_lang$html$Html$bdo = _elm_lang$html$Html$node('bdo');
-var _elm_lang$html$Html$span = _elm_lang$html$Html$node('span');
-var _elm_lang$html$Html$br = _elm_lang$html$Html$node('br');
-var _elm_lang$html$Html$wbr = _elm_lang$html$Html$node('wbr');
-var _elm_lang$html$Html$ins = _elm_lang$html$Html$node('ins');
-var _elm_lang$html$Html$del = _elm_lang$html$Html$node('del');
-var _elm_lang$html$Html$img = _elm_lang$html$Html$node('img');
-var _elm_lang$html$Html$iframe = _elm_lang$html$Html$node('iframe');
-var _elm_lang$html$Html$embed = _elm_lang$html$Html$node('embed');
-var _elm_lang$html$Html$object = _elm_lang$html$Html$node('object');
-var _elm_lang$html$Html$param = _elm_lang$html$Html$node('param');
-var _elm_lang$html$Html$video = _elm_lang$html$Html$node('video');
-var _elm_lang$html$Html$audio = _elm_lang$html$Html$node('audio');
-var _elm_lang$html$Html$source = _elm_lang$html$Html$node('source');
-var _elm_lang$html$Html$track = _elm_lang$html$Html$node('track');
-var _elm_lang$html$Html$canvas = _elm_lang$html$Html$node('canvas');
-var _elm_lang$html$Html$math = _elm_lang$html$Html$node('math');
-var _elm_lang$html$Html$table = _elm_lang$html$Html$node('table');
-var _elm_lang$html$Html$caption = _elm_lang$html$Html$node('caption');
-var _elm_lang$html$Html$colgroup = _elm_lang$html$Html$node('colgroup');
-var _elm_lang$html$Html$col = _elm_lang$html$Html$node('col');
-var _elm_lang$html$Html$tbody = _elm_lang$html$Html$node('tbody');
-var _elm_lang$html$Html$thead = _elm_lang$html$Html$node('thead');
-var _elm_lang$html$Html$tfoot = _elm_lang$html$Html$node('tfoot');
-var _elm_lang$html$Html$tr = _elm_lang$html$Html$node('tr');
-var _elm_lang$html$Html$td = _elm_lang$html$Html$node('td');
-var _elm_lang$html$Html$th = _elm_lang$html$Html$node('th');
-var _elm_lang$html$Html$form = _elm_lang$html$Html$node('form');
-var _elm_lang$html$Html$fieldset = _elm_lang$html$Html$node('fieldset');
-var _elm_lang$html$Html$legend = _elm_lang$html$Html$node('legend');
-var _elm_lang$html$Html$label = _elm_lang$html$Html$node('label');
-var _elm_lang$html$Html$input = _elm_lang$html$Html$node('input');
-var _elm_lang$html$Html$button = _elm_lang$html$Html$node('button');
-var _elm_lang$html$Html$select = _elm_lang$html$Html$node('select');
-var _elm_lang$html$Html$datalist = _elm_lang$html$Html$node('datalist');
-var _elm_lang$html$Html$optgroup = _elm_lang$html$Html$node('optgroup');
-var _elm_lang$html$Html$option = _elm_lang$html$Html$node('option');
-var _elm_lang$html$Html$textarea = _elm_lang$html$Html$node('textarea');
-var _elm_lang$html$Html$keygen = _elm_lang$html$Html$node('keygen');
-var _elm_lang$html$Html$output = _elm_lang$html$Html$node('output');
-var _elm_lang$html$Html$progress = _elm_lang$html$Html$node('progress');
-var _elm_lang$html$Html$meter = _elm_lang$html$Html$node('meter');
-var _elm_lang$html$Html$details = _elm_lang$html$Html$node('details');
-var _elm_lang$html$Html$summary = _elm_lang$html$Html$node('summary');
-var _elm_lang$html$Html$menuitem = _elm_lang$html$Html$node('menuitem');
-var _elm_lang$html$Html$menu = _elm_lang$html$Html$node('menu');
-
 var _abadi199$elm_fire_game$Model$initialModel = F2(
 	function (seed, windowSize) {
 		return {
@@ -16560,23 +16603,24 @@ var _abadi199$elm_fire_game$Update$update = F2(
 
 var _abadi199$elm_fire_game$View$floor = function (model) {
 	return A2(
-		_rtfeldman$elm_css$Html_Styled$div,
+		_elm_lang$html$Html$div,
 		{
 			ctor: '::',
-			_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
-				{
-					ctor: '::',
-					_0: _rtfeldman$elm_css$Css$backgroundColor(
-						_rtfeldman$elm_css$Css$hex('#aaa')),
-					_1: {
+			_0: _elm_lang$html$Html_Attributes$style(
+				_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+					{
 						ctor: '::',
-						_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
+						_0: _rtfeldman$elm_css$Css$backgroundColor(
+							_rtfeldman$elm_css$Css$hex('#aaa')),
 						_1: {
 							ctor: '::',
-							_0: A2(_abadi199$elm_fire_game$Projector$left, model, 0),
+							_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
 							_1: {
 								ctor: '::',
-								_0: A2(_abadi199$elm_fire_game$Projector$bottom, model, 0),
+								_0: A2(
+									_abadi199$elm_fire_game$Projector$project,
+									model,
+									{x: 0, y: 0}),
 								_1: {
 									ctor: '::',
 									_0: _rtfeldman$elm_css$Css$width(
@@ -16589,8 +16633,7 @@ var _abadi199$elm_fire_game$View$floor = function (model) {
 								}
 							}
 						}
-					}
-				}),
+					})),
 			_1: {ctor: '[]'}
 		},
 		{ctor: '[]'});
@@ -16598,30 +16641,31 @@ var _abadi199$elm_fire_game$View$floor = function (model) {
 var _abadi199$elm_fire_game$View$world = F2(
 	function (model, content) {
 		return A2(
-			_rtfeldman$elm_css$Html_Styled$div,
+			_elm_lang$html$Html$div,
 			{
 				ctor: '::',
-				_0: _rtfeldman$elm_css$Html_Styled_Attributes$css(
-					{
-						ctor: '::',
-						_0: _rtfeldman$elm_css$Css$width(
-							_rtfeldman$elm_css$Css$vw(100)),
-						_1: {
+				_0: _elm_lang$html$Html_Attributes$style(
+					_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+						{
 							ctor: '::',
-							_0: _rtfeldman$elm_css$Css$height(
-								_rtfeldman$elm_css$Css$vh(100)),
+							_0: _rtfeldman$elm_css$Css$width(
+								_rtfeldman$elm_css$Css$vw(100)),
 							_1: {
 								ctor: '::',
-								_0: _rtfeldman$elm_css$Css$backgroundColor(
-									_rtfeldman$elm_css$Css$hex('#87ceeb')),
+								_0: _rtfeldman$elm_css$Css$height(
+									_rtfeldman$elm_css$Css$vh(100)),
 								_1: {
 									ctor: '::',
-									_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$relative),
-									_1: {ctor: '[]'}
+									_0: _rtfeldman$elm_css$Css$backgroundColor(
+										_rtfeldman$elm_css$Css$hex('#87ceeb')),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$relative),
+										_1: {ctor: '[]'}
+									}
 								}
 							}
-						}
-					}),
+						})),
 				_1: {ctor: '[]'}
 			},
 			{
@@ -16657,8 +16701,7 @@ var _abadi199$elm_fire_game$Main$initView = function (appState) {
 			{ctor: '[]'},
 			{ctor: '[]'});
 	} else {
-		return _rtfeldman$elm_css$Html_Styled$toUnstyled(
-			_abadi199$elm_fire_game$View$view(_p0._0));
+		return _abadi199$elm_fire_game$View$view(_p0._0);
 	}
 };
 var _abadi199$elm_fire_game$Main$subscriptions = function (appState) {

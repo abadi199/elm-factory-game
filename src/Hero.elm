@@ -9,8 +9,8 @@ module Hero
 
 import Coordinates exposing (Coordinates)
 import Css exposing (..)
-import Html.Styled exposing (..)
-import Html.Styled.Attributes exposing (..)
+import Html exposing (..)
+import Html.Attributes exposing (..)
 import Machine exposing (Machines)
 import Msg exposing (Msg)
 import Projector
@@ -44,8 +44,8 @@ view hero =
 heroView : Hero a -> Html Msg
 heroView hero =
     let
-        draw { x, y } =
-            div [ css [ heroStyle x y hero ] ] []
+        draw coordinates =
+            div [ style <| Css.asPairsDEPRECATED [ heroStyle coordinates hero ] ] []
     in
     case hero.heroPosition of
         Stationary coordinates ->
@@ -55,12 +55,11 @@ heroView hero =
             draw from
 
 
-heroStyle : Float -> Float -> Hero a -> Style
-heroStyle x y hero =
+heroStyle : Coordinates -> Hero a -> Style
+heroStyle coordinates hero =
     Css.batch
         [ position absolute
-        , Projector.bottom hero y
-        , Projector.left hero x
+        , Projector.project hero coordinates
         , Projector.width hero hero.heroWidth
         , Projector.height hero hero.heroHeight
         , backgroundColor (hex "#000")
@@ -74,15 +73,14 @@ targetView hero =
             text ""
 
         Moving { to } ->
-            div [ css [ targetStyle to hero ] ] []
+            div [ style <| Css.asPairsDEPRECATED [ targetStyle to hero ] ] []
 
 
 targetStyle : Coordinates -> Hero a -> Style
 targetStyle { x, y } hero =
     Css.batch
         [ position absolute
-        , Projector.bottom hero (y - 10)
-        , Projector.left hero (x - 10)
+        , Projector.project hero { x = x - 10, y = y - 10 }
         , Projector.width hero 20
         , Projector.height hero 20
         , backgroundColor (rgba 0 0 0 0.2)
