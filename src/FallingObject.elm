@@ -180,17 +180,35 @@ addYieldCounter delta producer =
 generateNewRandomObject : Float -> String -> Producer -> FallingObjects a -> FallingObjects a
 generateNewRandomObject delta key producer model =
     let
-        ( randomNumber, newSeed ) =
-            Random.step (Random.int 1 100) model.seed
+        yieldObjectGenerator =
+            Random.int 1 100
+                |> Random.andThen yieldObject
 
-        newProducer =
+        yieldObject randomNumber =
             if randomNumber < producer.yieldProbability then
-                { producer
-                    | objects = newObject model producer :: producer.objects
-                    , yieldCounterInMillisecond = 0
-                }
+                objectKindGenerator
+                    |> Random.map
+                        (\kind ->
+                            { producer
+                                | objects = newObject model producer kind :: producer.objects
+                                , yieldCounterInMillisecond = 0
+                            }
+                        )
             else
-                { producer | yieldCounterInMillisecond = 0 }
+                Random.constant { producer | yieldCounterInMillisecond = 0 }
+
+        objectKindGenerator =
+            Random.int 1 100
+                |> Random.map objectKind
+
+        objectKind randomNumber =
+            if Basics.round (toFloat randomNumber * (100 / toFloat producer.yieldProbability)) < producer.goodKindProbability then
+                Good
+            else
+                Bad
+
+        ( newProducer, newSeed ) =
+            Random.step yieldObjectGenerator model.seed
     in
     { model
         | seed = newSeed
@@ -198,8 +216,11 @@ generateNewRandomObject delta key producer model =
     }
 
 
-newObject : FallingObjects a -> Producer -> FallingObject
-newObject model producer =
-    { position = { x = producer.positionX, y = Projector.toViewportY model (toFloat model.windowSize.height) }
-    , kind = Bad
+newObject : FallingObjects a -> Producer -> Kind -> FallingObject
+newObject model producer kind =
+    { position =
+        { x = producer.positionX
+        , y = Projector.toViewportY model (toFloat model.windowSize.height)
+        }
+    , kind = kind
     }

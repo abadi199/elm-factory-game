@@ -13984,6 +13984,19 @@ var _mgold$elm_random_pcg$Random_Pcg$fromJson = _elm_lang$core$Json_Decode$oneOf
 		}
 	});
 
+var _abadi199$elm_fire_game$FallingObject$newObject = F3(
+	function (model, producer, kind) {
+		return {
+			position: {
+				x: producer.positionX,
+				y: A2(
+					_abadi199$elm_fire_game$Projector$toViewportY,
+					model,
+					_elm_lang$core$Basics$toFloat(model.windowSize.height))
+			},
+			kind: kind
+		};
+	});
 var _abadi199$elm_fire_game$FallingObject$addYieldCounter = F2(
 	function (delta, producer) {
 		return _elm_lang$core$Native_Utils.update(
@@ -14178,7 +14191,7 @@ var _abadi199$elm_fire_game$FallingObject$create = F2(
 					yieldCounterInMillisecond: 0,
 					width: 20,
 					height: 20,
-					yieldIntervalInMillisecond: 5000,
+					yieldIntervalInMillisecond: 2000,
 					speedInPixelPerMillisecond: 0.1,
 					yieldProbability: 50,
 					goodKindProbability: 90
@@ -14196,39 +14209,46 @@ var _abadi199$elm_fire_game$FallingObject$FallingObject = F2(
 		return {position: a, kind: b};
 	});
 var _abadi199$elm_fire_game$FallingObject$Bad = {ctor: 'Bad'};
-var _abadi199$elm_fire_game$FallingObject$newObject = F2(
-	function (model, producer) {
-		return {
-			position: {
-				x: producer.positionX,
-				y: A2(
-					_abadi199$elm_fire_game$Projector$toViewportY,
-					model,
-					_elm_lang$core$Basics$toFloat(model.windowSize.height))
-			},
-			kind: _abadi199$elm_fire_game$FallingObject$Bad
-		};
-	});
+var _abadi199$elm_fire_game$FallingObject$Good = {ctor: 'Good'};
 var _abadi199$elm_fire_game$FallingObject$generateNewRandomObject = F4(
 	function (delta, key, producer, model) {
-		var _p1 = A2(
-			_mgold$elm_random_pcg$Random_Pcg$step,
-			A2(_mgold$elm_random_pcg$Random_Pcg$int, 1, 100),
-			model.seed);
-		var randomNumber = _p1._0;
-		var newSeed = _p1._1;
-		var newProducer = (_elm_lang$core$Native_Utils.cmp(randomNumber, producer.yieldProbability) < 0) ? _elm_lang$core$Native_Utils.update(
-			producer,
-			{
-				objects: {
-					ctor: '::',
-					_0: A2(_abadi199$elm_fire_game$FallingObject$newObject, model, producer),
-					_1: producer.objects
+		var objectKind = function (randomNumber) {
+			return (_elm_lang$core$Native_Utils.cmp(
+				_elm_lang$core$Basics$round(
+					_elm_lang$core$Basics$toFloat(randomNumber) * (100 / _elm_lang$core$Basics$toFloat(producer.yieldProbability))),
+				producer.goodKindProbability) < 0) ? _abadi199$elm_fire_game$FallingObject$Good : _abadi199$elm_fire_game$FallingObject$Bad;
+		};
+		var objectKindGenerator = A2(
+			_mgold$elm_random_pcg$Random_Pcg$map,
+			objectKind,
+			A2(_mgold$elm_random_pcg$Random_Pcg$int, 1, 100));
+		var yieldObject = function (randomNumber) {
+			return (_elm_lang$core$Native_Utils.cmp(randomNumber, producer.yieldProbability) < 0) ? A2(
+				_mgold$elm_random_pcg$Random_Pcg$map,
+				function (kind) {
+					return _elm_lang$core$Native_Utils.update(
+						producer,
+						{
+							objects: {
+								ctor: '::',
+								_0: A3(_abadi199$elm_fire_game$FallingObject$newObject, model, producer, kind),
+								_1: producer.objects
+							},
+							yieldCounterInMillisecond: 0
+						});
 				},
-				yieldCounterInMillisecond: 0
-			}) : _elm_lang$core$Native_Utils.update(
-			producer,
-			{yieldCounterInMillisecond: 0});
+				objectKindGenerator) : _mgold$elm_random_pcg$Random_Pcg$constant(
+				_elm_lang$core$Native_Utils.update(
+					producer,
+					{yieldCounterInMillisecond: 0}));
+		};
+		var yieldObjectGenerator = A2(
+			_mgold$elm_random_pcg$Random_Pcg$andThen,
+			yieldObject,
+			A2(_mgold$elm_random_pcg$Random_Pcg$int, 1, 100));
+		var _p1 = A2(_mgold$elm_random_pcg$Random_Pcg$step, yieldObjectGenerator, model.seed);
+		var newProducer = _p1._0;
+		var newSeed = _p1._1;
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{
@@ -14263,7 +14283,6 @@ var _abadi199$elm_fire_game$FallingObject$update = F2(
 			model,
 			model.producers);
 	});
-var _abadi199$elm_fire_game$FallingObject$Good = {ctor: 'Good'};
 
 var _abadi199$elm_fire_game$Machine$resetTimer = F2(
 	function (machineId, machines) {
