@@ -2,8 +2,8 @@ module Hero
     exposing
         ( Hero
         , Position(..)
-        , move
         , moveTo
+        , update
         , view
         )
 
@@ -115,8 +115,8 @@ moveTo coordinates hero =
         |> Maybe.withDefault moveToCoordinates
 
 
-move : Float -> Hero (Machines a) -> ( Hero (Machines a), Cmd Msg )
-move delta hero =
+update : Float -> Hero (Machines a) -> ( Hero (Machines a), Cmd Msg )
+update delta hero =
     case hero.heroPosition of
         Stationary _ ->
             ( hero, Cmd.none )

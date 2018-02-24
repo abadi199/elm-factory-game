@@ -1,9 +1,7 @@
 module Projector
     exposing
-        ( bottom
-        , height
+        ( height
         , heightRatio
-        , left
         , project
         , toViewportX
         , toViewportY
@@ -47,22 +45,6 @@ toViewportY { heightRatio } y =
         0
     else
         y / heightRatio
-
-
-left : { a | widthRatio : Float } -> Float -> Css.Style
-left model value =
-    Css.batch
-        [ Css.left Css.zero
-        , Css.transform <| Css.translateX (Css.px (toWorldX model value))
-        ]
-
-
-bottom : { a | heightRatio : Float } -> Float -> Css.Style
-bottom model value =
-    Css.batch
-        [ Css.bottom Css.zero
-        , Css.transform <| Css.translateY (Css.px (-1 * toWorldY model value))
-        ]
 
 
 project : { a | widthRatio : Float, heightRatio : Float } -> { x : Float, y : Float } -> Css.Style

@@ -41,11 +41,11 @@ initialModel seed windowSize =
             |> Machine.create { x = 1000, y = 200 }
             |> Machine.create { x = 1500, y = 200 }
             |> Dict.fromList
-    , fallingObjects =
+    , producers =
         []
             |> FallingObject.create 300
-            |> FallingObject.create 800
-            |> FallingObject.create 1300
+            -- |> FallingObject.create 800
+            -- |> FallingObject.create 1300
             |> Dict.fromList
     , seed = seed
     }

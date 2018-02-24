@@ -57,8 +57,8 @@ tick : Float -> Model -> ( Model, Cmd Msg )
 tick delta model =
     model
         |> Machine.updateTimer delta
-        |> FallingObject.move delta
-        |> Hero.move delta
+        |> FallingObject.update delta
+        |> Hero.update delta
 
 
 updateWindowSize : Window.Size -> Model -> Model

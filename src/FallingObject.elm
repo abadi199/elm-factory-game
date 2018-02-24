@@ -1,4 +1,10 @@
-module FallingObject exposing (FallingObjects, create, move, view)
+module FallingObject
+    exposing
+        ( FallingObjects
+        , create
+        , update
+        , view
+        )
 
 import Coordinates exposing (Coordinates)
 import Css exposing (..)
@@ -9,41 +15,34 @@ import Msg exposing (Msg(..))
 import Murmur3
 import Projector
 import Random.Pcg as Random exposing (Seed)
+import Window
 
 
 type alias FallingObjects a =
     { a
-        | fallingObjects : Dict String FallingObject
+        | producers : Dict String Producer
         , widthRatio : Float
         , heightRatio : Float
         , seed : Seed
         , floorPositionY : Float
+        , windowSize : Window.Size
     }
 
 
-type alias FallingObject =
+type alias Producer =
     { width : Float
     , height : Float
     , yieldIntervalInMillisecond : Float
     , speedInPixelPerMillisecond : Float
     , yieldProbability : Int
     , goodKindProbability : Int
-    , state : State
-    }
-
-
-type State
-    = Empty EmptyData
-    | Falling FallingData
-
-
-type alias EmptyData =
-    { positionX : Float
+    , positionX : Float
     , yieldCounterInMillisecond : Float
+    , objects : List FallingObject
     }
 
 
-type alias FallingData =
+type alias FallingObject =
     { position : Coordinates
     , kind : Kind
     }
@@ -54,13 +53,15 @@ type Kind
     | Bad
 
 
-create : Float -> List ( String, FallingObject ) -> List ( String, FallingObject )
+create : Float -> List ( String, Producer ) -> List ( String, Producer )
 create positionX list =
     ( toString <| Murmur3.hashString 2218777484 <| toString list
-    , { state = Empty { positionX = positionX, yieldCounterInMillisecond = 0 }
+    , { objects = []
+      , positionX = positionX
+      , yieldCounterInMillisecond = 0
       , width = 20
       , height = 20
-      , yieldIntervalInMillisecond = 1000
+      , yieldIntervalInMillisecond = 5000
       , speedInPixelPerMillisecond = 0.1
       , yieldProbability = 50
       , goodKindProbability = 90
@@ -72,147 +73,129 @@ create positionX list =
 view : FallingObjects a -> Html Msg
 view model =
     div []
-        (model.fallingObjects
+        (model.producers
             |> Dict.values
-            |> List.map (fallingObjectView model)
+            |> List.map (producerView model)
         )
 
 
-fallingObjectView : FallingObjects a -> FallingObject -> Html Msg
-fallingObjectView model fallingObject =
+producerView : FallingObjects a -> Producer -> Html Msg
+producerView model producer =
+    div
+        []
+        (div [ style <| Css.asPairsDEPRECATED [ producerStyle model producer ] ]
+            [ div [] [ text <| toString <| Basics.round <| producer.yieldCounterInMillisecond / 1000 ]
+            , div [] [ text <| toString <| List.length producer.objects ]
+            ]
+            :: (producer.objects
+                    |> List.map (fallingObjectView model producer)
+               )
+        )
+
+
+producerStyle : FallingObjects a -> Producer -> Style
+producerStyle model producer =
+    Css.batch
+        [ position absolute
+        , backgroundColor (rgba 0 0 0 0.25)
+        , Projector.width model 100
+        , Projector.height model (Projector.toViewportY model (toFloat model.windowSize.height) - model.floorPositionY)
+        , Projector.project model { x = producer.positionX, y = model.floorPositionY }
+        ]
+
+
+fallingObjectView : FallingObjects a -> Producer -> FallingObject -> Html Msg
+fallingObjectView model producer fallingObject =
     div
         [ style <|
-            Css.asPairsDEPRECATED [ fallingObjectStyle model fallingObject ]
+            Css.asPairsDEPRECATED [ fallingObjectStyle model producer fallingObject ]
         ]
         []
 
 
-fallingObjectStyle : FallingObjects a -> FallingObject -> Style
-fallingObjectStyle model fallingObject =
-    case fallingObject.state of
-        Empty _ ->
-            Css.batch [ display none ]
+fallingObjectStyle : FallingObjects a -> Producer -> FallingObject -> Style
+fallingObjectStyle model producer fallingObject =
+    let
+        color =
+            case fallingObject.kind of
+                Good ->
+                    hex "#0F0"
 
-        Falling data ->
-            let
-                color =
-                    case data.kind of
-                        Good ->
-                            hex "#0F0"
-
-                        Bad ->
-                            hex "#F00"
-            in
-            Css.batch
-                [ Projector.width model fallingObject.width
-                , Projector.height model fallingObject.height
-                , Projector.project model data.position
-                , position absolute
-                , backgroundColor color
-                ]
+                Bad ->
+                    hex "#F00"
+    in
+    Css.batch
+        [ Projector.width model producer.width
+        , Projector.height model producer.height
+        , Projector.project model fallingObject.position
+        , position absolute
+        , backgroundColor color
+        ]
 
 
-move : Float -> FallingObjects a -> FallingObjects a
-move delta model =
+update : Float -> FallingObjects a -> FallingObjects a
+update delta model =
     Dict.foldl
-        (moveFallingObject delta)
+        (\key producer -> producer |> move delta |> updateProducer delta key)
         model
-        model.fallingObjects
+        model.producers
 
 
-moveFallingObject : Float -> String -> FallingObject -> FallingObjects a -> FallingObjects a
-moveFallingObject delta key fallingObject model =
-    case fallingObject.state of
-        Empty emptyData ->
-            if emptyData.yieldCounterInMillisecond < fallingObject.yieldIntervalInMillisecond then
-                fallingObject
-                    |> updateYieldCounter (emptyData.yieldCounterInMillisecond + delta) emptyData
-                    |> (\object -> { model | fallingObjects = Dict.insert key object model.fallingObjects })
-            else
-                generateNewRandomObject delta key fallingObject emptyData model
-
-        Falling _ ->
-            { model
-                | fallingObjects = Dict.insert key (falling delta model fallingObject) model.fallingObjects
-            }
+move : Float -> Producer -> Producer
+move delta producer =
+    { producer | objects = List.map (moveObject delta producer) producer.objects }
 
 
-updateYieldCounter : Float -> EmptyData -> FallingObject -> FallingObject
-updateYieldCounter counter emptyData fallingObject =
+moveObject : Float -> Producer -> FallingObject -> FallingObject
+moveObject delta producer fallingObject =
+    let
+        position =
+            fallingObject.position
+    in
     { fallingObject
-        | state =
-            Empty
-                { emptyData
-                    | yieldCounterInMillisecond = counter
-                }
+        | position = { position | y = position.y - (producer.speedInPixelPerMillisecond * delta) }
     }
 
 
-generateNewRandomObject : Float -> String -> FallingObject -> EmptyData -> FallingObjects a -> FallingObjects a
-generateNewRandomObject delta key fallingObject emptyData model =
+updateProducer : Float -> String -> Producer -> FallingObjects a -> FallingObjects a
+updateProducer delta key producer model =
+    if producer.yieldCounterInMillisecond < producer.yieldIntervalInMillisecond then
+        { model | producers = Dict.insert key (addYieldCounter delta producer) model.producers }
+    else
+        generateNewRandomObject delta key producer model
+
+
+addYieldCounter : Float -> Producer -> Producer
+addYieldCounter delta producer =
+    { producer | yieldCounterInMillisecond = producer.yieldCounterInMillisecond + delta }
+
+
+generateNewRandomObject : Float -> String -> Producer -> FallingObjects a -> FallingObjects a
+generateNewRandomObject delta key producer model =
     let
         ( randomNumber, newSeed ) =
             Random.step (Random.int 1 100) model.seed
 
-        newFallingObject =
-            if randomNumber < fallingObject.yieldProbability then
-                fallingObject
-                    |> falling delta { model | seed = newSeed }
+        newProducer =
+            if randomNumber < producer.yieldProbability then
+                { producer
+                    | objects = newObject model producer :: producer.objects
+                    , yieldCounterInMillisecond = 0
+                }
             else
-                fallingObject
-                    |> updateYieldCounter 0 emptyData
+                { producer | yieldCounterInMillisecond = 0 }
+
+        _ =
+            Debug.log "producer.objects.length" (List.length newProducer.objects)
     in
     { model
         | seed = newSeed
-        , fallingObjects = Dict.insert key newFallingObject model.fallingObjects
+        , producers = Dict.insert key newProducer model.producers
     }
 
 
-falling : Float -> FallingObjects a -> FallingObject -> FallingObject
-falling delta model fallingObject =
-    case fallingObject.state of
-        Empty data ->
-            startFalling delta model data fallingObject
-
-        Falling data ->
-            let
-                newPositionY =
-                    data.position.y - (fallingObject.speedInPixelPerMillisecond * delta)
-            in
-            if newPositionY < model.floorPositionY then
-                { fallingObject | state = Empty { positionX = data.position.x, yieldCounterInMillisecond = 0 } }
-            else
-                { fallingObject
-                    | state =
-                        Falling
-                            { data
-                                | position =
-                                    { x = data.position.x
-                                    , y = newPositionY
-                                    }
-                            }
-                }
-
-
-startFalling : Float -> FallingObjects a -> EmptyData -> FallingObject -> FallingObject
-startFalling delta model data fallingObject =
-    let
-        ( randomNumber, _ ) =
-            Random.step (Random.int 1 100) model.seed
-
-        kind =
-            if randomNumber < fallingObject.goodKindProbability then
-                Good
-            else
-                Bad
-    in
-    { fallingObject
-        | state =
-            Falling
-                { position =
-                    { x = data.positionX
-                    , y = 1080 + fallingObject.height
-                    }
-                , kind = kind
-                }
+newObject : FallingObjects a -> Producer -> FallingObject
+newObject model producer =
+    { position = { x = producer.positionX, y = Projector.toViewportY model (toFloat model.windowSize.height) }
+    , kind = Bad
     }
