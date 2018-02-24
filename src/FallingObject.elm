@@ -136,25 +136,32 @@ fallingObjectStyle model producer fallingObject =
 update : Float -> FallingObjects a -> FallingObjects a
 update delta model =
     Dict.foldl
-        (\key producer -> producer |> move delta |> updateProducer delta key)
+        (\key producer -> producer |> move delta model |> updateProducer delta key)
         model
         model.producers
 
 
-move : Float -> Producer -> Producer
-move delta producer =
-    { producer | objects = List.map (moveObject delta producer) producer.objects }
+move : Float -> FallingObjects a -> Producer -> Producer
+move delta model producer =
+    { producer | objects = List.filterMap (moveObject delta model producer) producer.objects }
 
 
-moveObject : Float -> Producer -> FallingObject -> FallingObject
-moveObject delta producer fallingObject =
+moveObject : Float -> FallingObjects a -> Producer -> FallingObject -> Maybe FallingObject
+moveObject delta model producer fallingObject =
     let
         position =
             fallingObject.position
+
+        newPositionY =
+            position.y - (producer.speedInPixelPerMillisecond * delta)
     in
-    { fallingObject
-        | position = { position | y = position.y - (producer.speedInPixelPerMillisecond * delta) }
-    }
+    if newPositionY < model.floorPositionY then
+        Nothing
+    else
+        Just
+            { fallingObject
+                | position = { position | y = newPositionY }
+            }
 
 
 updateProducer : Float -> String -> Producer -> FallingObjects a -> FallingObjects a
@@ -184,9 +191,6 @@ generateNewRandomObject delta key producer model =
                 }
             else
                 { producer | yieldCounterInMillisecond = 0 }
-
-        _ =
-            Debug.log "producer.objects.length" (List.length newProducer.objects)
     in
     { model
         | seed = newSeed

@@ -44,8 +44,8 @@ initialModel seed windowSize =
     , producers =
         []
             |> FallingObject.create 300
-            -- |> FallingObject.create 800
-            -- |> FallingObject.create 1300
+            |> FallingObject.create 800
+            |> FallingObject.create 1300
             |> Dict.fromList
     , seed = seed
     }

@@ -13990,25 +13990,27 @@ var _abadi199$elm_fire_game$FallingObject$addYieldCounter = F2(
 			producer,
 			{yieldCounterInMillisecond: producer.yieldCounterInMillisecond + delta});
 	});
-var _abadi199$elm_fire_game$FallingObject$moveObject = F3(
-	function (delta, producer, fallingObject) {
+var _abadi199$elm_fire_game$FallingObject$moveObject = F4(
+	function (delta, model, producer, fallingObject) {
 		var position = fallingObject.position;
-		return _elm_lang$core$Native_Utils.update(
-			fallingObject,
-			{
-				position: _elm_lang$core$Native_Utils.update(
-					position,
-					{y: position.y - (producer.speedInPixelPerMillisecond * delta)})
-			});
+		var newPositionY = position.y - (producer.speedInPixelPerMillisecond * delta);
+		return (_elm_lang$core$Native_Utils.cmp(newPositionY, model.floorPositionY) < 0) ? _elm_lang$core$Maybe$Nothing : _elm_lang$core$Maybe$Just(
+			_elm_lang$core$Native_Utils.update(
+				fallingObject,
+				{
+					position: _elm_lang$core$Native_Utils.update(
+						position,
+						{y: newPositionY})
+				}));
 	});
-var _abadi199$elm_fire_game$FallingObject$move = F2(
-	function (delta, producer) {
+var _abadi199$elm_fire_game$FallingObject$move = F3(
+	function (delta, model, producer) {
 		return _elm_lang$core$Native_Utils.update(
 			producer,
 			{
 				objects: A2(
-					_elm_lang$core$List$map,
-					A2(_abadi199$elm_fire_game$FallingObject$moveObject, delta, producer),
+					_elm_lang$core$List$filterMap,
+					A3(_abadi199$elm_fire_game$FallingObject$moveObject, delta, model, producer),
 					producer.objects)
 			});
 	});
@@ -14227,10 +14229,6 @@ var _abadi199$elm_fire_game$FallingObject$generateNewRandomObject = F4(
 			}) : _elm_lang$core$Native_Utils.update(
 			producer,
 			{yieldCounterInMillisecond: 0});
-		var _p2 = A2(
-			_elm_lang$core$Debug$log,
-			'producer.objects.length',
-			_elm_lang$core$List$length(newProducer.objects));
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{
@@ -14260,7 +14258,7 @@ var _abadi199$elm_fire_game$FallingObject$update = F2(
 						_abadi199$elm_fire_game$FallingObject$updateProducer,
 						delta,
 						key,
-						A2(_abadi199$elm_fire_game$FallingObject$move, delta, producer));
+						A3(_abadi199$elm_fire_game$FallingObject$move, delta, model, producer));
 				}),
 			model,
 			model.producers);
@@ -16569,8 +16567,14 @@ var _abadi199$elm_fire_game$Model$initialModel = F2(
 			producers: _elm_lang$core$Dict$fromList(
 				A2(
 					_abadi199$elm_fire_game$FallingObject$create,
-					300,
-					{ctor: '[]'})),
+					1300,
+					A2(
+						_abadi199$elm_fire_game$FallingObject$create,
+						800,
+						A2(
+							_abadi199$elm_fire_game$FallingObject$create,
+							300,
+							{ctor: '[]'})))),
 			seed: seed
 		};
 	});
