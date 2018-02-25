@@ -1,8 +1,10 @@
 module Projector
     exposing
-        ( height
+        ( calculateOrigin
+        , height
         , heightRatio
         , project
+        , toViewport
         , toViewportX
         , toViewportY
         , toWorldX
@@ -11,6 +13,7 @@ module Projector
         , widthRatio
         )
 
+import Coordinates exposing (Coordinates)
 import Css
 import Window
 
@@ -31,30 +34,37 @@ toWorldY { heightRatio } y =
         heightRatio * y
 
 
-toViewportX : { a | widthRatio : Float } -> Float -> Float
-toViewportX { widthRatio } x =
+toViewportX : { a | origin : Coordinates, widthRatio : Float } -> Float -> Float
+toViewportX { origin, widthRatio } x =
     if x == 0 then
-        0
+        origin.x
     else
-        x / widthRatio
+        (x / widthRatio) - origin.x
 
 
-toViewportY : { a | heightRatio : Float } -> Float -> Float
-toViewportY { heightRatio } y =
+toViewportY : { a | origin : Coordinates, heightRatio : Float } -> Float -> Float
+toViewportY { origin, heightRatio } y =
     if y == 0 then
-        0
+        origin.y
     else
-        y / heightRatio
+        (y / heightRatio) - origin.y
 
 
-project : { a | widthRatio : Float, heightRatio : Float } -> { x : Float, y : Float } -> Css.Style
+toViewport : { a | origin : Coordinates, widthRatio : Float, heightRatio : Float } -> Coordinates -> Coordinates
+toViewport model { x, y } =
+    { x = toViewportX model x
+    , y = toViewportY model y
+    }
+
+
+project : { a | origin : Coordinates, widthRatio : Float, heightRatio : Float } -> { x : Float, y : Float } -> Css.Style
 project model { x, y } =
     Css.batch
         [ Css.left Css.zero
         , Css.bottom Css.zero
         , Css.transforms
-            [ Css.translateY (Css.px (-1 * toWorldY model y))
-            , Css.translateX (Css.px (toWorldX model x))
+            [ Css.translateY (Css.px (-1 * toWorldY model (y + model.origin.y)))
+            , Css.translateX (Css.px (toWorldX model (x + model.origin.x)))
             ]
         ]
 
@@ -96,3 +106,14 @@ heightRatio windowSize =
                 toFloat windowSize.width / 1.777777778
     in
     height / viewport.height
+
+
+calculateOrigin : Window.Size -> Coordinates
+calculateOrigin windowSize =
+    let
+        origin =
+            { x = 0, y = 0 }
+    in
+    { x = (toViewportX { origin = origin, widthRatio = widthRatio windowSize } (toFloat windowSize.width) - viewport.width) / 2
+    , y = (toViewportY { origin = origin, heightRatio = heightRatio windowSize } (toFloat windowSize.height) - viewport.height) / 2
+    }

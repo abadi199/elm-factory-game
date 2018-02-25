@@ -47,6 +47,7 @@ mouseClicked mousePosition model =
     let
         coordinates =
             Coordinates.fromPosition model mousePosition
+                |> Projector.toViewport model
     in
     model
         |> Machine.select coordinates
@@ -66,5 +67,6 @@ updateWindowSize windowSize model =
     { model
         | widthRatio = Projector.widthRatio windowSize
         , heightRatio = Projector.widthRatio windowSize
+        , origin = Projector.calculateOrigin windowSize
         , windowSize = windowSize
     }

@@ -23,6 +23,7 @@ type alias FallingObjects a =
         | producers : Dict String Producer
         , widthRatio : Float
         , heightRatio : Float
+        , origin : Coordinates
         , seed : Seed
         , floorPositionY : Float
         , ceilingPositionY : Float

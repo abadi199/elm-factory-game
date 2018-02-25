@@ -40,6 +40,7 @@ type alias Machines a =
         | machines : Dict String Machine
         , widthRatio : Float
         , heightRatio : Float
+        , origin : Coordinates
     }
 
 

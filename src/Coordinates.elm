@@ -8,7 +8,6 @@ module Coordinates
         )
 
 import Mouse
-import Projector
 import Window
 
 
@@ -18,15 +17,8 @@ type alias Coordinates =
 
 fromPosition : { a | widthRatio : Float, heightRatio : Float, windowSize : Window.Size } -> Mouse.Position -> Coordinates
 fromPosition model { x, y } =
-    { x =
-        x
-            |> toFloat
-            |> Projector.toViewportX model
-    , y =
-        model.windowSize.height
-            - y
-            |> toFloat
-            |> Projector.toViewportY model
+    { x = x |> toFloat
+    , y = model.windowSize.height - y |> toFloat
     }
 
 

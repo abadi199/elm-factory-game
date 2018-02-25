@@ -6678,6 +6678,157 @@ var _elm_lang$mouse$Mouse$subMap = F2(
 	});
 _elm_lang$core$Native_Platform.effectManagers['Mouse'] = {pkg: 'elm-lang/mouse', init: _elm_lang$mouse$Mouse$init, onEffects: _elm_lang$mouse$Mouse$onEffects, onSelfMsg: _elm_lang$mouse$Mouse$onSelfMsg, tag: 'sub', subMap: _elm_lang$mouse$Mouse$subMap};
 
+var _elm_lang$window$Native_Window = function()
+{
+
+var size = _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)	{
+	callback(_elm_lang$core$Native_Scheduler.succeed({
+		width: window.innerWidth,
+		height: window.innerHeight
+	}));
+});
+
+return {
+	size: size
+};
+
+}();
+var _elm_lang$window$Window_ops = _elm_lang$window$Window_ops || {};
+_elm_lang$window$Window_ops['&>'] = F2(
+	function (task1, task2) {
+		return A2(
+			_elm_lang$core$Task$andThen,
+			function (_p0) {
+				return task2;
+			},
+			task1);
+	});
+var _elm_lang$window$Window$onSelfMsg = F3(
+	function (router, dimensions, state) {
+		var _p1 = state;
+		if (_p1.ctor === 'Nothing') {
+			return _elm_lang$core$Task$succeed(state);
+		} else {
+			var send = function (_p2) {
+				var _p3 = _p2;
+				return A2(
+					_elm_lang$core$Platform$sendToApp,
+					router,
+					_p3._0(dimensions));
+			};
+			return A2(
+				_elm_lang$window$Window_ops['&>'],
+				_elm_lang$core$Task$sequence(
+					A2(_elm_lang$core$List$map, send, _p1._0.subs)),
+				_elm_lang$core$Task$succeed(state));
+		}
+	});
+var _elm_lang$window$Window$init = _elm_lang$core$Task$succeed(_elm_lang$core$Maybe$Nothing);
+var _elm_lang$window$Window$size = _elm_lang$window$Native_Window.size;
+var _elm_lang$window$Window$width = A2(
+	_elm_lang$core$Task$map,
+	function (_) {
+		return _.width;
+	},
+	_elm_lang$window$Window$size);
+var _elm_lang$window$Window$height = A2(
+	_elm_lang$core$Task$map,
+	function (_) {
+		return _.height;
+	},
+	_elm_lang$window$Window$size);
+var _elm_lang$window$Window$onEffects = F3(
+	function (router, newSubs, oldState) {
+		var _p4 = {ctor: '_Tuple2', _0: oldState, _1: newSubs};
+		if (_p4._0.ctor === 'Nothing') {
+			if (_p4._1.ctor === '[]') {
+				return _elm_lang$core$Task$succeed(_elm_lang$core$Maybe$Nothing);
+			} else {
+				return A2(
+					_elm_lang$core$Task$andThen,
+					function (pid) {
+						return _elm_lang$core$Task$succeed(
+							_elm_lang$core$Maybe$Just(
+								{subs: newSubs, pid: pid}));
+					},
+					_elm_lang$core$Process$spawn(
+						A3(
+							_elm_lang$dom$Dom_LowLevel$onWindow,
+							'resize',
+							_elm_lang$core$Json_Decode$succeed(
+								{ctor: '_Tuple0'}),
+							function (_p5) {
+								return A2(
+									_elm_lang$core$Task$andThen,
+									_elm_lang$core$Platform$sendToSelf(router),
+									_elm_lang$window$Window$size);
+							})));
+			}
+		} else {
+			if (_p4._1.ctor === '[]') {
+				return A2(
+					_elm_lang$window$Window_ops['&>'],
+					_elm_lang$core$Process$kill(_p4._0._0.pid),
+					_elm_lang$core$Task$succeed(_elm_lang$core$Maybe$Nothing));
+			} else {
+				return _elm_lang$core$Task$succeed(
+					_elm_lang$core$Maybe$Just(
+						{subs: newSubs, pid: _p4._0._0.pid}));
+			}
+		}
+	});
+var _elm_lang$window$Window$subscription = _elm_lang$core$Native_Platform.leaf('Window');
+var _elm_lang$window$Window$Size = F2(
+	function (a, b) {
+		return {width: a, height: b};
+	});
+var _elm_lang$window$Window$MySub = function (a) {
+	return {ctor: 'MySub', _0: a};
+};
+var _elm_lang$window$Window$resizes = function (tagger) {
+	return _elm_lang$window$Window$subscription(
+		_elm_lang$window$Window$MySub(tagger));
+};
+var _elm_lang$window$Window$subMap = F2(
+	function (func, _p6) {
+		var _p7 = _p6;
+		return _elm_lang$window$Window$MySub(
+			function (_p8) {
+				return func(
+					_p7._0(_p8));
+			});
+	});
+_elm_lang$core$Native_Platform.effectManagers['Window'] = {pkg: 'elm-lang/window', init: _elm_lang$window$Window$init, onEffects: _elm_lang$window$Window$onEffects, onSelfMsg: _elm_lang$window$Window$onSelfMsg, tag: 'sub', subMap: _elm_lang$window$Window$subMap};
+
+var _abadi199$elm_fire_game$Coordinates$collidesWithRect = F2(
+	function (rect, point) {
+		return (_elm_lang$core$Native_Utils.cmp(rect.position.x, point.x) < 1) && ((_elm_lang$core$Native_Utils.cmp(rect.position.x + rect.width, point.x) > -1) && ((_elm_lang$core$Native_Utils.cmp(rect.position.y, point.y) < 1) && (_elm_lang$core$Native_Utils.cmp(rect.position.y + rect.height, point.y) > -1)));
+	});
+var _abadi199$elm_fire_game$Coordinates$addY = F2(
+	function (y, coordinates) {
+		return _elm_lang$core$Native_Utils.update(
+			coordinates,
+			{y: coordinates.y + y});
+	});
+var _abadi199$elm_fire_game$Coordinates$addX = F2(
+	function (x, coordinates) {
+		return _elm_lang$core$Native_Utils.update(
+			coordinates,
+			{x: coordinates.x + x});
+	});
+var _abadi199$elm_fire_game$Coordinates$fromPosition = F2(
+	function (model, _p0) {
+		var _p1 = _p0;
+		return {
+			x: _elm_lang$core$Basics$toFloat(_p1.x),
+			y: _elm_lang$core$Basics$toFloat(model.windowSize.height - _p1.y)
+		};
+	});
+var _abadi199$elm_fire_game$Coordinates$Coordinates = F2(
+	function (a, b) {
+		return {x: a, y: b};
+	});
+
 var _elm_lang$core$Color$fmod = F2(
 	function (f, n) {
 		var integer = _elm_lang$core$Basics$floor(f);
@@ -10783,240 +10934,6 @@ var _rtfeldman$elm_css$Css$thin = _rtfeldman$elm_css$Css$IntentionallyUnsupporte
 var _rtfeldman$elm_css$Css$thick = _rtfeldman$elm_css$Css$IntentionallyUnsupportedPleaseSeeDocs;
 var _rtfeldman$elm_css$Css$blink = _rtfeldman$elm_css$Css$IntentionallyUnsupportedPleaseSeeDocs;
 
-var _elm_lang$window$Native_Window = function()
-{
-
-var size = _elm_lang$core$Native_Scheduler.nativeBinding(function(callback)	{
-	callback(_elm_lang$core$Native_Scheduler.succeed({
-		width: window.innerWidth,
-		height: window.innerHeight
-	}));
-});
-
-return {
-	size: size
-};
-
-}();
-var _elm_lang$window$Window_ops = _elm_lang$window$Window_ops || {};
-_elm_lang$window$Window_ops['&>'] = F2(
-	function (task1, task2) {
-		return A2(
-			_elm_lang$core$Task$andThen,
-			function (_p0) {
-				return task2;
-			},
-			task1);
-	});
-var _elm_lang$window$Window$onSelfMsg = F3(
-	function (router, dimensions, state) {
-		var _p1 = state;
-		if (_p1.ctor === 'Nothing') {
-			return _elm_lang$core$Task$succeed(state);
-		} else {
-			var send = function (_p2) {
-				var _p3 = _p2;
-				return A2(
-					_elm_lang$core$Platform$sendToApp,
-					router,
-					_p3._0(dimensions));
-			};
-			return A2(
-				_elm_lang$window$Window_ops['&>'],
-				_elm_lang$core$Task$sequence(
-					A2(_elm_lang$core$List$map, send, _p1._0.subs)),
-				_elm_lang$core$Task$succeed(state));
-		}
-	});
-var _elm_lang$window$Window$init = _elm_lang$core$Task$succeed(_elm_lang$core$Maybe$Nothing);
-var _elm_lang$window$Window$size = _elm_lang$window$Native_Window.size;
-var _elm_lang$window$Window$width = A2(
-	_elm_lang$core$Task$map,
-	function (_) {
-		return _.width;
-	},
-	_elm_lang$window$Window$size);
-var _elm_lang$window$Window$height = A2(
-	_elm_lang$core$Task$map,
-	function (_) {
-		return _.height;
-	},
-	_elm_lang$window$Window$size);
-var _elm_lang$window$Window$onEffects = F3(
-	function (router, newSubs, oldState) {
-		var _p4 = {ctor: '_Tuple2', _0: oldState, _1: newSubs};
-		if (_p4._0.ctor === 'Nothing') {
-			if (_p4._1.ctor === '[]') {
-				return _elm_lang$core$Task$succeed(_elm_lang$core$Maybe$Nothing);
-			} else {
-				return A2(
-					_elm_lang$core$Task$andThen,
-					function (pid) {
-						return _elm_lang$core$Task$succeed(
-							_elm_lang$core$Maybe$Just(
-								{subs: newSubs, pid: pid}));
-					},
-					_elm_lang$core$Process$spawn(
-						A3(
-							_elm_lang$dom$Dom_LowLevel$onWindow,
-							'resize',
-							_elm_lang$core$Json_Decode$succeed(
-								{ctor: '_Tuple0'}),
-							function (_p5) {
-								return A2(
-									_elm_lang$core$Task$andThen,
-									_elm_lang$core$Platform$sendToSelf(router),
-									_elm_lang$window$Window$size);
-							})));
-			}
-		} else {
-			if (_p4._1.ctor === '[]') {
-				return A2(
-					_elm_lang$window$Window_ops['&>'],
-					_elm_lang$core$Process$kill(_p4._0._0.pid),
-					_elm_lang$core$Task$succeed(_elm_lang$core$Maybe$Nothing));
-			} else {
-				return _elm_lang$core$Task$succeed(
-					_elm_lang$core$Maybe$Just(
-						{subs: newSubs, pid: _p4._0._0.pid}));
-			}
-		}
-	});
-var _elm_lang$window$Window$subscription = _elm_lang$core$Native_Platform.leaf('Window');
-var _elm_lang$window$Window$Size = F2(
-	function (a, b) {
-		return {width: a, height: b};
-	});
-var _elm_lang$window$Window$MySub = function (a) {
-	return {ctor: 'MySub', _0: a};
-};
-var _elm_lang$window$Window$resizes = function (tagger) {
-	return _elm_lang$window$Window$subscription(
-		_elm_lang$window$Window$MySub(tagger));
-};
-var _elm_lang$window$Window$subMap = F2(
-	function (func, _p6) {
-		var _p7 = _p6;
-		return _elm_lang$window$Window$MySub(
-			function (_p8) {
-				return func(
-					_p7._0(_p8));
-			});
-	});
-_elm_lang$core$Native_Platform.effectManagers['Window'] = {pkg: 'elm-lang/window', init: _elm_lang$window$Window$init, onEffects: _elm_lang$window$Window$onEffects, onSelfMsg: _elm_lang$window$Window$onSelfMsg, tag: 'sub', subMap: _elm_lang$window$Window$subMap};
-
-var _abadi199$elm_fire_game$Projector$viewport = {width: 1920, height: 1080};
-var _abadi199$elm_fire_game$Projector$widthRatio = function (windowSize) {
-	var width = (_elm_lang$core$Native_Utils.cmp(
-		1.777777778,
-		_elm_lang$core$Basics$toFloat(windowSize.width) / _elm_lang$core$Basics$toFloat(windowSize.height)) > 0) ? _elm_lang$core$Basics$toFloat(windowSize.width) : (_elm_lang$core$Basics$toFloat(windowSize.height) * 1.777777778);
-	return width / _abadi199$elm_fire_game$Projector$viewport.width;
-};
-var _abadi199$elm_fire_game$Projector$heightRatio = function (windowSize) {
-	var height = (_elm_lang$core$Native_Utils.cmp(
-		1.777777778,
-		_elm_lang$core$Basics$toFloat(windowSize.width) / _elm_lang$core$Basics$toFloat(windowSize.height)) < 0) ? _elm_lang$core$Basics$toFloat(windowSize.height) : (_elm_lang$core$Basics$toFloat(windowSize.width) / 1.777777778);
-	return height / _abadi199$elm_fire_game$Projector$viewport.height;
-};
-var _abadi199$elm_fire_game$Projector$toViewportY = F2(
-	function (_p0, y) {
-		var _p1 = _p0;
-		return _elm_lang$core$Native_Utils.eq(y, 0) ? 0 : (y / _p1.heightRatio);
-	});
-var _abadi199$elm_fire_game$Projector$toViewportX = F2(
-	function (_p2, x) {
-		var _p3 = _p2;
-		return _elm_lang$core$Native_Utils.eq(x, 0) ? 0 : (x / _p3.widthRatio);
-	});
-var _abadi199$elm_fire_game$Projector$toWorldY = F2(
-	function (_p4, y) {
-		var _p5 = _p4;
-		return _elm_lang$core$Native_Utils.eq(y, 0) ? 0 : (_p5.heightRatio * y);
-	});
-var _abadi199$elm_fire_game$Projector$height = F2(
-	function (model, value) {
-		return _rtfeldman$elm_css$Css$height(
-			_rtfeldman$elm_css$Css$px(
-				A2(_abadi199$elm_fire_game$Projector$toWorldY, model, value)));
-	});
-var _abadi199$elm_fire_game$Projector$toWorldX = F2(
-	function (_p6, x) {
-		var _p7 = _p6;
-		return _elm_lang$core$Native_Utils.eq(x, 0) ? 0 : (_p7.widthRatio * x);
-	});
-var _abadi199$elm_fire_game$Projector$project = F2(
-	function (model, _p8) {
-		var _p9 = _p8;
-		return _rtfeldman$elm_css$Css$batch(
-			{
-				ctor: '::',
-				_0: _rtfeldman$elm_css$Css$left(_rtfeldman$elm_css$Css$zero),
-				_1: {
-					ctor: '::',
-					_0: _rtfeldman$elm_css$Css$bottom(_rtfeldman$elm_css$Css$zero),
-					_1: {
-						ctor: '::',
-						_0: _rtfeldman$elm_css$Css$transforms(
-							{
-								ctor: '::',
-								_0: _rtfeldman$elm_css$Css$translateY(
-									_rtfeldman$elm_css$Css$px(
-										-1 * A2(_abadi199$elm_fire_game$Projector$toWorldY, model, _p9.y))),
-								_1: {
-									ctor: '::',
-									_0: _rtfeldman$elm_css$Css$translateX(
-										_rtfeldman$elm_css$Css$px(
-											A2(_abadi199$elm_fire_game$Projector$toWorldX, model, _p9.x))),
-									_1: {ctor: '[]'}
-								}
-							}),
-						_1: {ctor: '[]'}
-					}
-				}
-			});
-	});
-var _abadi199$elm_fire_game$Projector$width = F2(
-	function (model, value) {
-		return _rtfeldman$elm_css$Css$width(
-			_rtfeldman$elm_css$Css$px(
-				A2(_abadi199$elm_fire_game$Projector$toWorldX, model, value)));
-	});
-
-var _abadi199$elm_fire_game$Coordinates$collidesWithRect = F2(
-	function (rect, point) {
-		return (_elm_lang$core$Native_Utils.cmp(rect.position.x, point.x) < 1) && ((_elm_lang$core$Native_Utils.cmp(rect.position.x + rect.width, point.x) > -1) && ((_elm_lang$core$Native_Utils.cmp(rect.position.y, point.y) < 1) && (_elm_lang$core$Native_Utils.cmp(rect.position.y + rect.height, point.y) > -1)));
-	});
-var _abadi199$elm_fire_game$Coordinates$addY = F2(
-	function (y, coordinates) {
-		return _elm_lang$core$Native_Utils.update(
-			coordinates,
-			{y: coordinates.y + y});
-	});
-var _abadi199$elm_fire_game$Coordinates$addX = F2(
-	function (x, coordinates) {
-		return _elm_lang$core$Native_Utils.update(
-			coordinates,
-			{x: coordinates.x + x});
-	});
-var _abadi199$elm_fire_game$Coordinates$fromPosition = F2(
-	function (model, _p0) {
-		var _p1 = _p0;
-		return {
-			x: A2(
-				_abadi199$elm_fire_game$Projector$toViewportX,
-				model,
-				_elm_lang$core$Basics$toFloat(_p1.x)),
-			y: A2(
-				_abadi199$elm_fire_game$Projector$toViewportY,
-				model,
-				_elm_lang$core$Basics$toFloat(model.windowSize.height - _p1.y))
-		};
-	});
-var _abadi199$elm_fire_game$Coordinates$Coordinates = F2(
-	function (a, b) {
-		return {x: a, y: b};
-	});
-
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrap;
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrapWithFlags;
 
@@ -13422,6 +13339,112 @@ var _abadi199$elm_fire_game$Msg$Initialized = F2(
 		return {ctor: 'Initialized', _0: a, _1: b};
 	});
 var _abadi199$elm_fire_game$Msg$NoOp = {ctor: 'NoOp'};
+
+var _abadi199$elm_fire_game$Projector$viewport = {width: 1920, height: 1080};
+var _abadi199$elm_fire_game$Projector$widthRatio = function (windowSize) {
+	var width = (_elm_lang$core$Native_Utils.cmp(
+		1.777777778,
+		_elm_lang$core$Basics$toFloat(windowSize.width) / _elm_lang$core$Basics$toFloat(windowSize.height)) > 0) ? _elm_lang$core$Basics$toFloat(windowSize.width) : (_elm_lang$core$Basics$toFloat(windowSize.height) * 1.777777778);
+	return width / _abadi199$elm_fire_game$Projector$viewport.width;
+};
+var _abadi199$elm_fire_game$Projector$heightRatio = function (windowSize) {
+	var height = (_elm_lang$core$Native_Utils.cmp(
+		1.777777778,
+		_elm_lang$core$Basics$toFloat(windowSize.width) / _elm_lang$core$Basics$toFloat(windowSize.height)) < 0) ? _elm_lang$core$Basics$toFloat(windowSize.height) : (_elm_lang$core$Basics$toFloat(windowSize.width) / 1.777777778);
+	return height / _abadi199$elm_fire_game$Projector$viewport.height;
+};
+var _abadi199$elm_fire_game$Projector$toViewportY = F2(
+	function (_p0, y) {
+		var _p1 = _p0;
+		var _p2 = _p1.origin;
+		return _elm_lang$core$Native_Utils.eq(y, 0) ? _p2.y : ((y / _p1.heightRatio) - _p2.y);
+	});
+var _abadi199$elm_fire_game$Projector$toViewportX = F2(
+	function (_p3, x) {
+		var _p4 = _p3;
+		var _p5 = _p4.origin;
+		return _elm_lang$core$Native_Utils.eq(x, 0) ? _p5.x : ((x / _p4.widthRatio) - _p5.x);
+	});
+var _abadi199$elm_fire_game$Projector$toViewport = F2(
+	function (model, _p6) {
+		var _p7 = _p6;
+		return {
+			x: A2(_abadi199$elm_fire_game$Projector$toViewportX, model, _p7.x),
+			y: A2(_abadi199$elm_fire_game$Projector$toViewportY, model, _p7.y)
+		};
+	});
+var _abadi199$elm_fire_game$Projector$calculateOrigin = function (windowSize) {
+	var origin = {x: 0, y: 0};
+	return {
+		x: (A2(
+			_abadi199$elm_fire_game$Projector$toViewportX,
+			{
+				origin: origin,
+				widthRatio: _abadi199$elm_fire_game$Projector$widthRatio(windowSize)
+			},
+			_elm_lang$core$Basics$toFloat(windowSize.width)) - _abadi199$elm_fire_game$Projector$viewport.width) / 2,
+		y: (A2(
+			_abadi199$elm_fire_game$Projector$toViewportY,
+			{
+				origin: origin,
+				heightRatio: _abadi199$elm_fire_game$Projector$heightRatio(windowSize)
+			},
+			_elm_lang$core$Basics$toFloat(windowSize.height)) - _abadi199$elm_fire_game$Projector$viewport.height) / 2
+	};
+};
+var _abadi199$elm_fire_game$Projector$toWorldY = F2(
+	function (_p8, y) {
+		var _p9 = _p8;
+		return _elm_lang$core$Native_Utils.eq(y, 0) ? 0 : (_p9.heightRatio * y);
+	});
+var _abadi199$elm_fire_game$Projector$height = F2(
+	function (model, value) {
+		return _rtfeldman$elm_css$Css$height(
+			_rtfeldman$elm_css$Css$px(
+				A2(_abadi199$elm_fire_game$Projector$toWorldY, model, value)));
+	});
+var _abadi199$elm_fire_game$Projector$toWorldX = F2(
+	function (_p10, x) {
+		var _p11 = _p10;
+		return _elm_lang$core$Native_Utils.eq(x, 0) ? 0 : (_p11.widthRatio * x);
+	});
+var _abadi199$elm_fire_game$Projector$project = F2(
+	function (model, _p12) {
+		var _p13 = _p12;
+		return _rtfeldman$elm_css$Css$batch(
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$left(_rtfeldman$elm_css$Css$zero),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$bottom(_rtfeldman$elm_css$Css$zero),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$transforms(
+							{
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$translateY(
+									_rtfeldman$elm_css$Css$px(
+										-1 * A2(_abadi199$elm_fire_game$Projector$toWorldY, model, _p13.y + model.origin.y))),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$translateX(
+										_rtfeldman$elm_css$Css$px(
+											A2(_abadi199$elm_fire_game$Projector$toWorldX, model, _p13.x + model.origin.x))),
+									_1: {ctor: '[]'}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
+var _abadi199$elm_fire_game$Projector$width = F2(
+	function (model, value) {
+		return _rtfeldman$elm_css$Css$width(
+			_rtfeldman$elm_css$Css$px(
+				A2(_abadi199$elm_fire_game$Projector$toWorldX, model, value)));
+	});
 
 var _mgold$elm_random_pcg$Random_Pcg$toJson = function (_p0) {
 	var _p1 = _p0;
@@ -16552,7 +16575,8 @@ var _abadi199$elm_fire_game$Model$initialModel = F2(
 	function (seed, windowSize) {
 		return {
 			widthRatio: _abadi199$elm_fire_game$Projector$widthRatio(windowSize),
-			heightRatio: _abadi199$elm_fire_game$Projector$widthRatio(windowSize),
+			heightRatio: _abadi199$elm_fire_game$Projector$heightRatio(windowSize),
+			origin: _abadi199$elm_fire_game$Projector$calculateOrigin(windowSize),
 			windowSize: windowSize,
 			floorPositionY: 200,
 			ceilingPositionY: 1050,
@@ -16573,16 +16597,7 @@ var _abadi199$elm_fire_game$Model$initialModel = F2(
 							{x: 500, y: 200},
 							{ctor: '[]'})))),
 			producers: _elm_lang$core$Dict$fromList(
-				A2(
-					_abadi199$elm_fire_game$FallingObject$create,
-					1300,
-					A2(
-						_abadi199$elm_fire_game$FallingObject$create,
-						800,
-						A2(
-							_abadi199$elm_fire_game$FallingObject$create,
-							300,
-							{ctor: '[]'})))),
+				{ctor: '[]'}),
 			seed: seed
 		};
 	});
@@ -16594,6 +16609,7 @@ var _abadi199$elm_fire_game$Update$updateWindowSize = F2(
 			{
 				widthRatio: _abadi199$elm_fire_game$Projector$widthRatio(windowSize),
 				heightRatio: _abadi199$elm_fire_game$Projector$widthRatio(windowSize),
+				origin: _abadi199$elm_fire_game$Projector$calculateOrigin(windowSize),
 				windowSize: windowSize
 			});
 	});
@@ -16609,7 +16625,10 @@ var _abadi199$elm_fire_game$Update$tick = F2(
 	});
 var _abadi199$elm_fire_game$Update$mouseClicked = F2(
 	function (mousePosition, model) {
-		var coordinates = A2(_abadi199$elm_fire_game$Coordinates$fromPosition, model, mousePosition);
+		var coordinates = A2(
+			_abadi199$elm_fire_game$Projector$toViewport,
+			model,
+			A2(_abadi199$elm_fire_game$Coordinates$fromPosition, model, mousePosition));
 		return A2(
 			_abadi199$elm_fire_game$Hero$moveTo,
 			coordinates,
@@ -16669,7 +16688,7 @@ var _abadi199$elm_fire_game$View$ceiling = function (model) {
 								_0: A2(
 									_abadi199$elm_fire_game$Projector$project,
 									model,
-									{x: 0, y: model.ceilingPositionY}),
+									{x: 0 - model.origin.x, y: model.ceilingPositionY}),
 								_1: {
 									ctor: '::',
 									_0: _rtfeldman$elm_css$Css$width(
@@ -16712,14 +16731,14 @@ var _abadi199$elm_fire_game$View$floor = function (model) {
 								_0: A2(
 									_abadi199$elm_fire_game$Projector$project,
 									model,
-									{x: 0, y: 0}),
+									{x: 0 - model.origin.x, y: 0 - model.origin.y}),
 								_1: {
 									ctor: '::',
 									_0: _rtfeldman$elm_css$Css$width(
 										_rtfeldman$elm_css$Css$vw(100)),
 									_1: {
 										ctor: '::',
-										_0: A2(_abadi199$elm_fire_game$Projector$height, model, model.floorPositionY),
+										_0: A2(_abadi199$elm_fire_game$Projector$height, model, model.floorPositionY + model.origin.y),
 										_1: {ctor: '[]'}
 									}
 								}

@@ -1,5 +1,11 @@
-module Model exposing (Model, Window, initialModel)
+module Model
+    exposing
+        ( Model
+        , Window
+        , initialModel
+        )
 
+import Coordinates exposing (Coordinates)
 import Dict
 import FallingObject exposing (FallingObjects)
 import Hero exposing (Hero)
@@ -17,6 +23,7 @@ type alias Window a =
     { a
         | widthRatio : Float
         , heightRatio : Float
+        , origin : Coordinates
         , windowSize : Window.Size
     }
 
@@ -31,7 +38,8 @@ type alias World a =
 initialModel : Seed -> Window.Size -> Model
 initialModel seed windowSize =
     { widthRatio = Projector.widthRatio windowSize
-    , heightRatio = Projector.widthRatio windowSize
+    , heightRatio = Projector.heightRatio windowSize
+    , origin = Projector.calculateOrigin windowSize
     , windowSize = windowSize
     , floorPositionY = 200
     , ceilingPositionY = 1050
@@ -47,9 +55,9 @@ initialModel seed windowSize =
             |> Dict.fromList
     , producers =
         []
-            |> FallingObject.create 300
-            |> FallingObject.create 800
-            |> FallingObject.create 1300
+            -- |> FallingObject.create 300
+            -- |> FallingObject.create 800
+            -- |> FallingObject.create 1300
             |> Dict.fromList
     , seed = seed
     }

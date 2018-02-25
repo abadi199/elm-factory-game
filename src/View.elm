@@ -41,9 +41,9 @@ floor model =
             Css.asPairsDEPRECATED
                 [ backgroundColor (hex "#aaa")
                 , position absolute
-                , Projector.project model { x = 0, y = 0 }
+                , Projector.project model { x = -model.origin.x, y = -model.origin.y }
                 , Css.width (vw 100)
-                , Projector.height model model.floorPositionY
+                , Projector.height model (model.floorPositionY + model.origin.y)
                 ]
         ]
         []
@@ -56,7 +56,7 @@ ceiling model =
             Css.asPairsDEPRECATED
                 [ backgroundColor (hex "#aaa")
                 , position absolute
-                , Projector.project model { x = 0, y = model.ceilingPositionY }
+                , Projector.project model { x = -model.origin.x, y = model.ceilingPositionY }
                 , Css.width (vw 100)
                 , Projector.height model (Projector.toViewportY model (toFloat model.windowSize.height) - model.ceilingPositionY)
                 ]

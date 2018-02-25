@@ -25,6 +25,7 @@ type alias Hero a =
         , heroSpeedInPixelPerMillisecond : Float
         , widthRatio : Float
         , heightRatio : Float
+        , origin : Coordinates
     }
 
 
