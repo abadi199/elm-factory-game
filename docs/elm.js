@@ -13987,13 +13987,7 @@ var _mgold$elm_random_pcg$Random_Pcg$fromJson = _elm_lang$core$Json_Decode$oneOf
 var _abadi199$elm_fire_game$FallingObject$newObject = F3(
 	function (model, producer, kind) {
 		return {
-			position: {
-				x: producer.positionX,
-				y: A2(
-					_abadi199$elm_fire_game$Projector$toViewportY,
-					model,
-					_elm_lang$core$Basics$toFloat(model.windowSize.height))
-			},
+			position: {x: producer.positionX, y: model.ceilingPositionY},
 			kind: kind
 		};
 	});
@@ -14089,16 +14083,10 @@ var _abadi199$elm_fire_game$FallingObject$producerStyle = F2(
 						A4(_rtfeldman$elm_css$Css$rgba, 0, 0, 0, 0.25)),
 					_1: {
 						ctor: '::',
-						_0: A2(_abadi199$elm_fire_game$Projector$width, model, 100),
+						_0: A2(_abadi199$elm_fire_game$Projector$width, model, producer.width),
 						_1: {
 							ctor: '::',
-							_0: A2(
-								_abadi199$elm_fire_game$Projector$height,
-								model,
-								A2(
-									_abadi199$elm_fire_game$Projector$toViewportY,
-									model,
-									_elm_lang$core$Basics$toFloat(model.windowSize.height)) - model.floorPositionY),
+							_0: A2(_abadi199$elm_fire_game$Projector$height, model, model.ceilingPositionY - model.floorPositionY),
 							_1: {
 								ctor: '::',
 								_0: A2(
@@ -14189,9 +14177,9 @@ var _abadi199$elm_fire_game$FallingObject$create = F2(
 					objects: {ctor: '[]'},
 					positionX: positionX,
 					yieldCounterInMillisecond: 0,
-					width: 20,
-					height: 20,
-					yieldIntervalInMillisecond: 2000,
+					width: 50,
+					height: 50,
+					yieldIntervalInMillisecond: 5000,
 					speedInPixelPerMillisecond: 0.1,
 					yieldProbability: 50,
 					goodKindProbability: 90
@@ -16567,6 +16555,7 @@ var _abadi199$elm_fire_game$Model$initialModel = F2(
 			heightRatio: _abadi199$elm_fire_game$Projector$widthRatio(windowSize),
 			windowSize: windowSize,
 			floorPositionY: 200,
+			ceilingPositionY: 1050,
 			heroPosition: _abadi199$elm_fire_game$Hero$Stationary(
 				{x: 100, y: 200}),
 			heroWidth: 50,
@@ -16661,6 +16650,49 @@ var _abadi199$elm_fire_game$Update$update = F2(
 		}
 	});
 
+var _abadi199$elm_fire_game$View$ceiling = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+					{
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$backgroundColor(
+							_rtfeldman$elm_css$Css$hex('#aaa')),
+						_1: {
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
+							_1: {
+								ctor: '::',
+								_0: A2(
+									_abadi199$elm_fire_game$Projector$project,
+									model,
+									{x: 0, y: model.ceilingPositionY}),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$width(
+										_rtfeldman$elm_css$Css$vw(100)),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_abadi199$elm_fire_game$Projector$height,
+											model,
+											A2(
+												_abadi199$elm_fire_game$Projector$toViewportY,
+												model,
+												_elm_lang$core$Basics$toFloat(model.windowSize.height)) - model.ceilingPositionY),
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					})),
+			_1: {ctor: '[]'}
+		},
+		{ctor: '[]'});
+};
 var _abadi199$elm_fire_game$View$floor = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -16731,7 +16763,14 @@ var _abadi199$elm_fire_game$View$world = F2(
 			{
 				ctor: '::',
 				_0: _abadi199$elm_fire_game$View$floor(model),
-				_1: content
+				_1: A2(
+					_elm_lang$core$Basics_ops['++'],
+					content,
+					{
+						ctor: '::',
+						_0: _abadi199$elm_fire_game$View$ceiling(model),
+						_1: {ctor: '[]'}
+					})
 			});
 	});
 var _abadi199$elm_fire_game$View$view = function (model) {

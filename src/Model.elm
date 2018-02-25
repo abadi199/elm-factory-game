@@ -22,7 +22,10 @@ type alias Window a =
 
 
 type alias World a =
-    { a | floorPositionY : Float }
+    { a
+        | floorPositionY : Float
+        , ceilingPositionY : Float
+    }
 
 
 initialModel : Seed -> Window.Size -> Model
@@ -31,6 +34,7 @@ initialModel seed windowSize =
     , heightRatio = Projector.widthRatio windowSize
     , windowSize = windowSize
     , floorPositionY = 200
+    , ceilingPositionY = 1050
     , heroPosition = Hero.Stationary { x = 100, y = 200 }
     , heroWidth = 50
     , heroHeight = 100

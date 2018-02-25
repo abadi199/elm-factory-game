@@ -31,7 +31,7 @@ world model content =
                 , position relative
                 ]
         ]
-        (floor model :: content)
+        (floor model :: content ++ [ ceiling model ])
 
 
 floor : Model -> Html Msg
@@ -44,6 +44,21 @@ floor model =
                 , Projector.project model { x = 0, y = 0 }
                 , Css.width (vw 100)
                 , Projector.height model model.floorPositionY
+                ]
+        ]
+        []
+
+
+ceiling : Model -> Html Msg
+ceiling model =
+    div
+        [ style <|
+            Css.asPairsDEPRECATED
+                [ backgroundColor (hex "#aaa")
+                , position absolute
+                , Projector.project model { x = 0, y = model.ceilingPositionY }
+                , Css.width (vw 100)
+                , Projector.height model (Projector.toViewportY model (toFloat model.windowSize.height) - model.ceilingPositionY)
                 ]
         ]
         []

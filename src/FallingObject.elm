@@ -25,6 +25,7 @@ type alias FallingObjects a =
         , heightRatio : Float
         , seed : Seed
         , floorPositionY : Float
+        , ceilingPositionY : Float
         , windowSize : Window.Size
     }
 
@@ -59,8 +60,8 @@ create positionX list =
     , { objects = []
       , positionX = positionX
       , yieldCounterInMillisecond = 0
-      , width = 20
-      , height = 20
+      , width = 50
+      , height = 50
       , yieldIntervalInMillisecond = 5000
       , speedInPixelPerMillisecond = 0.1
       , yieldProbability = 50
@@ -98,8 +99,8 @@ producerStyle model producer =
     Css.batch
         [ position absolute
         , backgroundColor (rgba 0 0 0 0.25)
-        , Projector.width model 100
-        , Projector.height model (Projector.toViewportY model (toFloat model.windowSize.height) - model.floorPositionY)
+        , Projector.width model producer.width
+        , Projector.height model (model.ceilingPositionY - model.floorPositionY)
         , Projector.project model { x = producer.positionX, y = model.floorPositionY }
         ]
 
@@ -218,9 +219,6 @@ generateNewRandomObject delta key producer model =
 
 newObject : FallingObjects a -> Producer -> Kind -> FallingObject
 newObject model producer kind =
-    { position =
-        { x = producer.positionX
-        , y = Projector.toViewportY model (toFloat model.windowSize.height)
-        }
+    { position = { x = producer.positionX, y = model.ceilingPositionY }
     , kind = kind
     }
