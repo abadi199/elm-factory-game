@@ -1,7 +1,12 @@
 module FallingObject
     exposing
-        ( FallingObjects
+        ( FallingObject
+        , Kind(..)
+        , Model
+        , Producer
         , create
+        , getObjects
+        , removeObjects
         , update
         , view
         )
@@ -9,16 +14,18 @@ module FallingObject
 import Coordinates exposing (Coordinates)
 import Css exposing (..)
 import Dict exposing (Dict)
+import Dict.Extra
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Msg exposing (Msg(..))
 import Murmur3
 import Projector
 import Random.Pcg as Random exposing (Seed)
+import Set exposing (Set)
 import Window
 
 
-type alias FallingObjects a =
+type alias Model a =
     { a
         | producers : Dict String Producer
         , widthRatio : Float
@@ -28,6 +35,7 @@ type alias FallingObjects a =
         , floorPositionY : Float
         , ceilingPositionY : Float
         , windowSize : Window.Size
+        , timestamp : Float
     }
 
 
@@ -40,13 +48,15 @@ type alias Producer =
     , goodKindProbability : Int
     , positionX : Float
     , yieldCounterInMillisecond : Float
-    , objects : List FallingObject
+    , objects : Dict String FallingObject
     }
 
 
 type alias FallingObject =
     { position : Coordinates
     , kind : Kind
+    , width : Float
+    , height : Float
     }
 
 
@@ -58,7 +68,7 @@ type Kind
 create : Float -> List ( String, Producer ) -> List ( String, Producer )
 create positionX list =
     ( toString <| Murmur3.hashString 2218777484 <| toString list
-    , { objects = []
+    , { objects = Dict.fromList []
       , positionX = positionX
       , yieldCounterInMillisecond = 0
       , width = 50
@@ -72,7 +82,7 @@ create positionX list =
         :: list
 
 
-view : FallingObjects a -> Html Msg
+view : Model a -> Html Msg
 view model =
     div []
         (model.producers
@@ -81,21 +91,22 @@ view model =
         )
 
 
-producerView : FallingObjects a -> Producer -> Html Msg
+producerView : Model a -> Producer -> Html Msg
 producerView model producer =
     div
         []
         (div [ style <| Css.asPairsDEPRECATED [ producerStyle model producer ] ]
             [ div [] [ text <| toString <| Basics.round <| producer.yieldCounterInMillisecond / 1000 ]
-            , div [] [ text <| toString <| List.length producer.objects ]
+            , div [] [ text <| toString <| Dict.size producer.objects ]
             ]
             :: (producer.objects
+                    |> Dict.values
                     |> List.map (fallingObjectView model producer)
                )
         )
 
 
-producerStyle : FallingObjects a -> Producer -> Style
+producerStyle : Model a -> Producer -> Style
 producerStyle model producer =
     Css.batch
         [ position absolute
@@ -106,7 +117,7 @@ producerStyle model producer =
         ]
 
 
-fallingObjectView : FallingObjects a -> Producer -> FallingObject -> Html Msg
+fallingObjectView : Model a -> Producer -> FallingObject -> Html Msg
 fallingObjectView model producer fallingObject =
     div
         [ style <|
@@ -115,7 +126,7 @@ fallingObjectView model producer fallingObject =
         []
 
 
-fallingObjectStyle : FallingObjects a -> Producer -> FallingObject -> Style
+fallingObjectStyle : Model a -> Producer -> FallingObject -> Style
 fallingObjectStyle model producer fallingObject =
     let
         color =
@@ -135,21 +146,23 @@ fallingObjectStyle model producer fallingObject =
         ]
 
 
-update : Float -> FallingObjects a -> FallingObjects a
+update : Float -> Model a -> Model a
 update delta model =
     Dict.foldl
-        (\key producer -> producer |> move delta model |> updateProducer delta key)
+        (\key producer updatedModel -> ( key, producer ) |> move delta updatedModel |> updateProducer delta updatedModel)
         model
         model.producers
 
 
-move : Float -> FallingObjects a -> Producer -> Producer
-move delta model producer =
-    { producer | objects = List.filterMap (moveObject delta model producer) producer.objects }
+move : Float -> Model a -> ( String, Producer ) -> ( String, Producer )
+move delta model ( producerKey, producer ) =
+    ( producerKey
+    , { producer | objects = Dict.Extra.filterMap (moveObject delta model producer) producer.objects }
+    )
 
 
-moveObject : Float -> FallingObjects a -> Producer -> FallingObject -> Maybe FallingObject
-moveObject delta model producer fallingObject =
+moveObject : Float -> Model a -> Producer -> String -> FallingObject -> Maybe FallingObject
+moveObject delta model producer key fallingObject =
     let
         position =
             fallingObject.position
@@ -166,8 +179,8 @@ moveObject delta model producer fallingObject =
             }
 
 
-updateProducer : Float -> String -> Producer -> FallingObjects a -> FallingObjects a
-updateProducer delta key producer model =
+updateProducer : Float -> Model a -> ( String, Producer ) -> Model a
+updateProducer delta model ( key, producer ) =
     if producer.yieldCounterInMillisecond < producer.yieldIntervalInMillisecond then
         { model | producers = Dict.insert key (addYieldCounter delta producer) model.producers }
     else
@@ -179,7 +192,7 @@ addYieldCounter delta producer =
     { producer | yieldCounterInMillisecond = producer.yieldCounterInMillisecond + delta }
 
 
-generateNewRandomObject : Float -> String -> Producer -> FallingObjects a -> FallingObjects a
+generateNewRandomObject : Float -> String -> Producer -> Model a -> Model a
 generateNewRandomObject delta key producer model =
     let
         yieldObjectGenerator =
@@ -192,7 +205,7 @@ generateNewRandomObject delta key producer model =
                     |> Random.map
                         (\kind ->
                             { producer
-                                | objects = newObject model producer kind :: producer.objects
+                                | objects = newObject model key producer kind producer.objects
                                 , yieldCounterInMillisecond = 0
                             }
                         )
@@ -218,8 +231,43 @@ generateNewRandomObject delta key producer model =
     }
 
 
-newObject : FallingObjects a -> Producer -> Kind -> FallingObject
-newObject model producer kind =
-    { position = { x = producer.positionX, y = model.ceilingPositionY }
-    , kind = kind
-    }
+newObject : Model a -> String -> Producer -> Kind -> Dict String FallingObject -> Dict String FallingObject
+newObject model producerKey producer kind objects =
+    let
+        objectKey =
+            producerKey ++ toString model.timestamp
+
+        object =
+            { position = { x = producer.positionX, y = model.ceilingPositionY }
+            , kind = kind
+            , width = producer.width
+            , height = producer.height
+            }
+    in
+    objects
+        |> Dict.insert objectKey object
+
+
+removeObjects : Set String -> Model a -> Model a
+removeObjects objects model =
+    { model | producers = Dict.map (removeObjectsFromProducer objects) model.producers }
+
+
+removeObjectsFromProducer : Set String -> String -> Producer -> Producer
+removeObjectsFromProducer objects _ producer =
+    { producer | objects = Dict.filter (\key _ -> not <| Set.member key objects) producer.objects }
+
+
+getObjects : Set String -> Model a -> List FallingObject
+getObjects objects model =
+    model.producers
+        |> Dict.map (getObjectsFromProducer objects)
+        |> Dict.values
+        |> List.concatMap identity
+
+
+getObjectsFromProducer : Set String -> String -> Producer -> List FallingObject
+getObjectsFromProducer objects _ producer =
+    producer.objects
+        |> Dict.Extra.keepOnly objects
+        |> Dict.values

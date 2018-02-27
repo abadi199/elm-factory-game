@@ -39,14 +39,27 @@ floor model =
     div
         [ style <|
             Css.asPairsDEPRECATED
-                [ backgroundColor (hex "#aaa")
-                , position absolute
+                [ position absolute
                 , Projector.project model { x = -model.origin.x, y = -model.origin.y }
                 , Css.width (vw 100)
                 , Projector.height model (model.floorPositionY + model.origin.y)
+                , backgroundImage (url "floor.svg")
+                , backgroundRepeat repeat
+                , backgroundSize (px (Projector.toWorldX model 50))
                 ]
         ]
-        []
+        [ div
+            [ style <|
+                Css.asPairsDEPRECATED
+                    [ Css.width (pct 100)
+                    , Css.height (px (Projector.toWorldX model 50))
+                    , backgroundImage (url "floorTop.svg")
+                    , backgroundRepeat repeatX
+                    , backgroundSize (px (Projector.toWorldX model 50))
+                    ]
+            ]
+            []
+        ]
 
 
 ceiling : Model -> Html Msg
@@ -54,11 +67,28 @@ ceiling model =
     div
         [ style <|
             Css.asPairsDEPRECATED
-                [ backgroundColor (hex "#aaa")
-                , position absolute
+                [ position absolute
                 , Projector.project model { x = -model.origin.x, y = model.ceilingPositionY }
                 , Css.width (vw 100)
                 , Projector.height model (Projector.toViewportY model (toFloat model.windowSize.height) - model.ceilingPositionY)
+                , backgroundImage (url "floor.svg")
+                , backgroundRepeat repeat
+                , backgroundSize (px (Projector.toWorldX model 50))
                 ]
         ]
-        []
+        [ div
+            [ style <|
+                Css.asPairsDEPRECATED
+                    [ position absolute
+                    , left zero
+                    , bottom zero
+                    , Css.width (pct 100)
+                    , Css.height (px (Projector.toWorldX model 50))
+                    , backgroundImage (url "ceiling.svg")
+                    , backgroundRepeat repeatX
+                    , backgroundSize (px (Projector.toWorldX model 50))
+                    , backgroundPosition bottom
+                    ]
+            ]
+            []
+        ]

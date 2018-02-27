@@ -3,7 +3,6 @@ module Coordinates
         ( Coordinates
         , addX
         , addY
-        , collidesWithRect
         , fromPosition
         )
 
@@ -30,11 +29,3 @@ addX x coordinates =
 addY : Float -> Coordinates -> Coordinates
 addY y coordinates =
     { coordinates | y = coordinates.y + y }
-
-
-collidesWithRect : { a | position : Coordinates, width : Float, height : Float } -> Coordinates -> Bool
-collidesWithRect rect point =
-    (rect.position.x <= point.x)
-        && (rect.position.x + rect.width >= point.x)
-        && (rect.position.y <= point.y)
-        && (rect.position.y + rect.height >= point.y)

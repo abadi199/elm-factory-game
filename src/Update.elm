@@ -8,6 +8,7 @@ import Model exposing (Model)
 import Mouse
 import Msg exposing (Msg(..))
 import Projector
+import Set exposing (Set)
 import Window
 
 
@@ -36,6 +37,9 @@ update msg model =
         ResetMachineTimer machineId ->
             ( resetMachineTimer machineId model, Cmd.none )
 
+        ObjectCaptured objects ->
+            objectCaptured objects model
+
 
 resetMachineTimer : String -> Model -> Model
 resetMachineTimer machineId model =
@@ -56,7 +60,7 @@ mouseClicked mousePosition model =
 
 tick : Float -> Model -> ( Model, Cmd Msg )
 tick delta model =
-    model
+    { model | timestamp = model.timestamp + delta }
         |> Machine.updateTimer delta
         |> FallingObject.update delta
         |> Hero.update delta
@@ -70,3 +74,16 @@ updateWindowSize windowSize model =
         , origin = Projector.calculateOrigin windowSize
         , windowSize = windowSize
     }
+
+
+objectCaptured : Set String -> Model -> ( Model, Cmd Msg )
+objectCaptured objects model =
+    let
+        _ =
+            Debug.log "objectCaptured" objects
+    in
+    ( model
+        |> Hero.captureObjects objects
+        |> FallingObject.removeObjects objects
+    , Cmd.none
+    )

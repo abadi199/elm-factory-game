@@ -1,6 +1,7 @@
 module Msg exposing (Msg(..))
 
 import Mouse
+import Set exposing (Set)
 import Window
 
 
@@ -11,3 +12,4 @@ type Msg
     | WindowResized Window.Size
     | MouseDown Mouse.Position
     | ResetMachineTimer String
+    | ObjectCaptured (Set String)

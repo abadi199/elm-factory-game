@@ -6800,10 +6800,6 @@ var _elm_lang$window$Window$subMap = F2(
 	});
 _elm_lang$core$Native_Platform.effectManagers['Window'] = {pkg: 'elm-lang/window', init: _elm_lang$window$Window$init, onEffects: _elm_lang$window$Window$onEffects, onSelfMsg: _elm_lang$window$Window$onSelfMsg, tag: 'sub', subMap: _elm_lang$window$Window$subMap};
 
-var _abadi199$elm_fire_game$Coordinates$collidesWithRect = F2(
-	function (rect, point) {
-		return (_elm_lang$core$Native_Utils.cmp(rect.position.x, point.x) < 1) && ((_elm_lang$core$Native_Utils.cmp(rect.position.x + rect.width, point.x) > -1) && ((_elm_lang$core$Native_Utils.cmp(rect.position.y, point.y) < 1) && (_elm_lang$core$Native_Utils.cmp(rect.position.y + rect.height, point.y) > -1)));
-	});
 var _abadi199$elm_fire_game$Coordinates$addY = F2(
 	function (y, coordinates) {
 		return _elm_lang$core$Native_Utils.update(
@@ -6827,6 +6823,15 @@ var _abadi199$elm_fire_game$Coordinates$fromPosition = F2(
 var _abadi199$elm_fire_game$Coordinates$Coordinates = F2(
 	function (a, b) {
 		return {x: a, y: b};
+	});
+
+var _abadi199$elm_fire_game$Collision$coordinatesWithRect = F2(
+	function (rect, point) {
+		return (_elm_lang$core$Native_Utils.cmp(rect.position.x, point.x) < 1) && ((_elm_lang$core$Native_Utils.cmp(rect.position.x + rect.width, point.x) > -1) && ((_elm_lang$core$Native_Utils.cmp(rect.position.y, point.y) < 1) && (_elm_lang$core$Native_Utils.cmp(rect.position.y + rect.height, point.y) > -1)));
+	});
+var _abadi199$elm_fire_game$Collision$rectWithRect = F2(
+	function (rect1, rect2) {
+		return (_elm_lang$core$Native_Utils.cmp(rect1.position.x, rect2.position.x + rect2.width) < 0) && ((_elm_lang$core$Native_Utils.cmp(rect1.position.x + rect1.width, rect2.position.x) > 0) && ((_elm_lang$core$Native_Utils.cmp(rect1.position.y, rect2.position.y + rect2.height) < 0) && (_elm_lang$core$Native_Utils.cmp(rect1.height + rect1.position.y, rect2.position.y) > 0)));
 	});
 
 var _elm_lang$core$Color$fmod = F2(
@@ -10934,6 +10939,371 @@ var _rtfeldman$elm_css$Css$thin = _rtfeldman$elm_css$Css$IntentionallyUnsupporte
 var _rtfeldman$elm_css$Css$thick = _rtfeldman$elm_css$Css$IntentionallyUnsupportedPleaseSeeDocs;
 var _rtfeldman$elm_css$Css$blink = _rtfeldman$elm_css$Css$IntentionallyUnsupportedPleaseSeeDocs;
 
+var _elm_lang$core$Set$foldr = F3(
+	function (f, b, _p0) {
+		var _p1 = _p0;
+		return A3(
+			_elm_lang$core$Dict$foldr,
+			F3(
+				function (k, _p2, b) {
+					return A2(f, k, b);
+				}),
+			b,
+			_p1._0);
+	});
+var _elm_lang$core$Set$foldl = F3(
+	function (f, b, _p3) {
+		var _p4 = _p3;
+		return A3(
+			_elm_lang$core$Dict$foldl,
+			F3(
+				function (k, _p5, b) {
+					return A2(f, k, b);
+				}),
+			b,
+			_p4._0);
+	});
+var _elm_lang$core$Set$toList = function (_p6) {
+	var _p7 = _p6;
+	return _elm_lang$core$Dict$keys(_p7._0);
+};
+var _elm_lang$core$Set$size = function (_p8) {
+	var _p9 = _p8;
+	return _elm_lang$core$Dict$size(_p9._0);
+};
+var _elm_lang$core$Set$member = F2(
+	function (k, _p10) {
+		var _p11 = _p10;
+		return A2(_elm_lang$core$Dict$member, k, _p11._0);
+	});
+var _elm_lang$core$Set$isEmpty = function (_p12) {
+	var _p13 = _p12;
+	return _elm_lang$core$Dict$isEmpty(_p13._0);
+};
+var _elm_lang$core$Set$Set_elm_builtin = function (a) {
+	return {ctor: 'Set_elm_builtin', _0: a};
+};
+var _elm_lang$core$Set$empty = _elm_lang$core$Set$Set_elm_builtin(_elm_lang$core$Dict$empty);
+var _elm_lang$core$Set$singleton = function (k) {
+	return _elm_lang$core$Set$Set_elm_builtin(
+		A2(
+			_elm_lang$core$Dict$singleton,
+			k,
+			{ctor: '_Tuple0'}));
+};
+var _elm_lang$core$Set$insert = F2(
+	function (k, _p14) {
+		var _p15 = _p14;
+		return _elm_lang$core$Set$Set_elm_builtin(
+			A3(
+				_elm_lang$core$Dict$insert,
+				k,
+				{ctor: '_Tuple0'},
+				_p15._0));
+	});
+var _elm_lang$core$Set$fromList = function (xs) {
+	return A3(_elm_lang$core$List$foldl, _elm_lang$core$Set$insert, _elm_lang$core$Set$empty, xs);
+};
+var _elm_lang$core$Set$map = F2(
+	function (f, s) {
+		return _elm_lang$core$Set$fromList(
+			A2(
+				_elm_lang$core$List$map,
+				f,
+				_elm_lang$core$Set$toList(s)));
+	});
+var _elm_lang$core$Set$remove = F2(
+	function (k, _p16) {
+		var _p17 = _p16;
+		return _elm_lang$core$Set$Set_elm_builtin(
+			A2(_elm_lang$core$Dict$remove, k, _p17._0));
+	});
+var _elm_lang$core$Set$union = F2(
+	function (_p19, _p18) {
+		var _p20 = _p19;
+		var _p21 = _p18;
+		return _elm_lang$core$Set$Set_elm_builtin(
+			A2(_elm_lang$core$Dict$union, _p20._0, _p21._0));
+	});
+var _elm_lang$core$Set$intersect = F2(
+	function (_p23, _p22) {
+		var _p24 = _p23;
+		var _p25 = _p22;
+		return _elm_lang$core$Set$Set_elm_builtin(
+			A2(_elm_lang$core$Dict$intersect, _p24._0, _p25._0));
+	});
+var _elm_lang$core$Set$diff = F2(
+	function (_p27, _p26) {
+		var _p28 = _p27;
+		var _p29 = _p26;
+		return _elm_lang$core$Set$Set_elm_builtin(
+			A2(_elm_lang$core$Dict$diff, _p28._0, _p29._0));
+	});
+var _elm_lang$core$Set$filter = F2(
+	function (p, _p30) {
+		var _p31 = _p30;
+		return _elm_lang$core$Set$Set_elm_builtin(
+			A2(
+				_elm_lang$core$Dict$filter,
+				F2(
+					function (k, _p32) {
+						return p(k);
+					}),
+				_p31._0));
+	});
+var _elm_lang$core$Set$partition = F2(
+	function (p, _p33) {
+		var _p34 = _p33;
+		var _p35 = A2(
+			_elm_lang$core$Dict$partition,
+			F2(
+				function (k, _p36) {
+					return p(k);
+				}),
+			_p34._0);
+		var p1 = _p35._0;
+		var p2 = _p35._1;
+		return {
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Set$Set_elm_builtin(p1),
+			_1: _elm_lang$core$Set$Set_elm_builtin(p2)
+		};
+	});
+
+var _elm_community$dict_extra$Dict_Extra$find = F2(
+	function (predicate, dict) {
+		return A3(
+			_elm_lang$core$Dict$foldl,
+			F3(
+				function (k, v, acc) {
+					var _p0 = acc;
+					if (_p0.ctor === 'Just') {
+						return acc;
+					} else {
+						return A2(predicate, k, v) ? _elm_lang$core$Maybe$Just(
+							{ctor: '_Tuple2', _0: k, _1: v}) : _elm_lang$core$Maybe$Nothing;
+					}
+				}),
+			_elm_lang$core$Maybe$Nothing,
+			dict);
+	});
+var _elm_community$dict_extra$Dict_Extra$invert = function (dict) {
+	return A3(
+		_elm_lang$core$Dict$foldl,
+		F3(
+			function (k, v, acc) {
+				return A3(_elm_lang$core$Dict$insert, v, k, acc);
+			}),
+		_elm_lang$core$Dict$empty,
+		dict);
+};
+var _elm_community$dict_extra$Dict_Extra$filterMap = F2(
+	function (f, dict) {
+		return A3(
+			_elm_lang$core$Dict$foldl,
+			F3(
+				function (k, v, acc) {
+					var _p1 = A2(f, k, v);
+					if (_p1.ctor === 'Just') {
+						return A3(_elm_lang$core$Dict$insert, k, _p1._0, acc);
+					} else {
+						return acc;
+					}
+				}),
+			_elm_lang$core$Dict$empty,
+			dict);
+	});
+var _elm_community$dict_extra$Dict_Extra$mapKeys = F2(
+	function (keyMapper, dict) {
+		return A3(
+			_elm_lang$core$Dict$foldl,
+			F3(
+				function (k, v, acc) {
+					return A3(
+						_elm_lang$core$Dict$insert,
+						keyMapper(k),
+						v,
+						acc);
+				}),
+			_elm_lang$core$Dict$empty,
+			dict);
+	});
+var _elm_community$dict_extra$Dict_Extra$keepOnly = F2(
+	function (set, dict) {
+		return A3(
+			_elm_lang$core$Set$foldl,
+			F2(
+				function (k, acc) {
+					return A2(
+						_elm_lang$core$Maybe$withDefault,
+						acc,
+						A2(
+							_elm_lang$core$Maybe$map,
+							function (v) {
+								return A3(_elm_lang$core$Dict$insert, k, v, acc);
+							},
+							A2(_elm_lang$core$Dict$get, k, dict)));
+				}),
+			_elm_lang$core$Dict$empty,
+			set);
+	});
+var _elm_community$dict_extra$Dict_Extra$insertDedupe = F4(
+	function (combine, key, value, dict) {
+		var $with = function (mbValue) {
+			var _p2 = mbValue;
+			if (_p2.ctor === 'Just') {
+				return _elm_lang$core$Maybe$Just(
+					A2(combine, _p2._0, value));
+			} else {
+				return _elm_lang$core$Maybe$Just(value);
+			}
+		};
+		return A3(_elm_lang$core$Dict$update, key, $with, dict);
+	});
+var _elm_community$dict_extra$Dict_Extra$removeMany = F2(
+	function (set, dict) {
+		return A3(_elm_lang$core$Set$foldl, _elm_lang$core$Dict$remove, dict, set);
+	});
+var _elm_community$dict_extra$Dict_Extra$removeWhen = F2(
+	function (pred, dict) {
+		return A2(
+			_elm_lang$core$Dict$filter,
+			F2(
+				function (k, v) {
+					return !A2(pred, k, v);
+				}),
+			dict);
+	});
+var _elm_community$dict_extra$Dict_Extra$frequencies = function (list) {
+	return A3(
+		_elm_lang$core$List$foldl,
+		F2(
+			function (el, counter) {
+				return function (count) {
+					return A3(_elm_lang$core$Dict$insert, el, count, counter);
+				}(
+					function (count) {
+						return count + 1;
+					}(
+						A2(
+							_elm_lang$core$Maybe$withDefault,
+							0,
+							A2(_elm_lang$core$Dict$get, el, counter))));
+			}),
+		_elm_lang$core$Dict$empty,
+		list);
+};
+var _elm_community$dict_extra$Dict_Extra$fromListDedupeBy = F3(
+	function (combine, keyfn, xs) {
+		return A3(
+			_elm_lang$core$List$foldl,
+			F2(
+				function (x, acc) {
+					return A4(
+						_elm_community$dict_extra$Dict_Extra$insertDedupe,
+						combine,
+						keyfn(x),
+						x,
+						acc);
+				}),
+			_elm_lang$core$Dict$empty,
+			xs);
+	});
+var _elm_community$dict_extra$Dict_Extra$fromListDedupe = F2(
+	function (combine, xs) {
+		return A3(
+			_elm_lang$core$List$foldl,
+			F2(
+				function (_p3, acc) {
+					var _p4 = _p3;
+					return A4(_elm_community$dict_extra$Dict_Extra$insertDedupe, combine, _p4._0, _p4._1, acc);
+				}),
+			_elm_lang$core$Dict$empty,
+			xs);
+	});
+var _elm_community$dict_extra$Dict_Extra$fromListBy = F2(
+	function (keyfn, xs) {
+		return A3(
+			_elm_lang$core$List$foldl,
+			F2(
+				function (x, acc) {
+					return A3(
+						_elm_lang$core$Dict$insert,
+						keyfn(x),
+						x,
+						acc);
+				}),
+			_elm_lang$core$Dict$empty,
+			xs);
+	});
+var _elm_community$dict_extra$Dict_Extra$filterGroupBy = F2(
+	function (keyfn, list) {
+		return A3(
+			_elm_lang$core$List$foldr,
+			F2(
+				function (x, acc) {
+					var _p5 = keyfn(x);
+					if (_p5.ctor === 'Just') {
+						return A3(
+							_elm_lang$core$Dict$update,
+							_p5._0,
+							function (_p6) {
+								return _elm_lang$core$Maybe$Just(
+									A2(
+										_elm_lang$core$Maybe$withDefault,
+										{
+											ctor: '::',
+											_0: x,
+											_1: {ctor: '[]'}
+										},
+										A2(
+											_elm_lang$core$Maybe$map,
+											F2(
+												function (x, y) {
+													return {ctor: '::', _0: x, _1: y};
+												})(x),
+											_p6)));
+							},
+							acc);
+					} else {
+						return acc;
+					}
+				}),
+			_elm_lang$core$Dict$empty,
+			list);
+	});
+var _elm_community$dict_extra$Dict_Extra$groupBy = F2(
+	function (keyfn, list) {
+		return A3(
+			_elm_lang$core$List$foldr,
+			F2(
+				function (x, acc) {
+					return A3(
+						_elm_lang$core$Dict$update,
+						keyfn(x),
+						function (_p7) {
+							return _elm_lang$core$Maybe$Just(
+								A2(
+									_elm_lang$core$Maybe$withDefault,
+									{
+										ctor: '::',
+										_0: x,
+										_1: {ctor: '[]'}
+									},
+									A2(
+										_elm_lang$core$Maybe$map,
+										F2(
+											function (x, y) {
+												return {ctor: '::', _0: x, _1: y};
+											})(x),
+										_p7)));
+						},
+						acc);
+				}),
+			_elm_lang$core$Dict$empty,
+			list);
+	});
+
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrap;
 var _elm_lang$virtual_dom$VirtualDom_Debug$wrapWithFlags;
 
@@ -13322,6 +13692,9 @@ var _elm_lang$html$Html_Attributes$classList = function (list) {
 };
 var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$style;
 
+var _abadi199$elm_fire_game$Msg$ObjectCaptured = function (a) {
+	return {ctor: 'ObjectCaptured', _0: a};
+};
 var _abadi199$elm_fire_game$Msg$ResetMachineTimer = function (a) {
 	return {ctor: 'ResetMachineTimer', _0: a};
 };
@@ -14007,12 +14380,60 @@ var _mgold$elm_random_pcg$Random_Pcg$fromJson = _elm_lang$core$Json_Decode$oneOf
 		}
 	});
 
-var _abadi199$elm_fire_game$FallingObject$newObject = F3(
-	function (model, producer, kind) {
-		return {
+var _abadi199$elm_fire_game$FallingObject$getObjectsFromProducer = F3(
+	function (objects, _p0, producer) {
+		return _elm_lang$core$Dict$values(
+			A2(_elm_community$dict_extra$Dict_Extra$keepOnly, objects, producer.objects));
+	});
+var _abadi199$elm_fire_game$FallingObject$getObjects = F2(
+	function (objects, model) {
+		return A2(
+			_elm_lang$core$List$concatMap,
+			_elm_lang$core$Basics$identity,
+			_elm_lang$core$Dict$values(
+				A2(
+					_elm_lang$core$Dict$map,
+					_abadi199$elm_fire_game$FallingObject$getObjectsFromProducer(objects),
+					model.producers)));
+	});
+var _abadi199$elm_fire_game$FallingObject$removeObjectsFromProducer = F3(
+	function (objects, _p1, producer) {
+		return _elm_lang$core$Native_Utils.update(
+			producer,
+			{
+				objects: A2(
+					_elm_lang$core$Dict$filter,
+					F2(
+						function (key, _p2) {
+							return !A2(_elm_lang$core$Set$member, key, objects);
+						}),
+					producer.objects)
+			});
+	});
+var _abadi199$elm_fire_game$FallingObject$removeObjects = F2(
+	function (objects, model) {
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				producers: A2(
+					_elm_lang$core$Dict$map,
+					_abadi199$elm_fire_game$FallingObject$removeObjectsFromProducer(objects),
+					model.producers)
+			});
+	});
+var _abadi199$elm_fire_game$FallingObject$newObject = F5(
+	function (model, producerKey, producer, kind, objects) {
+		var object = {
 			position: {x: producer.positionX, y: model.ceilingPositionY},
-			kind: kind
+			kind: kind,
+			width: producer.width,
+			height: producer.height
 		};
+		var objectKey = A2(
+			_elm_lang$core$Basics_ops['++'],
+			producerKey,
+			_elm_lang$core$Basics$toString(model.timestamp));
+		return A3(_elm_lang$core$Dict$insert, objectKey, object, objects);
 	});
 var _abadi199$elm_fire_game$FallingObject$addYieldCounter = F2(
 	function (delta, producer) {
@@ -14020,8 +14441,8 @@ var _abadi199$elm_fire_game$FallingObject$addYieldCounter = F2(
 			producer,
 			{yieldCounterInMillisecond: producer.yieldCounterInMillisecond + delta});
 	});
-var _abadi199$elm_fire_game$FallingObject$moveObject = F4(
-	function (delta, model, producer, fallingObject) {
+var _abadi199$elm_fire_game$FallingObject$moveObject = F5(
+	function (delta, model, producer, key, fallingObject) {
 		var position = fallingObject.position;
 		var newPositionY = position.y - (producer.speedInPixelPerMillisecond * delta);
 		return (_elm_lang$core$Native_Utils.cmp(newPositionY, model.floorPositionY) < 0) ? _elm_lang$core$Maybe$Nothing : _elm_lang$core$Maybe$Just(
@@ -14034,21 +14455,27 @@ var _abadi199$elm_fire_game$FallingObject$moveObject = F4(
 				}));
 	});
 var _abadi199$elm_fire_game$FallingObject$move = F3(
-	function (delta, model, producer) {
-		return _elm_lang$core$Native_Utils.update(
-			producer,
-			{
-				objects: A2(
-					_elm_lang$core$List$filterMap,
-					A3(_abadi199$elm_fire_game$FallingObject$moveObject, delta, model, producer),
-					producer.objects)
-			});
+	function (delta, model, _p3) {
+		var _p4 = _p3;
+		var _p5 = _p4._1;
+		return {
+			ctor: '_Tuple2',
+			_0: _p4._0,
+			_1: _elm_lang$core$Native_Utils.update(
+				_p5,
+				{
+					objects: A2(
+						_elm_community$dict_extra$Dict_Extra$filterMap,
+						A3(_abadi199$elm_fire_game$FallingObject$moveObject, delta, model, _p5),
+						_p5.objects)
+				})
+		};
 	});
 var _abadi199$elm_fire_game$FallingObject$fallingObjectStyle = F3(
 	function (model, producer, fallingObject) {
 		var color = function () {
-			var _p0 = fallingObject.kind;
-			if (_p0.ctor === 'Good') {
+			var _p6 = fallingObject.kind;
+			if (_p6.ctor === 'Good') {
 				return _rtfeldman$elm_css$Css$hex('#0F0');
 			} else {
 				return _rtfeldman$elm_css$Css$hex('#F00');
@@ -14164,7 +14591,7 @@ var _abadi199$elm_fire_game$FallingObject$producerView = F2(
 									ctor: '::',
 									_0: _elm_lang$html$Html$text(
 										_elm_lang$core$Basics$toString(
-											_elm_lang$core$List$length(producer.objects))),
+											_elm_lang$core$Dict$size(producer.objects))),
 									_1: {ctor: '[]'}
 								}),
 							_1: {ctor: '[]'}
@@ -14173,7 +14600,7 @@ var _abadi199$elm_fire_game$FallingObject$producerView = F2(
 				_1: A2(
 					_elm_lang$core$List$map,
 					A2(_abadi199$elm_fire_game$FallingObject$fallingObjectView, model, producer),
-					producer.objects)
+					_elm_lang$core$Dict$values(producer.objects))
 			});
 	});
 var _abadi199$elm_fire_game$FallingObject$view = function (model) {
@@ -14197,7 +14624,8 @@ var _abadi199$elm_fire_game$FallingObject$create = F2(
 						2218777484,
 						_elm_lang$core$Basics$toString(list))),
 				_1: {
-					objects: {ctor: '[]'},
+					objects: _elm_lang$core$Dict$fromList(
+						{ctor: '[]'}),
 					positionX: positionX,
 					yieldCounterInMillisecond: 0,
 					width: 50,
@@ -14215,9 +14643,9 @@ var _abadi199$elm_fire_game$FallingObject$Producer = F9(
 	function (a, b, c, d, e, f, g, h, i) {
 		return {width: a, height: b, yieldIntervalInMillisecond: c, speedInPixelPerMillisecond: d, yieldProbability: e, goodKindProbability: f, positionX: g, yieldCounterInMillisecond: h, objects: i};
 	});
-var _abadi199$elm_fire_game$FallingObject$FallingObject = F2(
-	function (a, b) {
-		return {position: a, kind: b};
+var _abadi199$elm_fire_game$FallingObject$FallingObject = F4(
+	function (a, b, c, d) {
+		return {position: a, kind: b, width: c, height: d};
 	});
 var _abadi199$elm_fire_game$FallingObject$Bad = {ctor: 'Bad'};
 var _abadi199$elm_fire_game$FallingObject$Good = {ctor: 'Good'};
@@ -14240,11 +14668,7 @@ var _abadi199$elm_fire_game$FallingObject$generateNewRandomObject = F4(
 					return _elm_lang$core$Native_Utils.update(
 						producer,
 						{
-							objects: {
-								ctor: '::',
-								_0: A3(_abadi199$elm_fire_game$FallingObject$newObject, model, producer, kind),
-								_1: producer.objects
-							},
+							objects: A5(_abadi199$elm_fire_game$FallingObject$newObject, model, key, producer, kind, producer.objects),
 							yieldCounterInMillisecond: 0
 						});
 				},
@@ -14257,9 +14681,9 @@ var _abadi199$elm_fire_game$FallingObject$generateNewRandomObject = F4(
 			_mgold$elm_random_pcg$Random_Pcg$andThen,
 			yieldObject,
 			A2(_mgold$elm_random_pcg$Random_Pcg$int, 1, 100));
-		var _p1 = A2(_mgold$elm_random_pcg$Random_Pcg$step, yieldObjectGenerator, model.seed);
-		var newProducer = _p1._0;
-		var newSeed = _p1._1;
+		var _p7 = A2(_mgold$elm_random_pcg$Random_Pcg$step, yieldObjectGenerator, model.seed);
+		var newProducer = _p7._0;
+		var newSeed = _p7._1;
 		return _elm_lang$core$Native_Utils.update(
 			model,
 			{
@@ -14267,29 +14691,36 @@ var _abadi199$elm_fire_game$FallingObject$generateNewRandomObject = F4(
 				producers: A3(_elm_lang$core$Dict$insert, key, newProducer, model.producers)
 			});
 	});
-var _abadi199$elm_fire_game$FallingObject$updateProducer = F4(
-	function (delta, key, producer, model) {
-		return (_elm_lang$core$Native_Utils.cmp(producer.yieldCounterInMillisecond, producer.yieldIntervalInMillisecond) < 0) ? _elm_lang$core$Native_Utils.update(
+var _abadi199$elm_fire_game$FallingObject$updateProducer = F3(
+	function (delta, model, _p8) {
+		var _p9 = _p8;
+		var _p11 = _p9._1;
+		var _p10 = _p9._0;
+		return (_elm_lang$core$Native_Utils.cmp(_p11.yieldCounterInMillisecond, _p11.yieldIntervalInMillisecond) < 0) ? _elm_lang$core$Native_Utils.update(
 			model,
 			{
 				producers: A3(
 					_elm_lang$core$Dict$insert,
-					key,
-					A2(_abadi199$elm_fire_game$FallingObject$addYieldCounter, delta, producer),
+					_p10,
+					A2(_abadi199$elm_fire_game$FallingObject$addYieldCounter, delta, _p11),
 					model.producers)
-			}) : A4(_abadi199$elm_fire_game$FallingObject$generateNewRandomObject, delta, key, producer, model);
+			}) : A4(_abadi199$elm_fire_game$FallingObject$generateNewRandomObject, delta, _p10, _p11, model);
 	});
 var _abadi199$elm_fire_game$FallingObject$update = F2(
 	function (delta, model) {
 		return A3(
 			_elm_lang$core$Dict$foldl,
-			F2(
-				function (key, producer) {
+			F3(
+				function (key, producer, updatedModel) {
 					return A3(
 						_abadi199$elm_fire_game$FallingObject$updateProducer,
 						delta,
-						key,
-						A3(_abadi199$elm_fire_game$FallingObject$move, delta, model, producer));
+						updatedModel,
+						A3(
+							_abadi199$elm_fire_game$FallingObject$move,
+							delta,
+							updatedModel,
+							{ctor: '_Tuple2', _0: key, _1: producer}));
 				}),
 			model,
 			model.producers);
@@ -14314,7 +14745,7 @@ var _abadi199$elm_fire_game$Machine$resetTimer = F2(
 	});
 var _abadi199$elm_fire_game$Machine$collidesWith = F2(
 	function (coordinates, machine) {
-		return A2(_abadi199$elm_fire_game$Coordinates$collidesWithRect, machine, coordinates);
+		return A2(_abadi199$elm_fire_game$Collision$coordinatesWithRect, machine, coordinates);
 	});
 var _abadi199$elm_fire_game$Machine$isSelected = function (machine) {
 	var _p0 = machine.selected;
@@ -14464,9 +14895,79 @@ var _abadi199$elm_fire_game$Machine$select = F2(
 			});
 	});
 
-var _abadi199$elm_fire_game$Hero$targetStyle = F2(
-	function (_p0, hero) {
+var _abadi199$elm_fire_game$Hero$captureObjects = F2(
+	function (objects, model) {
+		var newLoad = A2(
+			_elm_lang$core$List$map,
+			function (_) {
+				return _.kind;
+			},
+			A2(_abadi199$elm_fire_game$FallingObject$getObjects, objects, model));
+		var hero = model.hero;
+		return _elm_lang$core$Native_Utils.update(
+			model,
+			{
+				hero: _elm_lang$core$Native_Utils.update(
+					hero,
+					{
+						load: A2(_elm_lang$core$Basics_ops['++'], newLoad, hero.load)
+					})
+			});
+	});
+var _abadi199$elm_fire_game$Hero$collidesWith = F2(
+	function (hero, _p0) {
 		var _p1 = _p0;
+		var heroPosition = function () {
+			var _p2 = hero.position;
+			if (_p2.ctor === 'Stationary') {
+				return _p2._0;
+			} else {
+				return _p2._0.from;
+			}
+		}();
+		var heroRect = {position: heroPosition, width: hero.width, height: hero.height};
+		return A2(_abadi199$elm_fire_game$Collision$rectWithRect, heroRect, _p1._1) ? _elm_lang$core$Maybe$Just(_p1._0) : _elm_lang$core$Maybe$Nothing;
+	});
+var _abadi199$elm_fire_game$Hero$checkObjectCollision = F2(
+	function (delta, _p3) {
+		var _p4 = _p3;
+		var _p7 = _p4._0;
+		var _p6 = _p4._1;
+		var hero = _p7.hero;
+		var capturedObjects = _elm_lang$core$Set$fromList(
+			A2(
+				_elm_lang$core$List$filterMap,
+				_abadi199$elm_fire_game$Hero$collidesWith(_p7.hero),
+				A2(
+					_elm_lang$core$List$concatMap,
+					function (_p5) {
+						return _elm_lang$core$Dict$toList(
+							function (_) {
+								return _.objects;
+							}(_p5));
+					},
+					_elm_lang$core$Dict$values(_p7.producers))));
+		return _elm_lang$core$Set$isEmpty(capturedObjects) ? {ctor: '_Tuple2', _0: _p7, _1: _p6} : {
+			ctor: '_Tuple2',
+			_0: _p7,
+			_1: _elm_lang$core$Platform_Cmd$batch(
+				{
+					ctor: '::',
+					_0: _p6,
+					_1: {
+						ctor: '::',
+						_0: A2(
+							_elm_lang$core$Task$perform,
+							_abadi199$elm_fire_game$Msg$ObjectCaptured,
+							_elm_lang$core$Task$succeed(capturedObjects)),
+						_1: {ctor: '[]'}
+					}
+				})
+		};
+	});
+var _abadi199$elm_fire_game$Hero$targetStyle = F2(
+	function (_p8, model) {
+		var _p9 = _p8;
 		return _rtfeldman$elm_css$Css$batch(
 			{
 				ctor: '::',
@@ -14475,14 +14976,14 @@ var _abadi199$elm_fire_game$Hero$targetStyle = F2(
 					ctor: '::',
 					_0: A2(
 						_abadi199$elm_fire_game$Projector$project,
-						hero,
-						{x: _p1.x - 10, y: _p1.y - 10}),
+						model,
+						{x: _p9.x - 10, y: _p9.y - 10}),
 					_1: {
 						ctor: '::',
-						_0: A2(_abadi199$elm_fire_game$Projector$width, hero, 20),
+						_0: A2(_abadi199$elm_fire_game$Projector$width, model, 20),
 						_1: {
 							ctor: '::',
-							_0: A2(_abadi199$elm_fire_game$Projector$height, hero, 20),
+							_0: A2(_abadi199$elm_fire_game$Projector$height, model, 20),
 							_1: {
 								ctor: '::',
 								_0: _rtfeldman$elm_css$Css$backgroundColor(
@@ -14494,9 +14995,9 @@ var _abadi199$elm_fire_game$Hero$targetStyle = F2(
 				}
 			});
 	});
-var _abadi199$elm_fire_game$Hero$targetView = function (hero) {
-	var _p2 = hero.heroPosition;
-	if (_p2.ctor === 'Stationary') {
+var _abadi199$elm_fire_game$Hero$targetView = function (model) {
+	var _p10 = model.hero.position;
+	if (_p10.ctor === 'Stationary') {
 		return _elm_lang$html$Html$text('');
 	} else {
 		return A2(
@@ -14507,7 +15008,7 @@ var _abadi199$elm_fire_game$Hero$targetView = function (hero) {
 					_rtfeldman$elm_css$Css$asPairsDEPRECATED(
 						{
 							ctor: '::',
-							_0: A2(_abadi199$elm_fire_game$Hero$targetStyle, _p2._0.to, hero),
+							_0: A2(_abadi199$elm_fire_game$Hero$targetStyle, _p10._0.to, model),
 							_1: {ctor: '[]'}
 						})),
 				_1: {ctor: '[]'}
@@ -14515,112 +15016,164 @@ var _abadi199$elm_fire_game$Hero$targetView = function (hero) {
 			{ctor: '[]'});
 	}
 };
-var _abadi199$elm_fire_game$Hero$heroStyle = F2(
-	function (coordinates, hero) {
+var _abadi199$elm_fire_game$Hero$heroStyle = F3(
+	function (coordinates, framePosition, model) {
 		return _rtfeldman$elm_css$Css$batch(
 			{
 				ctor: '::',
 				_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
 				_1: {
 					ctor: '::',
-					_0: A2(_abadi199$elm_fire_game$Projector$project, hero, coordinates),
+					_0: A2(_abadi199$elm_fire_game$Projector$project, model, coordinates),
 					_1: {
 						ctor: '::',
-						_0: A2(_abadi199$elm_fire_game$Projector$width, hero, hero.heroWidth),
+						_0: A2(_abadi199$elm_fire_game$Projector$width, model, model.hero.width),
 						_1: {
 							ctor: '::',
-							_0: A2(_abadi199$elm_fire_game$Projector$height, hero, hero.heroHeight),
+							_0: A2(_abadi199$elm_fire_game$Projector$height, model, model.hero.height),
 							_1: {
 								ctor: '::',
-								_0: _rtfeldman$elm_css$Css$backgroundColor(
-									_rtfeldman$elm_css$Css$hex('#000')),
-								_1: {ctor: '[]'}
+								_0: _rtfeldman$elm_css$Css$backgroundImage(
+									_rtfeldman$elm_css$Css$url('hero.svg')),
+								_1: {
+									ctor: '::',
+									_0: A2(
+										_rtfeldman$elm_css$Css$backgroundSize2,
+										_rtfeldman$elm_css$Css$px(
+											A2(_abadi199$elm_fire_game$Projector$toWorldX, model, model.hero.width * 3)),
+										_rtfeldman$elm_css$Css$px(
+											A2(_abadi199$elm_fire_game$Projector$toWorldY, model, model.hero.height))),
+									_1: {
+										ctor: '::',
+										_0: A2(
+											_rtfeldman$elm_css$Css$backgroundPosition2,
+											_rtfeldman$elm_css$Css$px(
+												A2(
+													_abadi199$elm_fire_game$Projector$toWorldX,
+													model,
+													model.hero.width * _elm_lang$core$Basics$toFloat(framePosition))),
+											_rtfeldman$elm_css$Css$zero),
+										_1: {ctor: '[]'}
+									}
+								}
 							}
 						}
 					}
 				}
 			});
 	});
-var _abadi199$elm_fire_game$Hero$heroView = function (hero) {
-	var draw = function (coordinates) {
-		return A2(
-			_elm_lang$html$Html$div,
-			{
-				ctor: '::',
-				_0: _elm_lang$html$Html_Attributes$style(
-					_rtfeldman$elm_css$Css$asPairsDEPRECATED(
-						{
-							ctor: '::',
-							_0: A2(_abadi199$elm_fire_game$Hero$heroStyle, coordinates, hero),
-							_1: {ctor: '[]'}
-						})),
-				_1: {ctor: '[]'}
-			},
-			{ctor: '[]'});
-	};
-	var _p3 = hero.heroPosition;
-	if (_p3.ctor === 'Stationary') {
-		return draw(_p3._0);
+var _abadi199$elm_fire_game$Hero$heroView = function (model) {
+	var draw = F2(
+		function (coordinates, framePosition) {
+			return A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+							{
+								ctor: '::',
+								_0: A3(_abadi199$elm_fire_game$Hero$heroStyle, coordinates, framePosition, model),
+								_1: {ctor: '[]'}
+							})),
+					_1: {ctor: '[]'}
+				},
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html$text(
+						_elm_lang$core$Basics$toString(
+							_elm_lang$core$List$length(model.hero.load))),
+					_1: {ctor: '[]'}
+				});
+		});
+	var _p11 = model.hero.position;
+	if (_p11.ctor === 'Stationary') {
+		return A2(draw, _p11._0, 0);
 	} else {
-		return draw(_p3._0.from);
+		return A2(draw, _p11._0.from, _p11._0.framePosition);
 	}
 };
-var _abadi199$elm_fire_game$Hero$view = function (hero) {
+var _abadi199$elm_fire_game$Hero$view = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
 		{ctor: '[]'},
 		{
 			ctor: '::',
-			_0: _abadi199$elm_fire_game$Hero$heroView(hero),
+			_0: _abadi199$elm_fire_game$Hero$heroView(model),
 			_1: {
 				ctor: '::',
-				_0: _abadi199$elm_fire_game$Hero$targetView(hero),
+				_0: _abadi199$elm_fire_game$Hero$targetView(model),
 				_1: {ctor: '[]'}
 			}
 		});
 };
+var _abadi199$elm_fire_game$Hero$Hero = F6(
+	function (a, b, c, d, e, f) {
+		return {position: a, width: b, height: c, speedInPixelPerMillisecond: d, load: e, frameCount: f};
+	});
 var _abadi199$elm_fire_game$Hero$Moving = function (a) {
 	return {ctor: 'Moving', _0: a};
 };
 var _abadi199$elm_fire_game$Hero$moveTo = F2(
-	function (coordinates, hero) {
-		var moveToMachine = function (machine) {
-			var _p4 = hero.heroPosition;
-			if (_p4.ctor === 'Stationary') {
-				return _elm_lang$core$Native_Utils.update(
-					hero,
-					{
-						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-							{from: _p4._0, to: machine.position})
-					});
-			} else {
-				return _elm_lang$core$Native_Utils.update(
-					hero,
-					{
-						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-							{from: _p4._0.from, to: machine.position})
-					});
-			}
-		};
+	function (coordinates, model) {
+		var hero = model.hero;
 		var moveToCoordinates = function () {
-			var _p5 = hero.heroPosition;
-			if (_p5.ctor === 'Stationary') {
+			var _p12 = model.hero.position;
+			if (_p12.ctor === 'Stationary') {
 				return _elm_lang$core$Native_Utils.update(
-					hero,
+					model,
 					{
-						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-							{from: _p5._0, to: coordinates})
+						hero: _elm_lang$core$Native_Utils.update(
+							hero,
+							{
+								position: _abadi199$elm_fire_game$Hero$Moving(
+									{from: _p12._0, to: coordinates, framePosition: 0})
+							})
 					});
 			} else {
 				return _elm_lang$core$Native_Utils.update(
-					hero,
+					model,
 					{
-						heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-							{from: _p5._0.from, to: coordinates})
+						hero: _elm_lang$core$Native_Utils.update(
+							hero,
+							{
+								position: _abadi199$elm_fire_game$Hero$Moving(
+									_elm_lang$core$Native_Utils.update(
+										_p12._0,
+										{to: coordinates}))
+							})
 					});
 			}
 		}();
-		var machines = hero;
+		var moveToMachine = function (machine) {
+			var _p13 = model.hero.position;
+			if (_p13.ctor === 'Stationary') {
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						hero: _elm_lang$core$Native_Utils.update(
+							hero,
+							{
+								position: _abadi199$elm_fire_game$Hero$Moving(
+									{from: _p13._0, to: machine.position, framePosition: 0})
+							})
+					});
+			} else {
+				return _elm_lang$core$Native_Utils.update(
+					model,
+					{
+						hero: _elm_lang$core$Native_Utils.update(
+							hero,
+							{
+								position: _abadi199$elm_fire_game$Hero$Moving(
+									_elm_lang$core$Native_Utils.update(
+										_p13._0,
+										{to: machine.position}))
+							})
+					});
+			}
+		};
+		var machines = model;
 		return A2(
 			_elm_lang$core$Maybe$withDefault,
 			moveToCoordinates,
@@ -14629,58 +15182,110 @@ var _abadi199$elm_fire_game$Hero$moveTo = F2(
 				moveToMachine,
 				_abadi199$elm_fire_game$Machine$selected(machines)));
 	});
+var _abadi199$elm_fire_game$Hero$updateFrameCounter = F2(
+	function (delta, hero) {
+		var _p14 = hero.position;
+		if (_p14.ctor === 'Stationary') {
+			return hero;
+		} else {
+			var _p15 = _p14._0;
+			return _elm_lang$core$Native_Utils.update(
+				hero,
+				{
+					position: _abadi199$elm_fire_game$Hero$Moving(
+						_elm_lang$core$Native_Utils.update(
+							_p15,
+							{
+								framePosition: A2(_elm_lang$core$Basics_ops['%'], _p15.framePosition + 1, hero.frameCount)
+							}))
+				});
+		}
+	});
 var _abadi199$elm_fire_game$Hero$Stationary = function (a) {
 	return {ctor: 'Stationary', _0: a};
 };
-var _abadi199$elm_fire_game$Hero$moving = F5(
-	function (from, to, delta, speedPPms, hero) {
-		var toX = to.x - (hero.heroWidth / 2);
-		var travelDistance = (_elm_lang$core$Native_Utils.cmp(from.x, toX) > 0) ? ((-1 * speedPPms) * delta) : (speedPPms * delta);
+var _abadi199$elm_fire_game$Hero$create = {
+	position: _abadi199$elm_fire_game$Hero$Stationary(
+		{x: 100, y: 200}),
+	width: 175,
+	height: 189,
+	load: {ctor: '[]'},
+	speedInPixelPerMillisecond: 0.75,
+	frameCount: 3
+};
+var _abadi199$elm_fire_game$Hero$moving = F4(
+	function (moveData, delta, speedPPms, model) {
+		var toX = moveData.to.x - (model.hero.width / 2);
+		var travelDistance = (_elm_lang$core$Native_Utils.cmp(moveData.from.x, toX) > 0) ? ((-1 * speedPPms) * delta) : (speedPPms * delta);
+		var updateHeroPosition = function (hero) {
+			return _elm_lang$core$Native_Utils.update(
+				hero,
+				{
+					position: _abadi199$elm_fire_game$Hero$Moving(
+						_elm_lang$core$Native_Utils.update(
+							moveData,
+							{
+								from: A2(_abadi199$elm_fire_game$Coordinates$addX, travelDistance, moveData.from)
+							}))
+				});
+		};
 		var hasArrived = _elm_lang$core$Native_Utils.cmp(
-			_elm_lang$core$Basics$abs(from.x - toX),
+			_elm_lang$core$Basics$abs(moveData.from.x - toX),
 			_elm_lang$core$Basics$abs(travelDistance)) < 1;
-		var machines = hero;
+		var stopHero = function (hero) {
+			return _elm_lang$core$Native_Utils.update(
+				hero,
+				{
+					position: _abadi199$elm_fire_game$Hero$Stationary(
+						{x: toX, y: moveData.from.y})
+				});
+		};
+		var machines = model;
 		return hasArrived ? {
 			ctor: '_Tuple2',
 			_0: _elm_lang$core$Native_Utils.update(
-				hero,
+				model,
 				{
-					heroPosition: _abadi199$elm_fire_game$Hero$Stationary(
-						{x: toX, y: from.y})
+					hero: stopHero(model.hero)
 				}),
 			_1: A2(
 				_elm_lang$core$Maybe$withDefault,
 				_elm_lang$core$Platform_Cmd$none,
 				A2(
 					_elm_lang$core$Maybe$map,
-					function (_p6) {
+					function (_p16) {
 						return A2(
 							_elm_lang$core$Task$perform,
 							_abadi199$elm_fire_game$Msg$ResetMachineTimer,
-							_elm_lang$core$Task$succeed(_p6));
+							_elm_lang$core$Task$succeed(_p16));
 					},
 					_abadi199$elm_fire_game$Machine$selectedMachineId(machines)))
 		} : {
 			ctor: '_Tuple2',
 			_0: _elm_lang$core$Native_Utils.update(
-				hero,
+				model,
 				{
-					heroPosition: _abadi199$elm_fire_game$Hero$Moving(
-						{
-							from: A2(_abadi199$elm_fire_game$Coordinates$addX, travelDistance, from),
-							to: to
-						})
+					hero: A2(
+						_abadi199$elm_fire_game$Hero$updateFrameCounter,
+						delta,
+						updateHeroPosition(model.hero))
 				}),
 			_1: _elm_lang$core$Platform_Cmd$none
 		};
 	});
 var _abadi199$elm_fire_game$Hero$update = F2(
-	function (delta, hero) {
-		var _p7 = hero.heroPosition;
-		if (_p7.ctor === 'Stationary') {
-			return {ctor: '_Tuple2', _0: hero, _1: _elm_lang$core$Platform_Cmd$none};
+	function (delta, model) {
+		var _p17 = model.hero.position;
+		if (_p17.ctor === 'Stationary') {
+			return A2(
+				_abadi199$elm_fire_game$Hero$checkObjectCollision,
+				delta,
+				{ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none});
 		} else {
-			return A5(_abadi199$elm_fire_game$Hero$moving, _p7._0.from, _p7._0.to, delta, hero.heroSpeedInPixelPerMillisecond, hero);
+			return A2(
+				_abadi199$elm_fire_game$Hero$checkObjectCollision,
+				delta,
+				A4(_abadi199$elm_fire_game$Hero$moving, _p17._0, delta, model.hero.speedInPixelPerMillisecond, model));
 		}
 	});
 
@@ -16580,11 +17185,7 @@ var _abadi199$elm_fire_game$Model$initialModel = F2(
 			windowSize: windowSize,
 			floorPositionY: 200,
 			ceilingPositionY: 1050,
-			heroPosition: _abadi199$elm_fire_game$Hero$Stationary(
-				{x: 100, y: 200}),
-			heroWidth: 50,
-			heroHeight: 100,
-			heroSpeedInPixelPerMillisecond: 0.75,
+			hero: _abadi199$elm_fire_game$Hero$create,
 			machines: _elm_lang$core$Dict$fromList(
 				A2(
 					_abadi199$elm_fire_game$Machine$create,
@@ -16597,11 +17198,33 @@ var _abadi199$elm_fire_game$Model$initialModel = F2(
 							{x: 500, y: 200},
 							{ctor: '[]'})))),
 			producers: _elm_lang$core$Dict$fromList(
-				{ctor: '[]'}),
-			seed: seed
+				A2(
+					_abadi199$elm_fire_game$FallingObject$create,
+					1300,
+					A2(
+						_abadi199$elm_fire_game$FallingObject$create,
+						800,
+						A2(
+							_abadi199$elm_fire_game$FallingObject$create,
+							300,
+							{ctor: '[]'})))),
+			seed: seed,
+			timestamp: 0
 		};
 	});
 
+var _abadi199$elm_fire_game$Update$objectCaptured = F2(
+	function (objects, model) {
+		var _p0 = A2(_elm_lang$core$Debug$log, 'objectCaptured', objects);
+		return {
+			ctor: '_Tuple2',
+			_0: A2(
+				_abadi199$elm_fire_game$FallingObject$removeObjects,
+				objects,
+				A2(_abadi199$elm_fire_game$Hero$captureObjects, objects, model)),
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	});
 var _abadi199$elm_fire_game$Update$updateWindowSize = F2(
 	function (windowSize, model) {
 		return _elm_lang$core$Native_Utils.update(
@@ -16621,7 +17244,12 @@ var _abadi199$elm_fire_game$Update$tick = F2(
 			A2(
 				_abadi199$elm_fire_game$FallingObject$update,
 				delta,
-				A2(_abadi199$elm_fire_game$Machine$updateTimer, delta, model)));
+				A2(
+					_abadi199$elm_fire_game$Machine$updateTimer,
+					delta,
+					_elm_lang$core$Native_Utils.update(
+						model,
+						{timestamp: model.timestamp + delta}))));
 	});
 var _abadi199$elm_fire_game$Update$mouseClicked = F2(
 	function (mousePosition, model) {
@@ -16640,32 +17268,34 @@ var _abadi199$elm_fire_game$Update$resetMachineTimer = F2(
 	});
 var _abadi199$elm_fire_game$Update$update = F2(
 	function (msg, model) {
-		var _p0 = msg;
-		switch (_p0.ctor) {
+		var _p1 = msg;
+		switch (_p1.ctor) {
 			case 'NoOp':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Initialized':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Tick':
-				return A2(_abadi199$elm_fire_game$Update$tick, _p0._0, model);
+				return A2(_abadi199$elm_fire_game$Update$tick, _p1._0, model);
 			case 'WindowResized':
 				return {
 					ctor: '_Tuple2',
-					_0: A2(_abadi199$elm_fire_game$Update$updateWindowSize, _p0._0, model),
+					_0: A2(_abadi199$elm_fire_game$Update$updateWindowSize, _p1._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'MouseDown':
 				return {
 					ctor: '_Tuple2',
-					_0: A2(_abadi199$elm_fire_game$Update$mouseClicked, _p0._0, model),
+					_0: A2(_abadi199$elm_fire_game$Update$mouseClicked, _p1._0, model),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'ResetMachineTimer':
+				return {
+					ctor: '_Tuple2',
+					_0: A2(_abadi199$elm_fire_game$Update$resetMachineTimer, _p1._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			default:
-				return {
-					ctor: '_Tuple2',
-					_0: A2(_abadi199$elm_fire_game$Update$resetMachineTimer, _p0._0, model),
-					_1: _elm_lang$core$Platform_Cmd$none
-				};
+				return A2(_abadi199$elm_fire_game$Update$objectCaptured, _p1._0, model);
 		}
 	});
 
@@ -16678,31 +17308,41 @@ var _abadi199$elm_fire_game$View$ceiling = function (model) {
 				_rtfeldman$elm_css$Css$asPairsDEPRECATED(
 					{
 						ctor: '::',
-						_0: _rtfeldman$elm_css$Css$backgroundColor(
-							_rtfeldman$elm_css$Css$hex('#aaa')),
+						_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
 						_1: {
 							ctor: '::',
-							_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
+							_0: A2(
+								_abadi199$elm_fire_game$Projector$project,
+								model,
+								{x: 0 - model.origin.x, y: model.ceilingPositionY}),
 							_1: {
 								ctor: '::',
-								_0: A2(
-									_abadi199$elm_fire_game$Projector$project,
-									model,
-									{x: 0 - model.origin.x, y: model.ceilingPositionY}),
+								_0: _rtfeldman$elm_css$Css$width(
+									_rtfeldman$elm_css$Css$vw(100)),
 								_1: {
 									ctor: '::',
-									_0: _rtfeldman$elm_css$Css$width(
-										_rtfeldman$elm_css$Css$vw(100)),
+									_0: A2(
+										_abadi199$elm_fire_game$Projector$height,
+										model,
+										A2(
+											_abadi199$elm_fire_game$Projector$toViewportY,
+											model,
+											_elm_lang$core$Basics$toFloat(model.windowSize.height)) - model.ceilingPositionY),
 									_1: {
 										ctor: '::',
-										_0: A2(
-											_abadi199$elm_fire_game$Projector$height,
-											model,
-											A2(
-												_abadi199$elm_fire_game$Projector$toViewportY,
-												model,
-												_elm_lang$core$Basics$toFloat(model.windowSize.height)) - model.ceilingPositionY),
-										_1: {ctor: '[]'}
+										_0: _rtfeldman$elm_css$Css$backgroundImage(
+											_rtfeldman$elm_css$Css$url('floor.svg')),
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$backgroundRepeat(_rtfeldman$elm_css$Css$repeat),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$backgroundSize(
+													_rtfeldman$elm_css$Css$px(
+														A2(_abadi199$elm_fire_game$Projector$toWorldX, model, 50))),
+												_1: {ctor: '[]'}
+											}
+										}
 									}
 								}
 							}
@@ -16710,7 +17350,62 @@ var _abadi199$elm_fire_game$View$ceiling = function (model) {
 					})),
 			_1: {ctor: '[]'}
 		},
-		{ctor: '[]'});
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+							{
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$left(_rtfeldman$elm_css$Css$zero),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$bottom(_rtfeldman$elm_css$Css$zero),
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$width(
+												_rtfeldman$elm_css$Css$pct(100)),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$height(
+													_rtfeldman$elm_css$Css$px(
+														A2(_abadi199$elm_fire_game$Projector$toWorldX, model, 50))),
+												_1: {
+													ctor: '::',
+													_0: _rtfeldman$elm_css$Css$backgroundImage(
+														_rtfeldman$elm_css$Css$url('ceiling.svg')),
+													_1: {
+														ctor: '::',
+														_0: _rtfeldman$elm_css$Css$backgroundRepeat(_rtfeldman$elm_css$Css$repeatX),
+														_1: {
+															ctor: '::',
+															_0: _rtfeldman$elm_css$Css$backgroundSize(
+																_rtfeldman$elm_css$Css$px(
+																	A2(_abadi199$elm_fire_game$Projector$toWorldX, model, 50))),
+															_1: {
+																ctor: '::',
+																_0: _rtfeldman$elm_css$Css$backgroundPosition(_rtfeldman$elm_css$Css$bottom),
+																_1: {ctor: '[]'}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							})),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
 };
 var _abadi199$elm_fire_game$View$floor = function (model) {
 	return A2(
@@ -16721,25 +17416,35 @@ var _abadi199$elm_fire_game$View$floor = function (model) {
 				_rtfeldman$elm_css$Css$asPairsDEPRECATED(
 					{
 						ctor: '::',
-						_0: _rtfeldman$elm_css$Css$backgroundColor(
-							_rtfeldman$elm_css$Css$hex('#aaa')),
+						_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
 						_1: {
 							ctor: '::',
-							_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
+							_0: A2(
+								_abadi199$elm_fire_game$Projector$project,
+								model,
+								{x: 0 - model.origin.x, y: 0 - model.origin.y}),
 							_1: {
 								ctor: '::',
-								_0: A2(
-									_abadi199$elm_fire_game$Projector$project,
-									model,
-									{x: 0 - model.origin.x, y: 0 - model.origin.y}),
+								_0: _rtfeldman$elm_css$Css$width(
+									_rtfeldman$elm_css$Css$vw(100)),
 								_1: {
 									ctor: '::',
-									_0: _rtfeldman$elm_css$Css$width(
-										_rtfeldman$elm_css$Css$vw(100)),
+									_0: A2(_abadi199$elm_fire_game$Projector$height, model, model.floorPositionY + model.origin.y),
 									_1: {
 										ctor: '::',
-										_0: A2(_abadi199$elm_fire_game$Projector$height, model, model.floorPositionY + model.origin.y),
-										_1: {ctor: '[]'}
+										_0: _rtfeldman$elm_css$Css$backgroundImage(
+											_rtfeldman$elm_css$Css$url('floor.svg')),
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$backgroundRepeat(_rtfeldman$elm_css$Css$repeat),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$backgroundSize(
+													_rtfeldman$elm_css$Css$px(
+														A2(_abadi199$elm_fire_game$Projector$toWorldX, model, 50))),
+												_1: {ctor: '[]'}
+											}
+										}
 									}
 								}
 							}
@@ -16747,7 +17452,46 @@ var _abadi199$elm_fire_game$View$floor = function (model) {
 					})),
 			_1: {ctor: '[]'}
 		},
-		{ctor: '[]'});
+		{
+			ctor: '::',
+			_0: A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+							{
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$width(
+									_rtfeldman$elm_css$Css$pct(100)),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$height(
+										_rtfeldman$elm_css$Css$px(
+											A2(_abadi199$elm_fire_game$Projector$toWorldX, model, 50))),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$backgroundImage(
+											_rtfeldman$elm_css$Css$url('floorTop.svg')),
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$backgroundRepeat(_rtfeldman$elm_css$Css$repeatX),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$backgroundSize(
+													_rtfeldman$elm_css$Css$px(
+														A2(_abadi199$elm_fire_game$Projector$toWorldX, model, 50))),
+												_1: {ctor: '[]'}
+											}
+										}
+									}
+								}
+							})),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'}),
+			_1: {ctor: '[]'}
+		});
 };
 var _abadi199$elm_fire_game$View$world = F2(
 	function (model, content) {

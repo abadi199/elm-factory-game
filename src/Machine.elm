@@ -1,6 +1,7 @@
 module Machine
     exposing
-        ( Machines
+        ( Machine
+        , Model
         , create
         , resetTimer
         , select
@@ -10,6 +11,7 @@ module Machine
         , view
         )
 
+import Collision
 import Coordinates exposing (Coordinates)
 import Css exposing (..)
 import Dict exposing (Dict)
@@ -35,7 +37,7 @@ type Selected
     | NotSelected
 
 
-type alias Machines a =
+type alias Model a =
     { a
         | machines : Dict String Machine
         , widthRatio : Float
@@ -44,7 +46,7 @@ type alias Machines a =
     }
 
 
-updateTimer : Float -> Machines a -> Machines a
+updateTimer : Float -> Model a -> Model a
 updateTimer delta machines =
     let
         updateMachineTimer _ machine =
@@ -71,18 +73,18 @@ create coordinates list =
         :: list
 
 
-view : Machines a -> Html Msg
+view : Model a -> Html Msg
 view model =
     div [] (model.machines |> Dict.values |> List.map (machineView model))
 
 
-machineView : Machines a -> Machine -> Html Msg
+machineView : Model a -> Machine -> Html Msg
 machineView model machine =
     div [ style <| Css.asPairsDEPRECATED [ machineStyle model machine ] ]
         [ text <| toString <| Basics.round <| machine.timerInMillisecond / 1000 ]
 
 
-machineStyle : Machines a -> Machine -> Style
+machineStyle : Model a -> Machine -> Style
 machineStyle model machine =
     let
         backgroundColor =
@@ -112,7 +114,7 @@ isSelected machine =
             False
 
 
-selectedMachineId : Machines a -> Maybe String
+selectedMachineId : Model a -> Maybe String
 selectedMachineId machines =
     machines.machines
         |> Dict.filter (\_ machine -> isSelected machine)
@@ -120,7 +122,7 @@ selectedMachineId machines =
         |> List.head
 
 
-selected : Machines a -> Maybe Machine
+selected : Model a -> Maybe Machine
 selected machines =
     machines.machines
         |> Dict.values
@@ -128,7 +130,7 @@ selected machines =
         |> List.head
 
 
-select : Coordinates -> Machines a -> Machines a
+select : Coordinates -> Model a -> Model a
 select coordinates machines =
     { machines | machines = machines.machines |> Dict.map (always (updateSelected coordinates)) }
 
@@ -144,10 +146,10 @@ updateSelected coordinates machine =
 collidesWith : Coordinates -> Machine -> Bool
 collidesWith coordinates machine =
     coordinates
-        |> Coordinates.collidesWithRect machine
+        |> Collision.coordinatesWithRect machine
 
 
-resetTimer : String -> Machines a -> Machines a
+resetTimer : String -> Model a -> Model a
 resetTimer machineId machines =
     let
         reset machine =

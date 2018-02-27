@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg7137"
+   version="1.1"
+   viewBox="0 0 4.9003038 4.9003038"
+   height="4.9003038mm"
+   width="4.9003038mm">
+  <defs
+     id="defs7131" />
+  <metadata
+     id="metadata7134">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(-83.72842,-58.692705)"
+     id="layer1">
+    <g
+       transform="matrix(0.26458333,0,0,0.26458333,71.827682,57.992662)"
+       id="g6703">
+      <g
+         id="use6701"
+         transform="scale(0.26458333)">
+        <path
+           d="M 196.05,74.95 Q 183.65,78.25 170,71.1 V 80 h 70 v -8.9 q -16.3,-9.8 -35,0 -4.4,2.6 -8.95,3.85 M 240,48.4 v -9 q -16.3,-9.8 -35,0 -4.4,2.6 -8.95,3.85 -12.4,3.3 -26.05,-3.85 v 9 q 13.65,7.15 26.05,3.85 4.55,-1.25 8.95,-3.85 18.7,-9.8 35,0 z"
+           id="path7155"
+           style="fill:#b5cacb;stroke:none" />
+        <path
+           d="m 170,71.1 q 13.65,7.15 26.05,3.85 4.55,-1.25 8.95,-3.85 18.7,-9.8 35,0 v -6.7 q -16.3,-9.8 -35,0 -4.4,2.6 -8.95,3.85 -12.4,3.3 -26.05,-3.85 v 6.7 m 70,-31.7 v -6 q -16.3,-9.8 -35,0 -4.4,2.6 -8.95,3.85 -12.4,3.3 -26.05,-3.85 v 6 q 13.65,7.15 26.05,3.85 4.55,-1.25 8.95,-3.85 18.7,-9.8 35,0 z"
+           id="path7157"
+           style="fill:#a4b7b8;stroke:none" />
+        <path
+           d="m 240,48.4 q -16.3,-9.8 -35,0 -4.4,2.6 -8.95,3.85 -12.4,3.3 -26.05,-3.85 v 16 q 13.65,7.15 26.05,3.85 4.55,-1.25 8.95,-3.85 18.7,-9.8 35,0 z"
+           id="path7159"
+           style="fill:#acc0c1;stroke:none" />
+        <path
+           d="m 205,25.7 q 18.7,-6.3 35,0 V 12 h -70 v 13.7 q 13.65,4.6 26.05,2.5 0.35,-0.1 0.7,-0.15 4.2,-0.8 8.25,-2.35 z"
+           id="path7161"
+           style="fill:#c98b65;stroke:none" />
+        <path
+           d="m 207.15,28.05 q -1.05,0.4 -2.15,0.85 -4.4,2.1 -8.95,3.05 -12.4,2.6 -26.05,-3.05 v 4.5 q 13.65,7.15 26.05,3.85 4.55,-1.25 8.95,-3.85 18.7,-9.8 35,0 v -4.5 q -0.95,-0.45 -1.9,-0.85 -14.55,-6.1 -30.95,0 z"
+           id="path7163"
+           style="fill:#b9cfd0;stroke:none" />
+        <path
+           d="m 205,28.9 q 1.1,-0.45 2.15,-0.85 16.4,-6.1 30.95,0 0.95,0.4 1.9,0.85 v -3.2 q -16.3,-6.3 -35,0 -4.05,1.55 -8.25,2.35 -0.35,0.05 -0.7,0.15 -12.4,2.1 -26.05,-2.5 v 3.2 q 13.65,5.65 26.05,3.05 Q 200.6,31 205,28.9 Z"
+           id="path7165"
+           style="fill:#bb815e;stroke:none" />
+        <path
+           d="m 240,12 v -2 h -70 v 2 z"
+           id="path7167"
+           style="fill:#d9966d;stroke:none" />
+      </g>
+    </g>
+  </g>
+</svg>

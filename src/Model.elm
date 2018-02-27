@@ -7,16 +7,16 @@ module Model
 
 import Coordinates exposing (Coordinates)
 import Dict
-import FallingObject exposing (FallingObjects)
-import Hero exposing (Hero)
-import Machine exposing (Machines)
+import FallingObject
+import Hero
+import Machine
 import Projector
 import Random.Pcg exposing (Seed)
 import Window
 
 
 type alias Model =
-    Window (World (Hero (Machines (FallingObjects {}))))
+    Window (World (Hero.Model (Machine.Model (FallingObject.Model {}))))
 
 
 type alias Window a =
@@ -32,6 +32,7 @@ type alias World a =
     { a
         | floorPositionY : Float
         , ceilingPositionY : Float
+        , timestamp : Float
     }
 
 
@@ -43,10 +44,7 @@ initialModel seed windowSize =
     , windowSize = windowSize
     , floorPositionY = 200
     , ceilingPositionY = 1050
-    , heroPosition = Hero.Stationary { x = 100, y = 200 }
-    , heroWidth = 50
-    , heroHeight = 100
-    , heroSpeedInPixelPerMillisecond = 0.75
+    , hero = Hero.create
     , machines =
         []
             |> Machine.create { x = 500, y = 200 }
@@ -55,9 +53,10 @@ initialModel seed windowSize =
             |> Dict.fromList
     , producers =
         []
-            -- |> FallingObject.create 300
-            -- |> FallingObject.create 800
-            -- |> FallingObject.create 1300
+            |> FallingObject.create 300
+            |> FallingObject.create 800
+            |> FallingObject.create 1300
             |> Dict.fromList
     , seed = seed
+    , timestamp = 0
     }
