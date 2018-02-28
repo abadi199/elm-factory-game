@@ -40,6 +40,9 @@ update msg model =
         ObjectCaptured objects ->
             objectCaptured objects model
 
+        RetryClicked ->
+            ( Model.initialModel model.seed model.windowSize, Cmd.none )
+
 
 resetMachineTimer : String -> Model -> Model
 resetMachineTimer machineId model =
@@ -78,10 +81,6 @@ updateWindowSize windowSize model =
 
 objectCaptured : Set String -> Model -> ( Model, Cmd Msg )
 objectCaptured objects model =
-    let
-        _ =
-            Debug.log "objectCaptured" objects
-    in
     ( model
         |> Hero.captureObjects objects
         |> FallingObject.removeObjects objects

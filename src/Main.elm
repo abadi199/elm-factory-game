@@ -35,12 +35,15 @@ subscriptions appState =
         Initializing ->
             Sub.none
 
-        Ready _ ->
-            Sub.batch
-                [ AnimationFrame.diffs Tick
-                , Window.resizes WindowResized
-                , Mouse.downs MouseDown
-                ]
+        Ready model ->
+            if Model.isGameOver model then
+                Sub.none
+            else
+                Sub.batch
+                    [ AnimationFrame.diffs Tick
+                    , Window.resizes WindowResized
+                    , Mouse.downs MouseDown
+                    ]
 
 
 initUpdate : Msg -> AppState -> ( AppState, Cmd Msg )

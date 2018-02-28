@@ -13,3 +13,4 @@ type Msg
     | MouseDown Mouse.Position
     | ResetMachineTimer String
     | ObjectCaptured (Set String)
+    | RetryClicked

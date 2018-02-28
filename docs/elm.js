@@ -13692,6 +13692,7 @@ var _elm_lang$html$Html_Attributes$classList = function (list) {
 };
 var _elm_lang$html$Html_Attributes$style = _elm_lang$virtual_dom$VirtualDom$style;
 
+var _abadi199$elm_fire_game$Msg$RetryClicked = {ctor: 'RetryClicked'};
 var _abadi199$elm_fire_game$Msg$ObjectCaptured = function (a) {
 	return {ctor: 'ObjectCaptured', _0: a};
 };
@@ -14761,30 +14762,21 @@ var _abadi199$elm_fire_game$FallingObject$update = F2(
 			model.producers);
 	});
 
-var _abadi199$elm_fire_game$Machine$resetTimer = F2(
-	function (machineId, machines) {
-		var reset = function (machine) {
-			return _elm_lang$core$Native_Utils.update(
-				machine,
-				{timerInMillisecond: 0});
-		};
-		return _elm_lang$core$Native_Utils.update(
-			machines,
-			{
-				machines: A3(
-					_elm_lang$core$Dict$update,
-					machineId,
-					_elm_lang$core$Maybe$map(reset),
-					machines.machines)
-			});
-	});
+var _abadi199$elm_fire_game$Machine$isKaboom = function (machine) {
+	var _p0 = machine.timerInMillisecond;
+	if (_p0.ctor === 'Kaboom') {
+		return true;
+	} else {
+		return false;
+	}
+};
 var _abadi199$elm_fire_game$Machine$collidesWith = F2(
 	function (coordinates, machine) {
 		return A2(_abadi199$elm_fire_game$Collision$coordinatesWithRect, machine, coordinates);
 	});
 var _abadi199$elm_fire_game$Machine$isSelected = function (machine) {
-	var _p0 = machine.selected;
-	if (_p0.ctor === 'Selected') {
+	var _p1 = machine.selected;
+	if (_p1.ctor === 'Selected') {
 		return true;
 	} else {
 		return false;
@@ -14796,7 +14788,7 @@ var _abadi199$elm_fire_game$Machine$selectedMachineId = function (machines) {
 			A2(
 				_elm_lang$core$Dict$filter,
 				F2(
-					function (_p1, machine) {
+					function (_p2, machine) {
 						return _abadi199$elm_fire_game$Machine$isSelected(machine);
 					}),
 				machines.machines)));
@@ -14811,8 +14803,8 @@ var _abadi199$elm_fire_game$Machine$selected = function (machines) {
 var _abadi199$elm_fire_game$Machine$machineStyle = F2(
 	function (model, machine) {
 		var backgroundColor = function () {
-			var _p2 = machine.selected;
-			if (_p2.ctor === 'Selected') {
+			var _p3 = machine.selected;
+			if (_p3.ctor === 'Selected') {
 				return _rtfeldman$elm_css$Css$hex('#F88');
 			} else {
 				return _rtfeldman$elm_css$Css$hex('#F00');
@@ -14858,9 +14850,16 @@ var _abadi199$elm_fire_game$Machine$machineView = F2(
 			},
 			{
 				ctor: '::',
-				_0: _elm_lang$html$Html$text(
-					_elm_lang$core$Basics$toString(
-						_elm_lang$core$Basics$round(machine.timerInMillisecond / 1000))),
+				_0: function () {
+					var _p4 = machine.timerInMillisecond;
+					if (_p4.ctor === 'Ticking') {
+						return _elm_lang$html$Html$text(
+							_elm_lang$core$Basics$toString(
+								_elm_lang$core$Basics$round(_p4._0 / 1000)));
+					} else {
+						return _elm_lang$html$Html$text('KABOOOOM!!!');
+					}
+				}(),
 				_1: {ctor: '[]'}
 			});
 	});
@@ -14873,13 +14872,31 @@ var _abadi199$elm_fire_game$Machine$view = function (model) {
 			_abadi199$elm_fire_game$Machine$machineView(model),
 			_elm_lang$core$Dict$values(model.machines)));
 };
+var _abadi199$elm_fire_game$Machine$Machine = F6(
+	function (a, b, c, d, e, f) {
+		return {position: a, width: b, height: c, timerInMillisecond: d, maxTimeInMillisecond: e, selected: f};
+	});
+var _abadi199$elm_fire_game$Machine$Kaboom = {ctor: 'Kaboom'};
+var _abadi199$elm_fire_game$Machine$Ticking = function (a) {
+	return {ctor: 'Ticking', _0: a};
+};
 var _abadi199$elm_fire_game$Machine$updateTimer = F2(
 	function (delta, machines) {
 		var updateMachineTimer = F2(
-			function (_p3, machine) {
-				return _elm_lang$core$Native_Utils.update(
-					machine,
-					{timerInMillisecond: machine.timerInMillisecond + delta});
+			function (_p5, machine) {
+				var _p6 = machine.timerInMillisecond;
+				if (_p6.ctor === 'Ticking') {
+					var _p7 = _p6._0;
+					return (_elm_lang$core$Native_Utils.cmp(_p7 + delta, machine.maxTimeInMillisecond) > -1) ? _elm_lang$core$Native_Utils.update(
+						machine,
+						{timerInMillisecond: _abadi199$elm_fire_game$Machine$Kaboom}) : _elm_lang$core$Native_Utils.update(
+						machine,
+						{
+							timerInMillisecond: _abadi199$elm_fire_game$Machine$Ticking(_p7 + delta)
+						});
+				} else {
+					return machine;
+				}
 			});
 		return _elm_lang$core$Native_Utils.update(
 			machines,
@@ -14887,9 +14904,29 @@ var _abadi199$elm_fire_game$Machine$updateTimer = F2(
 				machines: A2(_elm_lang$core$Dict$map, updateMachineTimer, machines.machines)
 			});
 	});
-var _abadi199$elm_fire_game$Machine$Machine = F6(
-	function (a, b, c, d, e, f) {
-		return {position: a, width: b, height: c, timerInMillisecond: d, maxTimeInMillisecond: e, selected: f};
+var _abadi199$elm_fire_game$Machine$resetTimer = F2(
+	function (machineId, machines) {
+		var reset = function (machine) {
+			var _p8 = machine.timerInMillisecond;
+			if (_p8.ctor === 'Ticking') {
+				return _elm_lang$core$Native_Utils.update(
+					machine,
+					{
+						timerInMillisecond: _abadi199$elm_fire_game$Machine$Ticking(0)
+					});
+			} else {
+				return machine;
+			}
+		};
+		return _elm_lang$core$Native_Utils.update(
+			machines,
+			{
+				machines: A3(
+					_elm_lang$core$Dict$update,
+					machineId,
+					_elm_lang$core$Maybe$map(reset),
+					machines.machines)
+			});
 	});
 var _abadi199$elm_fire_game$Machine$NotSelected = {ctor: 'NotSelected'};
 var _abadi199$elm_fire_game$Machine$create = F2(
@@ -14903,7 +14940,14 @@ var _abadi199$elm_fire_game$Machine$create = F2(
 						_Skinney$murmur3$Murmur3$hashString,
 						8821923,
 						_elm_lang$core$Basics$toString(list))),
-				_1: {position: coordinates, width: 100, height: 300, timerInMillisecond: 0, maxTimeInMillisecond: 10000, selected: _abadi199$elm_fire_game$Machine$NotSelected}
+				_1: {
+					position: coordinates,
+					width: 100,
+					height: 300,
+					timerInMillisecond: _abadi199$elm_fire_game$Machine$Ticking(0),
+					maxTimeInMillisecond: 10000,
+					selected: _abadi199$elm_fire_game$Machine$NotSelected
+				}
 			},
 			_1: list
 		};
@@ -17227,6 +17271,12 @@ var _rtfeldman$elm_css$Html_Styled$summary = _rtfeldman$elm_css$Html_Styled$node
 var _rtfeldman$elm_css$Html_Styled$menuitem = _rtfeldman$elm_css$Html_Styled$node('menuitem');
 var _rtfeldman$elm_css$Html_Styled$menu = _rtfeldman$elm_css$Html_Styled$node('menu');
 
+var _abadi199$elm_fire_game$Model$isGameOver = function (model) {
+	return A2(
+		_elm_lang$core$List$all,
+		_abadi199$elm_fire_game$Machine$isKaboom,
+		_elm_lang$core$Dict$values(model.machines)) ? true : false;
+};
 var _abadi199$elm_fire_game$Model$initialModel = F2(
 	function (seed, windowSize) {
 		return {
@@ -17266,7 +17316,6 @@ var _abadi199$elm_fire_game$Model$initialModel = F2(
 
 var _abadi199$elm_fire_game$Update$objectCaptured = F2(
 	function (objects, model) {
-		var _p0 = A2(_elm_lang$core$Debug$log, 'objectCaptured', objects);
 		return {
 			ctor: '_Tuple2',
 			_0: A2(
@@ -17319,37 +17368,248 @@ var _abadi199$elm_fire_game$Update$resetMachineTimer = F2(
 	});
 var _abadi199$elm_fire_game$Update$update = F2(
 	function (msg, model) {
-		var _p1 = msg;
-		switch (_p1.ctor) {
+		var _p0 = msg;
+		switch (_p0.ctor) {
 			case 'NoOp':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Initialized':
 				return {ctor: '_Tuple2', _0: model, _1: _elm_lang$core$Platform_Cmd$none};
 			case 'Tick':
-				return A2(_abadi199$elm_fire_game$Update$tick, _p1._0, model);
+				return A2(_abadi199$elm_fire_game$Update$tick, _p0._0, model);
 			case 'WindowResized':
 				return {
 					ctor: '_Tuple2',
-					_0: A2(_abadi199$elm_fire_game$Update$updateWindowSize, _p1._0, model),
+					_0: A2(_abadi199$elm_fire_game$Update$updateWindowSize, _p0._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'MouseDown':
 				return {
 					ctor: '_Tuple2',
-					_0: A2(_abadi199$elm_fire_game$Update$mouseClicked, _p1._0, model),
+					_0: A2(_abadi199$elm_fire_game$Update$mouseClicked, _p0._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
 			case 'ResetMachineTimer':
 				return {
 					ctor: '_Tuple2',
-					_0: A2(_abadi199$elm_fire_game$Update$resetMachineTimer, _p1._0, model),
+					_0: A2(_abadi199$elm_fire_game$Update$resetMachineTimer, _p0._0, model),
 					_1: _elm_lang$core$Platform_Cmd$none
 				};
+			case 'ObjectCaptured':
+				return A2(_abadi199$elm_fire_game$Update$objectCaptured, _p0._0, model);
 			default:
-				return A2(_abadi199$elm_fire_game$Update$objectCaptured, _p1._0, model);
+				return {
+					ctor: '_Tuple2',
+					_0: A2(_abadi199$elm_fire_game$Model$initialModel, model.seed, model.windowSize),
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
 		}
 	});
 
+var _elm_lang$html$Html_Events$keyCode = A2(_elm_lang$core$Json_Decode$field, 'keyCode', _elm_lang$core$Json_Decode$int);
+var _elm_lang$html$Html_Events$targetChecked = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'checked',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$bool);
+var _elm_lang$html$Html_Events$targetValue = A2(
+	_elm_lang$core$Json_Decode$at,
+	{
+		ctor: '::',
+		_0: 'target',
+		_1: {
+			ctor: '::',
+			_0: 'value',
+			_1: {ctor: '[]'}
+		}
+	},
+	_elm_lang$core$Json_Decode$string);
+var _elm_lang$html$Html_Events$defaultOptions = _elm_lang$virtual_dom$VirtualDom$defaultOptions;
+var _elm_lang$html$Html_Events$onWithOptions = _elm_lang$virtual_dom$VirtualDom$onWithOptions;
+var _elm_lang$html$Html_Events$on = _elm_lang$virtual_dom$VirtualDom$on;
+var _elm_lang$html$Html_Events$onFocus = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'focus',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onBlur = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'blur',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onSubmitOptions = _elm_lang$core$Native_Utils.update(
+	_elm_lang$html$Html_Events$defaultOptions,
+	{preventDefault: true});
+var _elm_lang$html$Html_Events$onSubmit = function (msg) {
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'submit',
+		_elm_lang$html$Html_Events$onSubmitOptions,
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onCheck = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'change',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetChecked));
+};
+var _elm_lang$html$Html_Events$onInput = function (tagger) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'input',
+		A2(_elm_lang$core$Json_Decode$map, tagger, _elm_lang$html$Html_Events$targetValue));
+};
+var _elm_lang$html$Html_Events$onMouseOut = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseout',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseOver = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseover',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseLeave = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseleave',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseEnter = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseenter',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseUp = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseup',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onMouseDown = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mousedown',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onDoubleClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'dblclick',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$onClick = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'click',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _elm_lang$html$Html_Events$Options = F2(
+	function (a, b) {
+		return {stopPropagation: a, preventDefault: b};
+	});
+
+var _abadi199$elm_fire_game$View$gameOverView = function (model) {
+	return _abadi199$elm_fire_game$Model$isGameOver(model) ? A2(
+		_elm_lang$html$Html$div,
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html_Attributes$style(
+				_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+					{
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
+						_1: {
+							ctor: '::',
+							_0: _rtfeldman$elm_css$Css$width(
+								_rtfeldman$elm_css$Css$vw(100)),
+							_1: {
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$height(
+									_rtfeldman$elm_css$Css$vh(100)),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$backgroundColor(
+										A4(_rtfeldman$elm_css$Css$rgba, 255, 255, 255, 0.5)),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$displayFlex,
+										_1: {
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$justifyContent(_rtfeldman$elm_css$Css$center),
+											_1: {
+												ctor: '::',
+												_0: _rtfeldman$elm_css$Css$alignItems(_rtfeldman$elm_css$Css$center),
+												_1: {
+													ctor: '::',
+													_0: _rtfeldman$elm_css$Css$fontSize(
+														_rtfeldman$elm_css$Css$px(100)),
+													_1: {
+														ctor: '::',
+														_0: _rtfeldman$elm_css$Css$fontFamily(_rtfeldman$elm_css$Css$sansSerif),
+														_1: {
+															ctor: '::',
+															_0: _rtfeldman$elm_css$Css$flexDirection(_rtfeldman$elm_css$Css$column),
+															_1: {ctor: '[]'}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					})),
+			_1: {ctor: '[]'}
+		},
+		{
+			ctor: '::',
+			_0: _elm_lang$html$Html$text('Game Over'),
+			_1: {
+				ctor: '::',
+				_0: A2(
+					_elm_lang$html$Html$button,
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html_Attributes$type_('button'),
+						_1: {
+							ctor: '::',
+							_0: _elm_lang$html$Html_Events$onClick(_abadi199$elm_fire_game$Msg$RetryClicked),
+							_1: {
+								ctor: '::',
+								_0: _elm_lang$html$Html_Attributes$style(
+									_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+										{
+											ctor: '::',
+											_0: _rtfeldman$elm_css$Css$fontSize(
+												_rtfeldman$elm_css$Css$px(20)),
+											_1: {ctor: '[]'}
+										})),
+								_1: {ctor: '[]'}
+							}
+						}
+					},
+					{
+						ctor: '::',
+						_0: _elm_lang$html$Html$text('Try Again'),
+						_1: {ctor: '[]'}
+					}),
+				_1: {ctor: '[]'}
+			}
+		}) : _elm_lang$html$Html$text('');
+};
 var _abadi199$elm_fire_game$View$ceiling = function (model) {
 	return A2(
 		_elm_lang$html$Html$div,
@@ -17583,7 +17843,11 @@ var _abadi199$elm_fire_game$View$world = F2(
 					{
 						ctor: '::',
 						_0: _abadi199$elm_fire_game$View$ceiling(model),
-						_1: {ctor: '[]'}
+						_1: {
+							ctor: '::',
+							_0: _abadi199$elm_fire_game$View$gameOverView(model),
+							_1: {ctor: '[]'}
+						}
 					})
 			});
 	});
@@ -17622,7 +17886,7 @@ var _abadi199$elm_fire_game$Main$subscriptions = function (appState) {
 	if (_p1.ctor === 'Initializing') {
 		return _elm_lang$core$Platform_Sub$none;
 	} else {
-		return _elm_lang$core$Platform_Sub$batch(
+		return _abadi199$elm_fire_game$Model$isGameOver(_p1._0) ? _elm_lang$core$Platform_Sub$none : _elm_lang$core$Platform_Sub$batch(
 			{
 				ctor: '::',
 				_0: _elm_lang$animation_frame$AnimationFrame$diffs(_abadi199$elm_fire_game$Msg$Tick),

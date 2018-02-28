@@ -5,6 +5,7 @@ import FallingObject
 import Hero
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
 import Machine
 import Model exposing (Model)
 import Msg exposing (Msg(..))
@@ -31,7 +32,7 @@ world model content =
                 , position relative
                 ]
         ]
-        (floor model :: content ++ [ ceiling model ])
+        (floor model :: content ++ [ ceiling model, gameOverView model ])
 
 
 floor : Model -> Html Msg
@@ -92,3 +93,35 @@ ceiling model =
             ]
             []
         ]
+
+
+gameOverView : Model -> Html Msg
+gameOverView model =
+    if Model.isGameOver model then
+        div
+            [ style <|
+                Css.asPairsDEPRECATED
+                    [ position absolute
+                    , Css.width (vw 100)
+                    , Css.height (vh 100)
+                    , backgroundColor (rgba 255 255 255 0.5)
+                    , displayFlex
+                    , justifyContent center
+                    , alignItems center
+                    , fontSize (Css.px 100)
+                    , fontFamily sansSerif
+                    , flexDirection column
+                    ]
+            ]
+            [ text "Game Over"
+            , button
+                [ type_ "button"
+                , onClick RetryClicked
+                , style <|
+                    Css.asPairsDEPRECATED
+                        [ fontSize (Css.px 20) ]
+                ]
+                [ text "Try Again" ]
+            ]
+    else
+        text ""

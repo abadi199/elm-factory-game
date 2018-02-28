@@ -3,6 +3,7 @@ module Model
         ( Model
         , Window
         , initialModel
+        , isGameOver
         )
 
 import Coordinates exposing (Coordinates)
@@ -60,3 +61,11 @@ initialModel seed windowSize =
     , seed = seed
     , timestamp = 0
     }
+
+
+isGameOver : Model -> Bool
+isGameOver model =
+    if model.machines |> Dict.values |> List.all Machine.isKaboom then
+        True
+    else
+        False

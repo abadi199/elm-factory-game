@@ -3,6 +3,7 @@ module Machine
         ( Machine
         , Model
         , create
+        , isKaboom
         , resetTimer
         , select
         , selected
@@ -26,10 +27,15 @@ type alias Machine =
     { position : Coordinates
     , width : Float
     , height : Float
-    , timerInMillisecond : Float
+    , timerInMillisecond : Timer
     , maxTimeInMillisecond : Float
     , selected : Selected
     }
+
+
+type Timer
+    = Ticking Float
+    | Kaboom
 
 
 type Selected
@@ -50,7 +56,15 @@ updateTimer : Float -> Model a -> Model a
 updateTimer delta machines =
     let
         updateMachineTimer _ machine =
-            { machine | timerInMillisecond = machine.timerInMillisecond + delta }
+            case machine.timerInMillisecond of
+                Ticking timerInMillisecond ->
+                    if timerInMillisecond + delta >= machine.maxTimeInMillisecond then
+                        { machine | timerInMillisecond = Kaboom }
+                    else
+                        { machine | timerInMillisecond = Ticking (timerInMillisecond + delta) }
+
+                Kaboom ->
+                    machine
     in
     { machines
         | machines =
@@ -65,7 +79,7 @@ create coordinates list =
     , { position = coordinates
       , width = 100
       , height = 300
-      , timerInMillisecond = 0
+      , timerInMillisecond = Ticking 0
       , maxTimeInMillisecond = 10000
       , selected = NotSelected
       }
@@ -81,7 +95,13 @@ view model =
 machineView : Model a -> Machine -> Html Msg
 machineView model machine =
     div [ style <| Css.asPairsDEPRECATED [ machineStyle model machine ] ]
-        [ text <| toString <| Basics.round <| machine.timerInMillisecond / 1000 ]
+        [ case machine.timerInMillisecond of
+            Ticking timerInMillisecond ->
+                text <| toString <| Basics.round <| timerInMillisecond / 1000
+
+            Kaboom ->
+                text "KABOOOOM!!!"
+        ]
 
 
 machineStyle : Model a -> Machine -> Style
@@ -153,6 +173,21 @@ resetTimer : String -> Model a -> Model a
 resetTimer machineId machines =
     let
         reset machine =
-            { machine | timerInMillisecond = 0 }
+            case machine.timerInMillisecond of
+                Ticking _ ->
+                    { machine | timerInMillisecond = Ticking 0 }
+
+                Kaboom ->
+                    machine
     in
     { machines | machines = Dict.update machineId (Maybe.map reset) machines.machines }
+
+
+isKaboom : Machine -> Bool
+isKaboom machine =
+    case machine.timerInMillisecond of
+        Kaboom ->
+            True
+
+        Ticking _ ->
+            False
