@@ -44,13 +44,18 @@ type alias Hero =
 
 
 type Position
-    = Stationary Coordinates
-    | Moving { from : Coordinates, to : Coordinates, framePosition : Int }
+    = Stationary Coordinates Facing
+    | Moving { from : Coordinates, to : Coordinates, framePosition : Float }
+
+
+type Facing
+    = Left
+    | Right
 
 
 create : Hero
 create =
-    { position = Stationary { x = 100, y = 200 }
+    { position = Stationary { x = 100, y = 200 } Right
     , width = 175
     , height = 189
     , load = []
@@ -70,35 +75,51 @@ view model =
 heroView : Model a -> Html Msg
 heroView model =
     let
-        draw coordinates framePosition =
-            div [ style <| Css.asPairsDEPRECATED [ heroStyle coordinates framePosition model ] ]
-                [ text <| toString <| List.length model.hero.load ]
+        draw coordinates framePosition facing =
+            div [ style <| Css.asPairsDEPRECATED [ heroStyle coordinates framePosition facing model ] ]
+                []
     in
     case model.hero.position of
-        Stationary coordinates ->
-            draw coordinates 0
+        Stationary coordinates facing ->
+            draw coordinates 0 facing
 
         Moving { from, to, framePosition } ->
-            draw from framePosition
+            let
+                facing =
+                    if from.x + (model.hero.width / 2) >= to.x then
+                        Left
+                    else
+                        Right
+            in
+            draw from framePosition facing
 
 
-heroStyle : Coordinates -> Int -> Model a -> Style
-heroStyle coordinates framePosition model =
+heroStyle : Coordinates -> Float -> Facing -> Model a -> Style
+heroStyle coordinates framePosition facing model =
+    let
+        scaleX =
+            case facing of
+                Left ->
+                    -1
+
+                Right ->
+                    1
+    in
     Css.batch
         [ position absolute
-        , Projector.project model coordinates
+        , Projector.projectWithScaleX model coordinates scaleX
         , Projector.width model model.hero.width
         , Projector.height model model.hero.height
         , backgroundImage (url "hero.svg")
         , backgroundSize2 (px (Projector.toWorldX model (model.hero.width * 3))) (px (Projector.toWorldY model model.hero.height))
-        , backgroundPosition2 (px (Projector.toWorldX model (model.hero.width * toFloat framePosition))) Css.zero
+        , backgroundPosition2 (px (Projector.toWorldX model (model.hero.width * (toFloat <| Basics.round framePosition)))) Css.zero
         ]
 
 
 targetView : Model a -> Html Msg
 targetView model =
     case model.hero.position of
-        Stationary _ ->
+        Stationary _ _ ->
             text ""
 
         Moving { to } ->
@@ -127,7 +148,7 @@ moveTo coordinates model =
 
         moveToCoordinates =
             case model.hero.position of
-                Stationary from ->
+                Stationary from facing ->
                     { model | hero = { hero | position = Moving { from = from, to = coordinates, framePosition = 0 } } }
 
                 Moving movingData ->
@@ -135,7 +156,7 @@ moveTo coordinates model =
 
         moveToMachine machine =
             case model.hero.position of
-                Stationary from ->
+                Stationary from facing ->
                     { model | hero = { hero | position = Moving { from = from, to = machine.position, framePosition = 0 } } }
 
                 Moving movingData ->
@@ -150,7 +171,7 @@ moveTo coordinates model =
 update : Float -> Model (Machine.Model (FallingObject.Model a)) -> ( Model (Machine.Model (FallingObject.Model a)), Cmd Msg )
 update delta model =
     case model.hero.position of
-        Stationary _ ->
+        Stationary _ _ ->
             ( model, Cmd.none )
                 |> checkObjectCollision delta
 
@@ -190,7 +211,7 @@ collidesWith hero ( key, fallingObject ) =
     let
         heroPosition =
             case hero.position of
-                Stationary position ->
+                Stationary position _ ->
                     position
 
                 Moving { from } ->
@@ -205,7 +226,7 @@ collidesWith hero ( key, fallingObject ) =
         Nothing
 
 
-moving : { from : Coordinates, to : Coordinates, framePosition : Int } -> Float -> Float -> Model (Machine.Model a) -> ( Model (Machine.Model a), Cmd Msg )
+moving : { from : Coordinates, to : Coordinates, framePosition : Float } -> Float -> Float -> Model (Machine.Model a) -> ( Model (Machine.Model a), Cmd Msg )
 moving moveData delta speedPPms model =
     let
         machines =
@@ -226,8 +247,17 @@ moving moveData delta speedPPms model =
         updateHeroPosition hero =
             { hero | position = Moving { moveData | from = moveData.from |> Coordinates.addX travelDistance } }
 
+        facing =
+            if moveData.from.x > toX then
+                Left
+            else
+                Right
+
         stopHero hero =
-            { hero | position = Stationary { x = toX, y = moveData.from.y } }
+            { hero
+                | position =
+                    Stationary { x = toX, y = moveData.from.y } facing
+            }
     in
     if hasArrived then
         ( { model | hero = model.hero |> stopHero }
@@ -250,16 +280,24 @@ moving moveData delta speedPPms model =
 updateFrameCounter : Float -> Hero -> Hero
 updateFrameCounter delta hero =
     case hero.position of
-        Stationary _ ->
+        Stationary _ _ ->
             hero
 
         Moving movingData ->
+            let
+                framePosition =
+                    movingData.framePosition
+                        + (delta * hero.speedInPixelPerMillisecond / 100)
+            in
             { hero
                 | position =
                     Moving
                         { movingData
                             | framePosition =
-                                (movingData.framePosition + 1) % hero.frameCount
+                                if floor framePosition > hero.frameCount - 1 then
+                                    0
+                                else
+                                    framePosition
                         }
             }
 

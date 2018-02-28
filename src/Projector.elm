@@ -4,6 +4,7 @@ module Projector
         , height
         , heightRatio
         , project
+        , projectWithScaleX
         , toViewport
         , toViewportX
         , toViewportY
@@ -65,6 +66,19 @@ project model { x, y } =
         , Css.transforms
             [ Css.translateY (Css.px (-1 * toWorldY model (y + model.origin.y)))
             , Css.translateX (Css.px (toWorldX model (x + model.origin.x)))
+            ]
+        ]
+
+
+projectWithScaleX : { a | origin : Coordinates, widthRatio : Float, heightRatio : Float } -> { x : Float, y : Float } -> Int -> Css.Style
+projectWithScaleX model { x, y } scaleX =
+    Css.batch
+        [ Css.left Css.zero
+        , Css.bottom Css.zero
+        , Css.transforms
+            [ Css.translateY (Css.px (-1 * toWorldY model (y + model.origin.y)))
+            , Css.translateX (Css.px (toWorldX model (x + model.origin.x)))
+            , Css.scaleX scaleX
             ]
         ]
 

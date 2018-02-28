@@ -13812,6 +13812,41 @@ var _abadi199$elm_fire_game$Projector$project = F2(
 				}
 			});
 	});
+var _abadi199$elm_fire_game$Projector$projectWithScaleX = F3(
+	function (model, _p14, scaleX) {
+		var _p15 = _p14;
+		return _rtfeldman$elm_css$Css$batch(
+			{
+				ctor: '::',
+				_0: _rtfeldman$elm_css$Css$left(_rtfeldman$elm_css$Css$zero),
+				_1: {
+					ctor: '::',
+					_0: _rtfeldman$elm_css$Css$bottom(_rtfeldman$elm_css$Css$zero),
+					_1: {
+						ctor: '::',
+						_0: _rtfeldman$elm_css$Css$transforms(
+							{
+								ctor: '::',
+								_0: _rtfeldman$elm_css$Css$translateY(
+									_rtfeldman$elm_css$Css$px(
+										-1 * A2(_abadi199$elm_fire_game$Projector$toWorldY, model, _p15.y + model.origin.y))),
+								_1: {
+									ctor: '::',
+									_0: _rtfeldman$elm_css$Css$translateX(
+										_rtfeldman$elm_css$Css$px(
+											A2(_abadi199$elm_fire_game$Projector$toWorldX, model, _p15.x + model.origin.x))),
+									_1: {
+										ctor: '::',
+										_0: _rtfeldman$elm_css$Css$scaleX(scaleX),
+										_1: {ctor: '[]'}
+									}
+								}
+							}),
+						_1: {ctor: '[]'}
+					}
+				}
+			});
+	});
 var _abadi199$elm_fire_game$Projector$width = F2(
 	function (model, value) {
 		return _rtfeldman$elm_css$Css$width(
@@ -15016,15 +15051,23 @@ var _abadi199$elm_fire_game$Hero$targetView = function (model) {
 			{ctor: '[]'});
 	}
 };
-var _abadi199$elm_fire_game$Hero$heroStyle = F3(
-	function (coordinates, framePosition, model) {
+var _abadi199$elm_fire_game$Hero$heroStyle = F4(
+	function (coordinates, framePosition, facing, model) {
+		var scaleX = function () {
+			var _p11 = facing;
+			if (_p11.ctor === 'Left') {
+				return -1;
+			} else {
+				return 1;
+			}
+		}();
 		return _rtfeldman$elm_css$Css$batch(
 			{
 				ctor: '::',
 				_0: _rtfeldman$elm_css$Css$position(_rtfeldman$elm_css$Css$absolute),
 				_1: {
 					ctor: '::',
-					_0: A2(_abadi199$elm_fire_game$Projector$project, model, coordinates),
+					_0: A3(_abadi199$elm_fire_game$Projector$projectWithScaleX, model, coordinates, scaleX),
 					_1: {
 						ctor: '::',
 						_0: A2(_abadi199$elm_fire_game$Projector$width, model, model.hero.width),
@@ -15051,7 +15094,8 @@ var _abadi199$elm_fire_game$Hero$heroStyle = F3(
 												A2(
 													_abadi199$elm_fire_game$Projector$toWorldX,
 													model,
-													model.hero.width * _elm_lang$core$Basics$toFloat(framePosition))),
+													model.hero.width * _elm_lang$core$Basics$toFloat(
+														_elm_lang$core$Basics$round(framePosition)))),
 											_rtfeldman$elm_css$Css$zero),
 										_1: {ctor: '[]'}
 									}
@@ -15062,51 +15106,6 @@ var _abadi199$elm_fire_game$Hero$heroStyle = F3(
 				}
 			});
 	});
-var _abadi199$elm_fire_game$Hero$heroView = function (model) {
-	var draw = F2(
-		function (coordinates, framePosition) {
-			return A2(
-				_elm_lang$html$Html$div,
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html_Attributes$style(
-						_rtfeldman$elm_css$Css$asPairsDEPRECATED(
-							{
-								ctor: '::',
-								_0: A3(_abadi199$elm_fire_game$Hero$heroStyle, coordinates, framePosition, model),
-								_1: {ctor: '[]'}
-							})),
-					_1: {ctor: '[]'}
-				},
-				{
-					ctor: '::',
-					_0: _elm_lang$html$Html$text(
-						_elm_lang$core$Basics$toString(
-							_elm_lang$core$List$length(model.hero.load))),
-					_1: {ctor: '[]'}
-				});
-		});
-	var _p11 = model.hero.position;
-	if (_p11.ctor === 'Stationary') {
-		return A2(draw, _p11._0, 0);
-	} else {
-		return A2(draw, _p11._0.from, _p11._0.framePosition);
-	}
-};
-var _abadi199$elm_fire_game$Hero$view = function (model) {
-	return A2(
-		_elm_lang$html$Html$div,
-		{ctor: '[]'},
-		{
-			ctor: '::',
-			_0: _abadi199$elm_fire_game$Hero$heroView(model),
-			_1: {
-				ctor: '::',
-				_0: _abadi199$elm_fire_game$Hero$targetView(model),
-				_1: {ctor: '[]'}
-			}
-		});
-};
 var _abadi199$elm_fire_game$Hero$Hero = F6(
 	function (a, b, c, d, e, f) {
 		return {position: a, width: b, height: c, speedInPixelPerMillisecond: d, load: e, frameCount: f};
@@ -15189,6 +15188,7 @@ var _abadi199$elm_fire_game$Hero$updateFrameCounter = F2(
 			return hero;
 		} else {
 			var _p15 = _p14._0;
+			var framePosition = _p15.framePosition + ((delta * hero.speedInPixelPerMillisecond) / 100);
 			return _elm_lang$core$Native_Utils.update(
 				hero,
 				{
@@ -15196,22 +15196,70 @@ var _abadi199$elm_fire_game$Hero$updateFrameCounter = F2(
 						_elm_lang$core$Native_Utils.update(
 							_p15,
 							{
-								framePosition: A2(_elm_lang$core$Basics_ops['%'], _p15.framePosition + 1, hero.frameCount)
+								framePosition: (_elm_lang$core$Native_Utils.cmp(
+									_elm_lang$core$Basics$floor(framePosition),
+									hero.frameCount - 1) > 0) ? 0 : framePosition
 							}))
 				});
 		}
 	});
-var _abadi199$elm_fire_game$Hero$Stationary = function (a) {
-	return {ctor: 'Stationary', _0: a};
-};
+var _abadi199$elm_fire_game$Hero$Stationary = F2(
+	function (a, b) {
+		return {ctor: 'Stationary', _0: a, _1: b};
+	});
+var _abadi199$elm_fire_game$Hero$Right = {ctor: 'Right'};
 var _abadi199$elm_fire_game$Hero$create = {
-	position: _abadi199$elm_fire_game$Hero$Stationary(
-		{x: 100, y: 200}),
+	position: A2(
+		_abadi199$elm_fire_game$Hero$Stationary,
+		{x: 100, y: 200},
+		_abadi199$elm_fire_game$Hero$Right),
 	width: 175,
 	height: 189,
 	load: {ctor: '[]'},
 	speedInPixelPerMillisecond: 0.75,
 	frameCount: 3
+};
+var _abadi199$elm_fire_game$Hero$Left = {ctor: 'Left'};
+var _abadi199$elm_fire_game$Hero$heroView = function (model) {
+	var draw = F3(
+		function (coordinates, framePosition, facing) {
+			return A2(
+				_elm_lang$html$Html$div,
+				{
+					ctor: '::',
+					_0: _elm_lang$html$Html_Attributes$style(
+						_rtfeldman$elm_css$Css$asPairsDEPRECATED(
+							{
+								ctor: '::',
+								_0: A4(_abadi199$elm_fire_game$Hero$heroStyle, coordinates, framePosition, facing, model),
+								_1: {ctor: '[]'}
+							})),
+					_1: {ctor: '[]'}
+				},
+				{ctor: '[]'});
+		});
+	var _p16 = model.hero.position;
+	if (_p16.ctor === 'Stationary') {
+		return A3(draw, _p16._0, 0, _p16._1);
+	} else {
+		var _p17 = _p16._0.from;
+		var facing = (_elm_lang$core$Native_Utils.cmp(_p17.x + (model.hero.width / 2), _p16._0.to.x) > -1) ? _abadi199$elm_fire_game$Hero$Left : _abadi199$elm_fire_game$Hero$Right;
+		return A3(draw, _p17, _p16._0.framePosition, facing);
+	}
+};
+var _abadi199$elm_fire_game$Hero$view = function (model) {
+	return A2(
+		_elm_lang$html$Html$div,
+		{ctor: '[]'},
+		{
+			ctor: '::',
+			_0: _abadi199$elm_fire_game$Hero$heroView(model),
+			_1: {
+				ctor: '::',
+				_0: _abadi199$elm_fire_game$Hero$targetView(model),
+				_1: {ctor: '[]'}
+			}
+		});
 };
 var _abadi199$elm_fire_game$Hero$moving = F4(
 	function (moveData, delta, speedPPms, model) {
@@ -15232,12 +15280,15 @@ var _abadi199$elm_fire_game$Hero$moving = F4(
 		var hasArrived = _elm_lang$core$Native_Utils.cmp(
 			_elm_lang$core$Basics$abs(moveData.from.x - toX),
 			_elm_lang$core$Basics$abs(travelDistance)) < 1;
+		var facing = (_elm_lang$core$Native_Utils.cmp(moveData.from.x, toX) > 0) ? _abadi199$elm_fire_game$Hero$Left : _abadi199$elm_fire_game$Hero$Right;
 		var stopHero = function (hero) {
 			return _elm_lang$core$Native_Utils.update(
 				hero,
 				{
-					position: _abadi199$elm_fire_game$Hero$Stationary(
-						{x: toX, y: moveData.from.y})
+					position: A2(
+						_abadi199$elm_fire_game$Hero$Stationary,
+						{x: toX, y: moveData.from.y},
+						facing)
 				});
 		};
 		var machines = model;
@@ -15253,11 +15304,11 @@ var _abadi199$elm_fire_game$Hero$moving = F4(
 				_elm_lang$core$Platform_Cmd$none,
 				A2(
 					_elm_lang$core$Maybe$map,
-					function (_p16) {
+					function (_p18) {
 						return A2(
 							_elm_lang$core$Task$perform,
 							_abadi199$elm_fire_game$Msg$ResetMachineTimer,
-							_elm_lang$core$Task$succeed(_p16));
+							_elm_lang$core$Task$succeed(_p18));
 					},
 					_abadi199$elm_fire_game$Machine$selectedMachineId(machines)))
 		} : {
@@ -15275,8 +15326,8 @@ var _abadi199$elm_fire_game$Hero$moving = F4(
 	});
 var _abadi199$elm_fire_game$Hero$update = F2(
 	function (delta, model) {
-		var _p17 = model.hero.position;
-		if (_p17.ctor === 'Stationary') {
+		var _p19 = model.hero.position;
+		if (_p19.ctor === 'Stationary') {
 			return A2(
 				_abadi199$elm_fire_game$Hero$checkObjectCollision,
 				delta,
@@ -15285,7 +15336,7 @@ var _abadi199$elm_fire_game$Hero$update = F2(
 			return A2(
 				_abadi199$elm_fire_game$Hero$checkObjectCollision,
 				delta,
-				A4(_abadi199$elm_fire_game$Hero$moving, _p17._0, delta, model.hero.speedInPixelPerMillisecond, model));
+				A4(_abadi199$elm_fire_game$Hero$moving, _p19._0, delta, model.hero.speedInPixelPerMillisecond, model));
 		}
 	});
 
